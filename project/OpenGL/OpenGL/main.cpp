@@ -12,6 +12,19 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
+void processInput(GLFWwindow *window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+}
+
+
+void render()
+{
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//设置清空屏幕所用的颜色
+	glClear(GL_COLOR_BUFFER_BIT);    //清空屏幕的颜色缓冲
+}
+
 int main(int argc, char* argv[])
 {
 	glfwInit();
@@ -52,8 +65,16 @@ int main(int argc, char* argv[])
 		glfwPollEvents函数检查有没有触发什么事件（比如键盘输入、鼠标移动等）、更新窗口状态，并调用对应的回调函数（可以通过回调方法手动设置）。
 		glfwSwapBuffers函数会交换颜色缓冲（它是一个储存着GLFW窗口每一个像素颜色值的大缓冲），它在这一迭代中被用来绘制，并且将会作为输出显示在屏幕上。
 	*/
+
+	// 渲染循环
 	while (!glfwWindowShouldClose(window))
 	{
+		// 输入
+		processInput(window);
+
+		// 渲染指令
+		render();
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
