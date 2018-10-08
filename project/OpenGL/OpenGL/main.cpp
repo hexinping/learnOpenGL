@@ -141,19 +141,8 @@ int linkShader(unsigned int *shaderProgram, unsigned int vertexShader, unsigned 
 }
 
 
-int main(int argc, char* argv[])
+int createWindow(GLFWwindow** pWindow)
 {
-	glfwInit();
-
-	// 设置opegl版本号为3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-
-	//同样明确告诉GLFW我们使用的是核心模式(Core-profile) 明确告诉GLFW我们需要使用核心模式意味着我们只能使用OpenGL功能的一个子集
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-
 	int width = 800;
 	int heght = 600;
 
@@ -175,6 +164,23 @@ int main(int argc, char* argv[])
 	glViewport(0, 0, width, heght);
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	*pWindow = window;
+	return 0;
+}
+
+int main(int argc, char* argv[])
+{
+	glfwInit();
+
+	// 设置opegl版本号为3.3
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
+	//同样明确告诉GLFW我们使用的是核心模式(Core-profile) 明确告诉GLFW我们需要使用核心模式意味着我们只能使用OpenGL功能的一个子集
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	GLFWwindow* window;
+	createWindow(&window);
 
 	// ------------------------------------------------------------------
 
