@@ -33,7 +33,7 @@ char* OpenglUtils::readTheFile(string strSource) {
 	return result;
 }
 
-void OpenglUtils::bindVBOAndVAO(unsigned int *VBO, unsigned int *VAO, unsigned int *EBO)
+void OpenglUtils::bindVBOAndVAO(unsigned int *VBO, unsigned int *VAO, float vertices[], int verticesLenght, bool useEBO, unsigned int *EBO, unsigned int indices[], int indicesLenght)
 {
 	// 1 顶点数据传入
 	//float vertices[] = {
@@ -42,17 +42,17 @@ void OpenglUtils::bindVBOAndVAO(unsigned int *VBO, unsigned int *VAO, unsigned i
 	//	0.0f, 0.5f, 0.0f
 	//};
 
-	float vertices[] = {
-		0.5f, 0.5f, 0.0f,   // 右上角
-		0.5f, -0.5f, 0.0f,  // 右下角
-		-0.5f, -0.5f, 0.0f, // 左下角
-		-0.5f, 0.5f, 0.0f   // 左上角
-	};
+	//float vertices[] = {
+	//	0.5f, 0.5f, 0.0f,   // 右上角
+	//	0.5f, -0.5f, 0.0f,  // 右下角
+	//	-0.5f, -0.5f, 0.0f, // 左下角
+	//	-0.5f, 0.5f, 0.0f   // 左上角
+	//};
 
-	unsigned int indices[] = { // 注意索引从0开始! 
-		0, 1, 3, // 第一个三角形
-		1, 2, 3  // 第二个三角形
-	};
+	//unsigned int indices[] = { // 注意索引从0开始! 
+	//	0, 1, 3, // 第一个三角形
+	//	1, 2, 3  // 第二个三角形
+	//};
 
 	glGenVertexArrays(1, VAO); //生成一个vao，只要先画一遍，vao会记录绘制的属性，然后在主循环里不断切换vao就好
 
@@ -62,13 +62,17 @@ void OpenglUtils::bindVBOAndVAO(unsigned int *VBO, unsigned int *VAO, unsigned i
 
 	glBindBuffer(GL_ARRAY_BUFFER, *VBO);//glBindBuffer函数把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);//把定义的顶点数据复制到缓冲的内存中（VBO）
+	glBufferData(GL_ARRAY_BUFFER, verticesLenght, vertices, GL_STATIC_DRAW);//把定义的顶点数据复制到缓冲的内存中（VBO）
 
 
 	//复制我们的索引数组到一个索引缓冲中，供OpenGL使用
-	glGenBuffers(1, EBO); //创建一个缓冲区对象
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *EBO); //glBindBuffer函数把新创建的缓冲绑定到GL_ELEMENT_ARRAY_BUFFER目标上
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); //把定义的顶点数据复制到缓冲的内存中（EBO）
+	if (useEBO)
+	{
+		glGenBuffers(1, EBO); //创建一个缓冲区对象
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *EBO); //glBindBuffer函数把新创建的缓冲绑定到GL_ELEMENT_ARRAY_BUFFER目标上
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesLenght, indices, GL_STATIC_DRAW); //把定义的顶点数据复制到缓冲的内存中（EBO）
+	}
+
 }
 
 void  OpenglUtils::createShaderWithSource(int shaderType, unsigned int *pShader, const char *shaderSource)
