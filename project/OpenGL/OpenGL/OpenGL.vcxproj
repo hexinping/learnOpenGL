@@ -72,9 +72,11 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\glad\glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Utils\OpenglUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
+    <ClInclude Include="Utils\OpenglUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\base.frag" />

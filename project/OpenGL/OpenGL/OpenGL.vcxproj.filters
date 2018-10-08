@@ -16,6 +16,9 @@
     <Filter Include="shader">
       <UniqueIdentifier>{bade905c-e0b4-463f-bd3e-8401a6ef9033}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{915898eb-1800-4bf5-b3eb-dde6ba1cc385}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,10 +27,16 @@
     <ClCompile Include="..\..\..\src\glad\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\OpenglUtils.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\OpenglUtils.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
