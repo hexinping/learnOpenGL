@@ -58,15 +58,26 @@ char* readTheFile(string strSource) {
 	return result;
 }
 
-void bindVBOAndVAO(unsigned int *VBO, unsigned int *VAO)
+void bindVBOAndVAO(unsigned int *VBO, unsigned int *VAO, unsigned int *EBO)
 {
 	// 1 顶点数据传入
+	//float vertices[] = {
+	//	-0.5f, -0.5f, 0.0f,
+	//	0.5f, -0.5f, 0.0f,
+	//	0.0f, 0.5f, 0.0f
+	//};
+
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f, 0.5f, 0.0f
+		0.5f, 0.5f, 0.0f,   // 右上角
+		0.5f, -0.5f, 0.0f,  // 右下角
+		-0.5f, -0.5f, 0.0f, // 左下角
+		-0.5f, 0.5f, 0.0f   // 左上角
 	};
 
+	unsigned int indices[] = { // 注意索引从0开始! 
+		0, 1, 3, // 第一个三角形
+		1, 2, 3  // 第二个三角形
+	};
 	
 	glGenVertexArrays(1, VAO); //生成一个vao，只要先画一遍，vao会记录绘制的属性，然后在主循环里不断切换vao就好
 
@@ -77,6 +88,12 @@ void bindVBOAndVAO(unsigned int *VBO, unsigned int *VAO)
 	glBindBuffer(GL_ARRAY_BUFFER, *VBO);//glBindBuffer函数把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);//把定义的顶点数据复制到缓冲的内存中（VBO）
+
+
+	//复制我们的索引数组到一个索引缓冲中，供OpenGL使用
+	glGenBuffers(1, EBO); //创建一个缓冲区对象
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *EBO); //glBindBuffer函数把新创建的缓冲绑定到GL_ELEMENT_ARRAY_BUFFER目标上
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); //把定义的顶点数据复制到缓冲的内存中（EBO）
 }
 
 void  createShaderWithSource(int shaderType, unsigned int *pShader, const char *shaderSource)
@@ -185,8 +202,8 @@ int main(int argc, char* argv[])
 	// ------------------------------------------------------------------
 
 	//1 顶点数据传入
-	unsigned int VBO,VAO;
-	bindVBOAndVAO(&VBO, &VAO);
+	unsigned int VBO,VAO,EBO;
+	bindVBOAndVAO(&VBO, &VAO, &EBO);
 
 	//2 顶点着色器
 	unsigned int vertexShader;
@@ -228,13 +245,15 @@ int main(int argc, char* argv[])
 
 		glUseProgram(shaderProgram); //激活着色器程序对象：已激活着色器程序的着色器将在我们发送渲染调用的时候被使用
 		glBindVertexArray(VAO);     // 使用VAO后就是每一次渲染的时候直接使用VAO存储好的属性指针
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
-	//6 解除绑定VAO和VBO
+	//6 解除绑定VAO和VBO：直接绑定为0也是解绑glBindVertexArray(0）
+	glDeleteBuffers(1, &EBO);
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 
