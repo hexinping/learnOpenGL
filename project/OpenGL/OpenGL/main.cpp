@@ -1,7 +1,9 @@
 
 #include "main.h"
 #include <iostream>
-#include "Utils/OpenglUtils.h"
+#include "OpenglUtils.h"
+#include "OpenglState.h"
+#include "OpenglStateSum.h"
 using namespace std;
 
 
@@ -16,20 +18,6 @@ void processInput(GLFWwindow *window)
 		glfwSetWindowShouldClose(window, true);
 }
 
-//const char *vertexShaderSource = "#version 330 core\n"
-//"layout (location = 0) in vec3 aPos;\n"
-//"void main()\n"
-//"{\n"
-//"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-//"}\0";
-//
-//const char *fragmentShaderSource = "#version 330 core\n"
-//"out vec4 FragColor;\n"
-//"void main()\n"
-//"{\n"
-//"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-//"}\n\0";
-//
 
 int createWindow(GLFWwindow** pWindow)
 {
@@ -74,50 +62,59 @@ int main(int argc, char* argv[])
 
 	// ------------------------------------------------------------------
 
-	OpenglUtils * glUtils = OpenglUtils::getInstance();
-
+	
+	//---------------------------------------------------------------------------------------------------
+	// OpenglUtils * glUtils = OpenglUtils::getInstance();
 	//float vertices[] = {
 	//	-0.5f, -0.5f, 0.0f,
 	//	0.5f, -0.5f, 0.0f,
 	//	0.0f, 0.5f, 0.0f
 	//};
 
-	float vertices[] = {
-		0.5f, 0.5f, 0.0f,   // 右上角
-		0.5f, -0.5f, 0.0f,  // 右下角
-		-0.5f, -0.5f, 0.0f, // 左下角
-		-0.5f, 0.5f, 0.0f   // 左上角
-	};
+	//float vertices[] = {
+	//	0.5f, 0.5f, 0.0f,   // 右上角
+	//	0.5f, -0.5f, 0.0f,  // 右下角
+	//	-0.5f, -0.5f, 0.0f, // 左下角
+	//	-0.5f, 0.5f, 0.0f   // 左上角
+	//};
 
-	unsigned int indices[] = { // 注意索引从0开始! 
-		0, 1, 3, // 第一个三角形
-		1, 2, 3  // 第二个三角形
-	};
+	//unsigned int indices[] = { // 注意索引从0开始! 
+	//	0, 1, 3, // 第一个三角形
+	//	1, 2, 3  // 第二个三角形
+	//};
 
-	//1 顶点数据传入
-	unsigned int VBO,VAO,EBO;
-	glUtils->bindVBOAndVAO(&VBO, &VAO, vertices, sizeof(vertices), true, &EBO, indices, sizeof(indices));
+	////1 顶点数据传入
+	//unsigned int VBO,VAO,EBO;
+	//glUtils->bindVBOAndVAO(&VBO, &VAO, vertices, sizeof(vertices), true, &EBO, indices, sizeof(indices));
 
-	//2 顶点着色器
-	unsigned int vertexShader;
-	//createShaderWithSource(GL_VERTEX_SHADER, &vertexShader, vertexShaderSource);
-	glUtils->createShaderWithFile(GL_VERTEX_SHADER, &vertexShader, "shader/base.vert");
+	////2 顶点着色器
+	//unsigned int vertexShader;
+	////createShaderWithSource(GL_VERTEX_SHADER, &vertexShader, vertexShaderSource);
+	//glUtils->createShaderWithFile(GL_VERTEX_SHADER, &vertexShader, "shader/base.vert");
 
-	//3片段着色器
-	unsigned int fragmentShader;
-	//createShaderWithSource(GL_FRAGMENT_SHADER, &fragmentShader, fragmentShaderSource);
-	glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &fragmentShader, "shader/base.frag");
+	////3片段着色器
+	//unsigned int fragmentShader;
+	////createShaderWithSource(GL_FRAGMENT_SHADER, &fragmentShader, fragmentShaderSource);
+	//glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &fragmentShader, "shader/base.frag");
 
 
-	//4链接着色器，创建着色器程序并且激活
-	unsigned int shaderProgram;
-	glUtils->linkShader(&shaderProgram, vertexShader, fragmentShader);
-	
+	////4链接着色器，创建着色器程序并且激活
+	//unsigned int shaderProgram;
+	//glUtils->linkShader(&shaderProgram, vertexShader, fragmentShader);
 
-	//5 链接顶点属性
-	//第一个参数就是顶点的location值
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //函数告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上)
-	glEnableVertexAttribArray(0); //以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
+	////5 链接顶点属性
+	////第一个参数就是顶点的location值
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //函数告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上)
+	//glEnableVertexAttribArray(0); //以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
+
+	//---------------------------------------------------------------------------------------------------
+	OpenglState *glState = new OpenglStateSum();
+	glState->init("shader/base.vert", "shader/base.frag");
+	unsigned int VBO, VAO, EBO;
+	VBO = glState->_VBO;
+	VAO = glState->_VAO;
+	EBO = glState->_EBO;
+
 
 
 	/*
@@ -136,11 +133,20 @@ int main(int argc, char* argv[])
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(shaderProgram); //激活着色器程序对象：已激活着色器程序的着色器将在我们发送渲染调用的时候被使用
-		glBindVertexArray(VAO);     // 使用VAO后就是每一次渲染的时候直接使用VAO存储好的属性指针
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
+		//glUseProgram(shaderProgram); //激活着色器程序对象：已激活着色器程序的着色器将在我们发送渲染调用的时候被使用
+		//glBindVertexArray(VAO);     // 使用VAO后就是每一次渲染的时候直接使用VAO存储好的属性指针
 
+		//if (isUseEBO)
+		//{
+		//	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
+		//}
+		//else
+		//{
+		//	glDrawArrays(GL_TRIANGLES, 0, 3);
+		//}
+		
+		glState->rendeCommand();
+		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
