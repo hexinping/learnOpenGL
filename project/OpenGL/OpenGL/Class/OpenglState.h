@@ -17,6 +17,10 @@ public:
 
 	virtual int getShaderIndex();
 
+	void setBool(unsigned int program, const char *name, bool value) const;
+	void setInt(unsigned int program, const char *name, int value) const;
+	void setFloat(unsigned int program, const char *name, float value) const;
+
 public:
 	OpenglUtils * _glUtils;
 	bool _isUseEBORender;

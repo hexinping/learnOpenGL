@@ -143,3 +143,16 @@ GLint OpenglUtils::getAttribLocation(unsigned int program, const char *name)
 {
 	return glGetAttribLocation(program, name);
 }
+
+void OpenglUtils::setBool(unsigned int program, const char *name, bool value) const
+{
+	glUniform1i(glGetUniformLocation(program, name), (int)value);
+}
+void OpenglUtils::setInt(unsigned int program, const char *name, int value) const
+{
+	glUniform1i(glGetUniformLocation(program, name), value);
+}
+void OpenglUtils::setFloat(unsigned int program, const char *name, float value) const
+{
+	glUniform1f(glGetUniformLocation(program, name), value);
+}

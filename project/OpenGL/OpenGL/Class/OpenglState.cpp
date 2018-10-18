@@ -62,3 +62,16 @@ int OpenglState::getShaderIndex()
 {
 	return 0;
 }
+
+void OpenglState::setBool(unsigned int program, const char *name, bool value) const
+{
+	_glUtils->setBool(program, name, value);
+}
+void OpenglState::setInt(unsigned int program, const char *name, int value) const
+{
+	_glUtils->setInt(program, name, value);
+}
+void OpenglState::setFloat(unsigned int program, const char *name, float value) const
+{
+	_glUtils->setFloat(program, name, value);
+}
