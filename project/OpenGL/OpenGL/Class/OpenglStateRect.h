@@ -7,6 +7,6 @@ class OpenglStateRect :
 public:
 	OpenglStateRect();
 	bool init(string vertFile, string fragFile);
-	bool isUseEBORender();
+	void rendeCommand();
 };
 

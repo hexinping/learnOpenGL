@@ -29,7 +29,16 @@ bool OpenglStateRect::init(string vertFile, string fragFile)
 
 	return true;
 }
-bool OpenglStateRect::isUseEBORender()
+
+void OpenglStateRect::rendeCommand()
 {
-	return true;
+	__super::rendeCommand();
+	if (_isUseEBORender)
+	{
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
+	}
+	else
+	{
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+	}
 }

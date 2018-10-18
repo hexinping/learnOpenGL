@@ -45,13 +45,4 @@ void OpenglState::rendeCommand()
 {
 	glUseProgram(_shaderProgram); //激活着色器程序对象：已激活着色器程序的着色器将在我们发送渲染调用的时候被使用
 	glBindVertexArray(_VAO);     // 使用VAO后就是每一次渲染的时候直接使用VAO存储好的属性指针
-
-	if (_isUseEBORender)
-	{
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
-	}
-	else
-	{
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-	}
 }

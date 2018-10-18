@@ -8,5 +8,6 @@ public:
 	OpenglStateTriangle();
 	bool init(string vertFile, string fragFile);
 	bool isUseEBORender();
+	void rendeCommand();
 };
 
