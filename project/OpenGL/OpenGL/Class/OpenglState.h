@@ -15,6 +15,8 @@ public:
 	GLint getUniformLocation(unsigned int program, const char *name);
 	GLint getAttribLocation(unsigned int program, const char *name);
 
+	virtual int getShaderIndex();
+
 public:
 	OpenglUtils * _glUtils;
 	bool _isUseEBORender;

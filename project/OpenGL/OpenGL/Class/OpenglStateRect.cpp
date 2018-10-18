@@ -42,3 +42,8 @@ void OpenglStateRect::rendeCommand()
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 	}
 }
+
+int OpenglStateRect::getShaderIndex()
+{
+	return 0;
+}

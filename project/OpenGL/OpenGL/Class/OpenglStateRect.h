@@ -8,5 +8,6 @@ public:
 	OpenglStateRect();
 	bool init(string vertFile, string fragFile);
 	void rendeCommand();
+	int getShaderIndex();
 };
 

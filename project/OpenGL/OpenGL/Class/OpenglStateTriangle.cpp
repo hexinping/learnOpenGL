@@ -43,3 +43,8 @@ void OpenglStateTriangle::rendeCommand()
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 	}
 }
+
+int OpenglStateTriangle::getShaderIndex()
+{
+	return 2;
+}

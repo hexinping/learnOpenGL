@@ -1,6 +1,7 @@
 
 #include "main.h"
 #include <iostream>
+#include <map>
 #include "OpenglUtils.h"
 #include "OpenglState.h"
 #include "OpenglStateTriangle.h"
@@ -113,12 +114,21 @@ int main(int argc, char* argv[])
 
 	//---------------------------------------------------------------------------------------------------
 
+	map<int, string> OpenglStatesMap;
+	OpenglStatesMap[0] = "base";
+	OpenglStatesMap[1] = "shader1";
+	OpenglStatesMap[2] = "shader2";
+
 	int nrAttributes;
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
 	OpenglState *glState = new OpenglStateTriangle();
-	glState->init("shader/shader2.vert", "shader/shader2.frag");
+	int index = glState->getShaderIndex();
+	string shaderName = OpenglStatesMap[index];
+	string vertFile = "shader/" + shaderName + ".vert";
+	string fragFile = "shader/" + shaderName + ".frag";
+	glState->init(vertFile, fragFile);
 	unsigned int VBO, VAO, EBO;
 	VBO = glState->_VBO;
 	VAO = glState->_VAO;

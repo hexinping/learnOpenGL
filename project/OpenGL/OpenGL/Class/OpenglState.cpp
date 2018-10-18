@@ -57,3 +57,8 @@ GLint OpenglState::getAttribLocation(unsigned int program, const char *name)
 {
 	return _glUtils->getAttribLocation(program, name);
 }
+
+int OpenglState::getShaderIndex()
+{
+	return 0;
+}
