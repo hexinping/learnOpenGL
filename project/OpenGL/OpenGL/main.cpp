@@ -112,8 +112,13 @@ int main(int argc, char* argv[])
 	//glEnableVertexAttribArray(0); //以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
 
 	//---------------------------------------------------------------------------------------------------
+
+	int nrAttributes;
+	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
+	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
+
 	OpenglState *glState = new practice_2_1();
-	glState->init("shader/base.vert", "shader/base.frag");
+	glState->init("shader/shader1.vert", "shader/shader1.frag");
 	unsigned int VBO, VAO, EBO;
 	VBO = glState->_VBO;
 	VAO = glState->_VAO;
