@@ -37,7 +37,7 @@ bool OpenglState::isUseEBORender()
 
 void OpenglState::enableVertexAttribArray()
 {
-	GLint posLocation = glGetAttribLocation(_shaderProgram, "aPos");
+	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
 	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //函数告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上)
 	glEnableVertexAttribArray(posLocation); //以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
 }
@@ -46,4 +46,14 @@ void OpenglState::rendeCommand()
 {
 	glUseProgram(_shaderProgram); //激活着色器程序对象：已激活着色器程序的着色器将在我们发送渲染调用的时候被使用
 	glBindVertexArray(_VAO);     // 使用VAO后就是每一次渲染的时候直接使用VAO存储好的属性指针
+}
+
+GLint OpenglState::getUniformLocation(unsigned int program, const char *name)
+{
+	return _glUtils->getUniformLocation(program, name);
+}
+
+GLint OpenglState::getAttribLocation(unsigned int program, const char *name)
+{
+	return _glUtils->getAttribLocation(program, name);
 }

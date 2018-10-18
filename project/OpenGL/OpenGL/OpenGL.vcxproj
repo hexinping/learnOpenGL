@@ -96,6 +96,8 @@
     <None Include="shader\base.vert" />
     <None Include="shader\shader1.frag" />
     <None Include="shader\shader1.vert" />
+    <None Include="shader\shader2.frag" />
+    <None Include="shader\shader2.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

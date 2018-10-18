@@ -12,6 +12,8 @@ public:
 	virtual bool isUseEBORender();
 	virtual void rendeCommand();
 	virtual void enableVertexAttribArray();
+	GLint getUniformLocation(unsigned int program, const char *name);
+	GLint getAttribLocation(unsigned int program, const char *name);
 
 public:
 	OpenglUtils * _glUtils;

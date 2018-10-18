@@ -16,5 +16,8 @@ public:
 	void  createShaderWithFile(int shaderType, unsigned int *pShader, string file);
 	int linkShader(unsigned int *shaderProgram, unsigned int vertexShader, unsigned int fragmentShader);
 
+	GLint getUniformLocation(unsigned int program, const char *name);
+	GLint getAttribLocation(unsigned int program, const char *name);
+
 };
 

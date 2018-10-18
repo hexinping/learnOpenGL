@@ -133,3 +133,13 @@ int OpenglUtils::linkShader(unsigned int *shaderProgram, unsigned int vertexShad
 	*shaderProgram = program;
 	return 0;
 }
+
+GLint OpenglUtils::getUniformLocation(unsigned int program, const char *name)
+{
+	return glGetUniformLocation(program, name);
+}
+
+GLint OpenglUtils::getAttribLocation(unsigned int program, const char *name)
+{
+	return glGetAttribLocation(program, name);
+}

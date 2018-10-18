@@ -94,5 +94,11 @@
     <None Include="shader\shader1.vert">
       <Filter>shader</Filter>
     </None>
+    <None Include="shader\shader2.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader2.vert">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

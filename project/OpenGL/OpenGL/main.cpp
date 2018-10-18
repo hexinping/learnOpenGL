@@ -117,8 +117,8 @@ int main(int argc, char* argv[])
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
-	OpenglState *glState = new practice_2_1();
-	glState->init("shader/shader1.vert", "shader/shader1.frag");
+	OpenglState *glState = new OpenglStateTriangle();
+	glState->init("shader/shader2.vert", "shader/shader2.frag");
 	unsigned int VBO, VAO, EBO;
 	VBO = glState->_VBO;
 	VAO = glState->_VAO;
