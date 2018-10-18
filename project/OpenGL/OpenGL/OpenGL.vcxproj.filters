@@ -36,7 +36,10 @@
     <ClCompile Include="Class\OpenglState.cpp">
       <Filter>Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\OpenglStateSum.cpp">
+    <ClCompile Include="Class\OpenglStateTriangle.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateRect.cpp">
       <Filter>Class</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,7 +53,10 @@
     <ClInclude Include="Class\OpenglState.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="Class\OpenglStateSum.h">
+    <ClInclude Include="Class\OpenglStateTriangle.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateRect.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,11 +1,11 @@
 #pragma once
 #include <iostream>
 #include "openglstate.h"
-class OpenglStateSum :
+class OpenglStateTriangle :
 	public OpenglState
 {
 public:
-	OpenglStateSum();
+	OpenglStateTriangle();
 	bool init(string vertFile, string fragFile);
 	bool isUseEBORender();
 };

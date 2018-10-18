@@ -3,7 +3,9 @@
 #include <iostream>
 #include "OpenglUtils.h"
 #include "OpenglState.h"
-#include "OpenglStateSum.h"
+#include "OpenglStateTriangle.h"
+#include "OpenglStateRect.h"
+
 using namespace std;
 
 
@@ -108,7 +110,7 @@ int main(int argc, char* argv[])
 	//glEnableVertexAttribArray(0); //以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
 
 	//---------------------------------------------------------------------------------------------------
-	OpenglState *glState = new OpenglStateSum();
+	OpenglState *glState = new OpenglStateRect();
 	glState->init("shader/base.vert", "shader/base.frag");
 	unsigned int VBO, VAO, EBO;
 	VBO = glState->_VBO;

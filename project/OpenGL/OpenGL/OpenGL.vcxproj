@@ -72,13 +72,15 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\glad\glad.c" />
     <ClCompile Include="Class\OpenglState.cpp" />
-    <ClCompile Include="Class\OpenglStateSum.cpp" />
+    <ClCompile Include="Class\OpenglStateRect.cpp" />
+    <ClCompile Include="Class\OpenglStateTriangle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utils\OpenglUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Class\OpenglState.h" />
-    <ClInclude Include="Class\OpenglStateSum.h" />
+    <ClInclude Include="Class\OpenglStateRect.h" />
+    <ClInclude Include="Class\OpenglStateTriangle.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Utils\OpenglUtils.h" />
   </ItemGroup>

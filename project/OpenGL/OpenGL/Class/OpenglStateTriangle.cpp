@@ -1,12 +1,12 @@
-#include "OpenglStateSum.h"
+#include "OpenglStateTriangle.h"
 
 
-OpenglStateSum::OpenglStateSum()
+OpenglStateTriangle::OpenglStateTriangle()
 {
 	OpenglState::OpenglState();
 }
 
-bool OpenglStateSum::init(string vertFile, string fragFile)
+bool OpenglStateTriangle::init(string vertFile, string fragFile)
 {
 	float vertices[] = {
 		-0.5f, -0.5f, 0.0f,
@@ -16,10 +16,11 @@ bool OpenglStateSum::init(string vertFile, string fragFile)
 	memcpy(_vertices, vertices, sizeof(float) * 9);
 	_vertFile = vertFile;
 	_fragFile = fragFile;
-	this->initRendCommand();
+	__super::initRendCommand();
+	
 	return true;
 }
-bool OpenglStateSum::isUseEBORender()
+bool OpenglStateTriangle::isUseEBORender()
 {
 	return false;
 }
