@@ -7,5 +7,7 @@ out vec3 ourColor; // 向片段着色器输出一个颜色
 void main()
 {
     gl_Position = vec4(aPos, 1.0);
+
+	//gl_Position = vec4(aPos.x, -aPos.y, aPos.z, 1.0); // just add a - to the y position  位置上下颠倒
     ourColor = aColor; // 将ourColor设置为我们从顶点数据那里得到的输入颜色
 }
