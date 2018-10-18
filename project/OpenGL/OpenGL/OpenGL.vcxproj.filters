@@ -54,6 +54,9 @@
     <ClCompile Include="practice\practice_2_3.cpp">
       <Filter>practice</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultAttr.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -80,6 +83,9 @@
     <ClInclude Include="practice\practice_2_3.h">
       <Filter>practice</Filter>
     </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultAttr.h">
+      <Filter>Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\base.vert">
@@ -98,6 +104,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader2.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader3.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader3.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

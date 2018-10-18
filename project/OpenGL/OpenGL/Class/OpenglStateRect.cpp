@@ -20,8 +20,10 @@ bool OpenglStateRect::init(string vertFile, string fragFile)
 		1, 2, 3  // 第二个三角形
 	};
 
-	memcpy(_vertices, vertices, sizeof(float) * 12);
-	memcpy(_indices, indices, sizeof(float) * 6);
+	int len1 = sizeof(vertices) / sizeof(float);
+	int len2 = sizeof(indices) / sizeof(float);
+	memcpy(_vertices, vertices, sizeof(float) * len1);
+	memcpy(_indices, indices, sizeof(float) * len2);
 
 	_vertFile = vertFile;
 	_fragFile = fragFile;

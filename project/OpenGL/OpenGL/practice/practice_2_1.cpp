@@ -17,8 +17,8 @@ bool practice_2_1::init(string vertFile, string fragFile)
 		0.9f, -0.5f, 0.0f,  // right
 		0.45f, 0.5f, 0.0f   // top 
 	};
-
-	memcpy(_vertices, vertices, sizeof(float) * 18);
+	int len = sizeof(vertices) / sizeof(float);
+	memcpy(_vertices, vertices, sizeof(float) * len);
 
 	_vertFile = vertFile;
 	_fragFile = fragFile;

@@ -13,7 +13,8 @@ bool OpenglStateTriangle::init(string vertFile, string fragFile)
 		0.5f, -0.5f, 0.0f,
 		0.0f, 0.5f, 0.0f
 	};
-	memcpy(_vertices, vertices, sizeof(float) * 9);
+	int len = sizeof(vertices) / sizeof(float);
+	memcpy(_vertices, vertices, sizeof(float) * len);
 	_vertFile = vertFile;
 	_fragFile = fragFile;
 	__super::initRendCommand();
