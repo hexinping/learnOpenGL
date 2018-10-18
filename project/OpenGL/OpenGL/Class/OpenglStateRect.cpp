@@ -25,7 +25,7 @@ bool OpenglStateRect::init(string vertFile, string fragFile)
 
 	_vertFile = vertFile;
 	_fragFile = fragFile;
-	__super::initRendCommand();
+	this->initRendCommand();
 
 	return true;
 }

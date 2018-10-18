@@ -41,6 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -75,6 +76,7 @@
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="practice\practice_2_1.cpp" />
     <ClCompile Include="Utils\OpenglUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +84,7 @@
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="practice\practice_2_1.h" />
     <ClInclude Include="Utils\OpenglUtils.h" />
   </ItemGroup>
   <ItemGroup>

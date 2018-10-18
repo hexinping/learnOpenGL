@@ -6,6 +6,8 @@
 #include "OpenglStateTriangle.h"
 #include "OpenglStateRect.h"
 
+#include "practice/practice_2_1.h"
+
 using namespace std;
 
 
@@ -110,7 +112,7 @@ int main(int argc, char* argv[])
 	//glEnableVertexAttribArray(0); //以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
 
 	//---------------------------------------------------------------------------------------------------
-	OpenglState *glState = new OpenglStateRect();
+	OpenglState *glState = new practice_2_1();
 	glState->init("shader/base.vert", "shader/base.frag");
 	unsigned int VBO, VAO, EBO;
 	VBO = glState->_VBO;

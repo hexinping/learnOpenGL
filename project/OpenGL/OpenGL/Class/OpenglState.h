@@ -21,8 +21,8 @@ public:
 	unsigned int _fragmentShader;
 	unsigned int _shaderProgram;
 
-	float _vertices[12];
-	unsigned int _indices[6];
+	float _vertices[1024];
+	unsigned int _indices[1024];
 
 	string _vertFile;
 	string _fragFile;

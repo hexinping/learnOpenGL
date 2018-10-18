@@ -22,6 +22,9 @@
     <Filter Include="Class">
       <UniqueIdentifier>{70bd985d-47f6-41b0-b1d9-f0e7d90178bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="practice">
+      <UniqueIdentifier>{dfcf37b9-5c96-4e89-9db4-cb9db90b2926}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +45,9 @@
     <ClCompile Include="Class\OpenglStateRect.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="practice\practice_2_1.cpp">
+      <Filter>practice</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -58,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="Class\OpenglStateRect.h">
       <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="practice\practice_2_1.h">
+      <Filter>practice</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
