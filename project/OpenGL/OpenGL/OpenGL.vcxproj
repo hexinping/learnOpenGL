@@ -77,6 +77,8 @@
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="practice\practice_2_1.cpp" />
+    <ClCompile Include="practice\practice_2_2.cpp" />
+    <ClCompile Include="practice\practice_2_3.cpp" />
     <ClCompile Include="Utils\OpenglUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -85,11 +87,15 @@
     <ClInclude Include="Class\OpenglStateTriangle.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="practice\practice_2_1.h" />
+    <ClInclude Include="practice\practice_2_2.h" />
+    <ClInclude Include="practice\practice_2_3.h" />
     <ClInclude Include="Utils\OpenglUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\base.frag" />
     <None Include="shader\base.vert" />
+    <None Include="shader\shader1.frag" />
+    <None Include="shader\shader1.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -48,6 +48,12 @@
     <ClCompile Include="practice\practice_2_1.cpp">
       <Filter>practice</Filter>
     </ClCompile>
+    <ClCompile Include="practice\practice_2_2.cpp">
+      <Filter>practice</Filter>
+    </ClCompile>
+    <ClCompile Include="practice\practice_2_3.cpp">
+      <Filter>practice</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -68,12 +74,24 @@
     <ClInclude Include="practice\practice_2_1.h">
       <Filter>practice</Filter>
     </ClInclude>
+    <ClInclude Include="practice\practice_2_2.h">
+      <Filter>practice</Filter>
+    </ClInclude>
+    <ClInclude Include="practice\practice_2_3.h">
+      <Filter>practice</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\base.vert">
       <Filter>shader</Filter>
     </None>
     <None Include="shader\base.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader1.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader1.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
