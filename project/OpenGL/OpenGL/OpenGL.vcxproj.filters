@@ -57,6 +57,9 @@
     <ClCompile Include="Class\OpenglStateMultAttr.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateTriangleMove.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -86,6 +89,9 @@
     <ClInclude Include="Class\OpenglStateMultAttr.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="Class\OpenglStateTriangleMove.h">
+      <Filter>Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\base.vert">
@@ -110,6 +116,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader3.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader4.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader4.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
