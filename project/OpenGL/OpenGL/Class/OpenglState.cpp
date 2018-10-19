@@ -77,7 +77,12 @@ void OpenglState::setFloat(unsigned int program, const char *name, float value) 
 }
 
 
-void OpenglState::genTexImage2D(const char *file, int type, int level, int textureUnit)
+void OpenglState::genTexImage2D(const char *file, int type, int level, int textureUnit, int around, int filter)
 {
-	_glUtils->genTexImage2D(file, type, level, textureUnit);
+	_glUtils->genTexImage2D(file, type, level, textureUnit, around, filter);
+}
+
+void OpenglState::useProgram(unsigned int program)
+{
+	_glUtils->useProgram(program);
 }

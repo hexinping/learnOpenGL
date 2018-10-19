@@ -13,6 +13,8 @@
 
 #include "practice/practice_2_1.h"
 
+float mixValue = 0.2f;
+
 using namespace std;
 
 
@@ -25,6 +27,20 @@ void processInput(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		mixValue += 0.0001f; // change this value accordingly (might be too slow or too fast based on system hardware)
+		if (mixValue >= 1.0f)
+			mixValue = 1.0f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		mixValue -= 0.0001f; // change this value accordingly (might be too slow or too fast based on system hardware)
+		if (mixValue <= 0.0f)
+			mixValue = 0.0f;
+	}
+
 }
 
 
@@ -154,7 +170,6 @@ int main(int argc, char* argv[])
 	glfwPollEvents函数检查有没有触发什么事件（比如键盘输入、鼠标移动等）、更新窗口状态，并调用对应的回调函数（可以通过回调方法手动设置）。
 	glfwSwapBuffers函数会交换颜色缓冲（它是一个储存着GLFW窗口每一个像素颜色值的大缓冲），它在这一迭代中被用来绘制，并且将会作为输出显示在屏幕上。
 	*/
-
 	// 渲染循环
 	while (!glfwWindowShouldClose(window))
 	{
@@ -176,7 +191,7 @@ int main(int argc, char* argv[])
 		//{
 		//	glDrawArrays(GL_TRIANGLES, 0, 3);
 		//}
-		
+		glState->_param1 = mixValue;
 		glState->rendeCommand();
 		
 		glfwSwapBuffers(window);
@@ -191,4 +206,5 @@ int main(int argc, char* argv[])
 	glfwTerminate(); //当渲染循环结束后我们需要正确释放/删除之前的分配的所有资源
 	return 0;
 }
+
 

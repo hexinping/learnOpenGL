@@ -158,7 +158,7 @@ void OpenglUtils::setFloat(unsigned int program, const char *name, float value) 
 	glUniform1f(glGetUniformLocation(program, name), value);
 }
 
-void OpenglUtils::genTexImage2D(const char *file, int type, int level, int textureUnit)
+void OpenglUtils::genTexImage2D(const char *file, int type, int level, int textureUnit, int around, int filter)
 {
 	unsigned int texture;
 	glGenTextures(1, &texture);
@@ -166,10 +166,10 @@ void OpenglUtils::genTexImage2D(const char *file, int type, int level, int textu
 
 	glBindTexture(GL_TEXTURE_2D, texture);
 	// 为当前绑定的纹理对象设置环绕、过滤方式
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, around);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, around);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
 
 
 	//加载纹理
@@ -187,4 +187,9 @@ void OpenglUtils::genTexImage2D(const char *file, int type, int level, int textu
 	stbi_set_flip_vertically_on_load(true);
 	stbi_image_free(data);
 
+}
+
+void OpenglUtils::useProgram(unsigned int program)
+{
+	glUseProgram(program);
 }

@@ -1,5 +1,6 @@
 #include "OpenglStateMultTexture.h"
 #include "std_image.h"
+
 OpenglStateMultTexture::OpenglStateMultTexture()
 {
 	OpenglState::OpenglState();
@@ -15,6 +16,15 @@ bool OpenglStateMultTexture::init(string vertFile, string fragFile)
 		-0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f    // 左上
 	};
 
+	//float vertices[] = {
+	//	// positions          // colors           // texture coords (note that we changed them to 'zoom in' on our texture image)
+	//	0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.55f, 0.55f, // top right
+	//	0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.55f, 0.45f, // bottom right
+	//	-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.45f, 0.45f, // bottom left
+	//	-0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.45f, 0.55f  // top left 
+	//};
+
+
 	unsigned int indices[] = {
 		0, 1, 3, // first triangle
 		1, 2, 3  // second triangle
@@ -28,9 +38,24 @@ bool OpenglStateMultTexture::init(string vertFile, string fragFile)
 	_vertFile = vertFile;
 	_fragFile = fragFile;
 
-	this->genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0);
-	this->genTexImage2D("resource/awesomeface.png", GL_RGBA, 0, GL_TEXTURE1);
+	this->genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
+	this->genTexImage2D("resource/awesomeface.png", GL_RGBA, 0, GL_TEXTURE1,GL_REPEAT, GL_LINEAR);
 	__super::initRendCommand();
+
+
+	/*
+		设置uniform变量有两种方法
+
+		第一种：在initRendCommand后使用一次glUseProgram(_shaderProgram)，这个时候赋值给uniform变量
+		第二种：在主循环rendeCommand里不断设置
+	
+	*/
+	//设置纹理单元
+	_glUtils->useProgram(_shaderProgram);// 先使用这个着色器程序对象才能设置uniform变量
+
+	//通过使用glUniform1i设置采样器，我们保证了每个uniform采样器对应着正确的纹理单元
+	_glUtils->setInt(_shaderProgram, "texture1", 0); // 这里的0就对应了前面的GL_TEXTURE0
+	_glUtils->setInt(_shaderProgram,"texture2", 1); // 这里的1就对应了前面的GL_TEXTURE1
 	
 	return true;
 }
@@ -43,15 +68,10 @@ void OpenglStateMultTexture::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新
 	/*
-		但是更新一个uniform之前你必须先使用程序（调用glUseProgram)，因为它是在当前激活的着色器程序中设置uniform的。
+	但是更新一个uniform之前你必须先使用程序（调用glUseProgram)，因为它是在当前激活的着色器程序中设置uniform的。
 	*/
-
-	//设置纹理单元
-	//通过使用glUniform1i设置采样器，我们保证了每个uniform采样器对应着正确的纹理单元
-	_glUtils->setInt(_shaderProgram, "texture1", 0); // 这里的0就对应了前面的GL_TEXTURE0
-	_glUtils->setInt(_shaderProgram,"texture2", 1); // 这里的1就对应了前面的GL_TEXTURE1
-
 	__super::rendeCommand();
+	setFloat(_shaderProgram, "textureAlpha", _param1);
 	if (_isUseEBORender)
 	{
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
