@@ -19,6 +19,8 @@ public:
 	GLint getUniformLocation(unsigned int program, const char *name);
 	GLint getAttribLocation(unsigned int program, const char *name);
 
+	void genTexImage2D(const char *file, int type = GL_RGB, int level = 0);
+
 	// uniform¹¤¾ßº¯Êý
 	void setBool(unsigned int program, const char *name, bool value) const;
 	void setInt(unsigned int program, const char *name, int value) const;

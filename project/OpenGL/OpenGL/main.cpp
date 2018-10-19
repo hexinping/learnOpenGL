@@ -8,6 +8,7 @@
 #include "OpenglStateRect.h"
 #include "OpenglStateMultAttr.h"
 #include "OpenglStateTriangleMove.h"
+#include "OpenglStateTexture.h"
 
 #include "practice/practice_2_1.h"
 
@@ -51,6 +52,17 @@ int createWindow(GLFWwindow** pWindow)
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	*pWindow = window;
 	return 0;
+}
+
+map<int, string> OpenglStatesMap;
+void intShaders()
+{
+	OpenglStatesMap[0] = "base";
+	OpenglStatesMap[1] = "shader1";
+	OpenglStatesMap[2] = "shader2";
+	OpenglStatesMap[3] = "shader3";
+	OpenglStatesMap[4] = "shader4";
+	OpenglStatesMap[5] = "shader5";
 }
 
 int main(int argc, char* argv[])
@@ -116,18 +128,13 @@ int main(int argc, char* argv[])
 
 	//---------------------------------------------------------------------------------------------------
 
-	map<int, string> OpenglStatesMap;
-	OpenglStatesMap[0] = "base";
-	OpenglStatesMap[1] = "shader1";
-	OpenglStatesMap[2] = "shader2";
-	OpenglStatesMap[3] = "shader3";
-	OpenglStatesMap[4] = "shader4";
+	intShaders();
 
 	int nrAttributes;
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
-	OpenglState *glState = new OpenglStateTriangleMove();
+	OpenglState *glState = new OpenglStateTexture();
 	int index = glState->getShaderIndex();
 	string shaderName = OpenglStatesMap[index];
 	string vertFile = "shader/" + shaderName + ".vert";

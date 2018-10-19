@@ -21,6 +21,8 @@ public:
 	void setInt(unsigned int program, const char *name, int value) const;
 	void setFloat(unsigned int program, const char *name, float value) const;
 
+	void genTexImage2D(const char *file, int type = GL_RGB, int level = 0);
+
 public:
 	OpenglUtils * _glUtils;
 	bool _isUseEBORender;

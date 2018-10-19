@@ -75,8 +75,10 @@
     <ClCompile Include="Class\OpenglState.cpp" />
     <ClCompile Include="Class\OpenglStateMultAttr.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
+    <ClCompile Include="Class\OpenglStateTexture.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
     <ClCompile Include="Class\OpenglStateTriangleMove.cpp" />
+    <ClCompile Include="Class\std_image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="practice\practice_2_1.cpp" />
     <ClCompile Include="practice\practice_2_2.cpp" />
@@ -87,8 +89,10 @@
     <ClInclude Include="Class\OpenglState.h" />
     <ClInclude Include="Class\OpenglStateMultAttr.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
+    <ClInclude Include="Class\OpenglStateTexture.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
     <ClInclude Include="Class\OpenglStateTriangleMove.h" />
+    <ClInclude Include="Class\std_image.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="practice\practice_2_1.h" />
     <ClInclude Include="practice\practice_2_2.h" />
@@ -106,6 +110,11 @@
     <None Include="shader\shader3.vert" />
     <None Include="shader\shader4.frag" />
     <None Include="shader\shader4.vert" />
+    <None Include="shader\shader5.frag" />
+    <None Include="shader\shader5.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\wall.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
