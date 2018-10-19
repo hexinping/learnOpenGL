@@ -1,12 +1,12 @@
-#include "OpenglStateMultTexture.h"
+#include "OpenglStateMultTextureMat4.h"
 #include "std_image.h"
 
-OpenglStateMultTexture::OpenglStateMultTexture()
+OpenglStateMultTextureMat4::OpenglStateMultTextureMat4()
 {
 	OpenglState::OpenglState();
 }
 
-bool OpenglStateMultTexture::init(string vertFile, string fragFile)
+bool OpenglStateMultTextureMat4::init(string vertFile, string fragFile)
 {
 	float vertices[] = {
 		//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
@@ -38,8 +38,8 @@ bool OpenglStateMultTexture::init(string vertFile, string fragFile)
 	_vertFile = vertFile;
 	_fragFile = fragFile;
 
-	genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
-	genTexImage2D("resource/awesomeface.png", GL_RGBA, 0, GL_TEXTURE1,GL_REPEAT, GL_LINEAR);
+	this->genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
+	this->genTexImage2D("resource/awesomeface.png", GL_RGBA, 0, GL_TEXTURE1,GL_REPEAT, GL_LINEAR);
 	__super::initRendCommand();
 
 
@@ -56,15 +56,25 @@ bool OpenglStateMultTexture::init(string vertFile, string fragFile)
 	//通过使用glUniform1i设置采样器，我们保证了每个uniform采样器对应着正确的纹理单元
 	setInt(_shaderProgram, "texture1", 0); // 这里的0就对应了前面的GL_TEXTURE0
 	setInt(_shaderProgram,"texture2", 1); // 这里的1就对应了前面的GL_TEXTURE1
+
+	glm::mat4 trans;
+	float angle = 90.0f;
+	glm::vec3 axis(0.0, 0.0, 1.0);
+	glm::vec3 s(0.5, 0.5, 0.5);
 	
+	_mathUtils->setRoateMat4(&trans, angle, &axis);
+	_mathUtils->setSclaeMat4(&trans, &s);
+
+	setMat4(_shaderProgram, "transform", &trans);
+
 	return true;
 }
-bool OpenglStateMultTexture::isUseEBORender()
+bool OpenglStateMultTextureMat4::isUseEBORender()
 {
 	return true;
 }
 
-void OpenglStateMultTexture::rendeCommand()
+void OpenglStateMultTextureMat4::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新
 	/*
@@ -82,12 +92,12 @@ void OpenglStateMultTexture::rendeCommand()
 	}
 }
 
-int OpenglStateMultTexture::getShaderIndex()
+int OpenglStateMultTextureMat4::getShaderIndex()
 {
-	return 6;
+	return 7;
 }
 
-void OpenglStateMultTexture::enableVertexAttribArray()
+void OpenglStateMultTextureMat4::enableVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
 	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //函数告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上)

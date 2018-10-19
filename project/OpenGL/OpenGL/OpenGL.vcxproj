@@ -75,6 +75,7 @@
     <ClCompile Include="Class\OpenglState.cpp" />
     <ClCompile Include="Class\OpenglStateMultAttr.cpp" />
     <ClCompile Include="Class\OpenglStateMultTexture.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureMat4.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
@@ -91,6 +92,7 @@
     <ClInclude Include="Class\OpenglState.h" />
     <ClInclude Include="Class\OpenglStateMultAttr.h" />
     <ClInclude Include="Class\OpenglStateMultTexture.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureMat4.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateTexture.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
@@ -118,6 +120,8 @@
     <None Include="shader\shader5.vert" />
     <None Include="shader\shader6.frag" />
     <None Include="shader\shader6.vert" />
+    <None Include="shader\shader7.frag" />
+    <None Include="shader\shader7.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\wall.jpg" />

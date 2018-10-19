@@ -193,3 +193,9 @@ void OpenglUtils::useProgram(unsigned int program)
 {
 	glUseProgram(program);
 }
+
+void OpenglUtils::setMat4(unsigned int program, const char *name, glm::mat4 *mat)
+{
+	unsigned int transformLoc = glGetUniformLocation(program, name);
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(*mat));
+}

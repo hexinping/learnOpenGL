@@ -5,6 +5,9 @@
 #include <string>  
 #include <fstream>  
 #include <streambuf>
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 using namespace std;
 class OpenglUtils
 {
@@ -28,6 +31,8 @@ public:
 	void setBool(unsigned int program, const char *name, bool value) const;
 	void setInt(unsigned int program, const char *name, int value) const;
 	void setFloat(unsigned int program, const char *name, float value) const;
+
+	void setMat4(unsigned int program, const char *name, glm::mat4 *mat);
 
 	
 

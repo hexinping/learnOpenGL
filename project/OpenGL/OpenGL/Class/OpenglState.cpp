@@ -1,7 +1,9 @@
 #include "OpenglState.h"
 
+
 OpenglState::OpenglState()
 : _glUtils(nullptr)
+, _mathUtils(nullptr)
 , _isUseEBORender(true)
 , _VBO(0)
 , _VAO(0)
@@ -11,6 +13,7 @@ OpenglState::OpenglState()
 , _shaderProgram(0)
 {
 	_glUtils = OpenglUtils::getInstance();
+	_mathUtils = MathUtils::getInstance();
 
 }
 
@@ -85,4 +88,9 @@ void OpenglState::genTexImage2D(const char *file, int type, int level, int textu
 void OpenglState::useProgram(unsigned int program)
 {
 	_glUtils->useProgram(program);
+}
+
+void OpenglState::setMat4(unsigned int program, const char *name, glm::mat4 *mat)
+{
+	_glUtils->setMat4(program, name, mat);
 }
