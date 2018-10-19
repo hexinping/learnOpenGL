@@ -72,6 +72,9 @@
     <ClCompile Include="Class\OpenglStateMultTexture.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\MathUtils.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTexture.h">
       <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\MathUtils.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
