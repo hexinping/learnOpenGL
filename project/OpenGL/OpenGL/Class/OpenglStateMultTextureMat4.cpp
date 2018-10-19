@@ -57,15 +57,16 @@ bool OpenglStateMultTextureMat4::init(string vertFile, string fragFile)
 	setInt(_shaderProgram, "texture1", 0); // 这里的0就对应了前面的GL_TEXTURE0
 	setInt(_shaderProgram,"texture2", 1); // 这里的1就对应了前面的GL_TEXTURE1
 
-	glm::mat4 trans;
-	float angle = 90.0f;
-	glm::vec3 axis(0.0, 0.0, 1.0);
-	glm::vec3 s(0.5, 0.5, 0.5);
-	
-	_mathUtils->setRoateMat4(&trans, angle, &axis);
-	_mathUtils->setSclaeMat4(&trans, &s);
+	//glm::mat4 trans;
+	//float angle = 90.0f;
+	//glm::vec3 axis(0.0, 0.0, 1.0);
+	//glm::vec3 s(0.5, 0.5, 0.5);
+	//
+	//_mathUtils->setRoateMat4(&trans, angle, &axis);
+	//_mathUtils->setSclaeMat4(&trans, &s);
 
-	setMat4(_shaderProgram, "transform", &trans);
+	////先缩放 再旋转 ==》与设置顺序相反
+	//setMat4(_shaderProgram, "transform", &trans);
 
 	return true;
 }
@@ -82,6 +83,18 @@ void OpenglStateMultTextureMat4::rendeCommand()
 	*/
 	__super::rendeCommand();
 	setFloat(_shaderProgram, "textureAlpha", _param1);
+
+	glm::mat4 trans;
+	trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+	trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+
+	//glm::mat4 trans;
+	//glm::vec3 sy(0.5f, -0.5f, 0.0f);
+	//glm::vec3 axis(0.0f, 0.0f, 1.0f);
+	//_mathUtils->setTranslateMat4(&trans, &sy);
+	//_mathUtils->setRoateMat4(&trans, (float)glfwGetTime(), &axis);
+	setMat4(_shaderProgram, "transform", &trans);
+
 	if (_isUseEBORender)
 	{
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
