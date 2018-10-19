@@ -69,6 +69,9 @@
     <ClCompile Include="Class\std_image.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTexture.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -107,6 +110,9 @@
     <ClInclude Include="Class\std_image.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTexture.h">
+      <Filter>Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\base.vert">
@@ -143,6 +149,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader5.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader6.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader6.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

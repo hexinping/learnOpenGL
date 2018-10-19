@@ -158,10 +158,12 @@ void OpenglUtils::setFloat(unsigned int program, const char *name, float value) 
 	glUniform1f(glGetUniformLocation(program, name), value);
 }
 
-void OpenglUtils::genTexImage2D(const char *file, int type, int level)
+void OpenglUtils::genTexImage2D(const char *file, int type, int level, int textureUnit)
 {
 	unsigned int texture;
 	glGenTextures(1, &texture);
+	glActiveTexture(textureUnit); // 在绑定纹理之前先激活纹理单元
+
 	glBindTexture(GL_TEXTURE_2D, texture);
 	// 为当前绑定的纹理对象设置环绕、过滤方式
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -182,6 +184,7 @@ void OpenglUtils::genTexImage2D(const char *file, int type, int level)
 	{
 		std::cout << "Failed to load texture" << std::endl;
 	}
+	stbi_set_flip_vertically_on_load(true);
 	stbi_image_free(data);
 
 }

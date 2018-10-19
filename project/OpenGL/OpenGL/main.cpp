@@ -9,6 +9,7 @@
 #include "OpenglStateMultAttr.h"
 #include "OpenglStateTriangleMove.h"
 #include "OpenglStateTexture.h"
+#include "OpenglStateMultTexture.h"
 
 #include "practice/practice_2_1.h"
 
@@ -47,7 +48,7 @@ int createWindow(GLFWwindow** pWindow)
 		return -1;
 	}
 
-	glViewport(0, 0, width, heght);
+	glViewport(0, 0, width, heght); //必须告诉OpenGL渲染窗口的尺寸大小，即视口(Viewport)==>设置视口
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	*pWindow = window;
@@ -63,6 +64,7 @@ void intShaders()
 	OpenglStatesMap[3] = "shader3";
 	OpenglStatesMap[4] = "shader4";
 	OpenglStatesMap[5] = "shader5";
+	OpenglStatesMap[6] = "shader6";
 }
 
 int main(int argc, char* argv[])
@@ -134,7 +136,7 @@ int main(int argc, char* argv[])
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
-	OpenglState *glState = new OpenglStateTexture();
+	OpenglState *glState = new OpenglStateMultTexture();
 	int index = glState->getShaderIndex();
 	string shaderName = OpenglStatesMap[index];
 	string vertFile = "shader/" + shaderName + ".vert";

@@ -74,6 +74,7 @@
     <ClCompile Include="..\..\..\src\glad\glad.c" />
     <ClCompile Include="Class\OpenglState.cpp" />
     <ClCompile Include="Class\OpenglStateMultAttr.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTexture.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
@@ -88,6 +89,7 @@
   <ItemGroup>
     <ClInclude Include="Class\OpenglState.h" />
     <ClInclude Include="Class\OpenglStateMultAttr.h" />
+    <ClInclude Include="Class\OpenglStateMultTexture.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateTexture.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
@@ -112,6 +114,8 @@
     <None Include="shader\shader4.vert" />
     <None Include="shader\shader5.frag" />
     <None Include="shader\shader5.vert" />
+    <None Include="shader\shader6.frag" />
+    <None Include="shader\shader6.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\wall.jpg" />

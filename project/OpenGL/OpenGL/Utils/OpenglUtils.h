@@ -19,7 +19,8 @@ public:
 	GLint getUniformLocation(unsigned int program, const char *name);
 	GLint getAttribLocation(unsigned int program, const char *name);
 
-	void genTexImage2D(const char *file, int type = GL_RGB, int level = 0);
+	// 图片文件，纹理格式，多级渐远纹理的级别，纹理单元
+	void genTexImage2D(const char *file, int type = GL_RGB, int level = 0, int textureUnit = GL_TEXTURE0);
 
 	// uniform工具函数
 	void setBool(unsigned int program, const char *name, bool value) const;
