@@ -5,6 +5,8 @@ opengl版本 3.3
 使用cmake构建glfw库
 http://www.glfw.org/docs/latest/compile_guide.html#compile_generate
 
+默认使用vs2013编译出的glfw.lib,如果电脑上安装了其他版本的vs需要重新编译出glfw.lib库替换
+
 
 配置GLAD https://glad.dav1d.de/
 GLAD是一个开源的库，它能解决我们上面提到的那个繁琐的问题。GLAD的配置与大多数的开源库有些许的不同，GLAD使用了一个在线服务。在这里我们能够告诉GLAD需要定义的OpenGL版本，并且根据这个版本加载所有相关的OpenGL函数。

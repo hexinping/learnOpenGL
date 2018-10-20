@@ -16,7 +16,7 @@ public:
 	void translate(glm::vec4 *vec, glm::vec3 *transform);
 
 	//旋转：角度，旋转轴
-	void rotate(glm::vec4 *vec, float angle, glm::vec3 *axis);
+	void rotate(glm::vec4 *vec, float angle, glm::vec3 *axis, bool isRaduis = false);
 
 	//缩放
 	void scale(glm::vec4 *vec, glm::vec3 *s);
@@ -25,7 +25,7 @@ public:
 	void setTranslateMat4(glm::mat4 *mat, glm::vec3 *transform);
 
 	//旋转变化矩阵
-	void setRoateMat4(glm::mat4 *mat, float angle, glm::vec3 *axis);
+	void setRotateMat4(glm::mat4 *mat, float angle, glm::vec3 *axis, bool isRaduis = false);
 
 	//缩放变化矩阵
 	void setSclaeMat4(glm::mat4 *mat, glm::vec3 *s);

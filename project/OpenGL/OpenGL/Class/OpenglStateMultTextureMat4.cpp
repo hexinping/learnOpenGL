@@ -84,15 +84,14 @@ void OpenglStateMultTextureMat4::rendeCommand()
 	__super::rendeCommand();
 	setFloat(_shaderProgram, "textureAlpha", _param1);
 
+	
 	glm::mat4 trans;
-	trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
-	trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+	glm::vec3 sy(0.5f, -0.5f, 0.0f);
+	glm::vec3 axis(0.0f, 0.0f, 1.0f);
 
-	//glm::mat4 trans;
-	//glm::vec3 sy(0.5f, -0.5f, 0.0f);
-	//glm::vec3 axis(0.0f, 0.0f, 1.0f);
-	//_mathUtils->setTranslateMat4(&trans, &sy);
-	//_mathUtils->setRoateMat4(&trans, (float)glfwGetTime(), &axis);
+	//先旋转后移动 ==》从后往前看
+	_mathUtils->setTranslateMat4(&trans, &sy);
+	_mathUtils->setRotateMat4(&trans, (float)glfwGetTime(), &axis, true);
 	setMat4(_shaderProgram, "transform", &trans);
 
 	if (_isUseEBORender)

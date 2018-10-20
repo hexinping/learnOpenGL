@@ -25,10 +25,18 @@ void MathUtils::translate(glm::vec4 *vec, glm::vec3 *transform)
 }
 
 
-void MathUtils::rotate(glm::vec4 *vec, float angle, glm::vec3 *axis)
+void MathUtils::rotate(glm::vec4 *vec, float angle, glm::vec3 *axis, bool isRaduis)
 {
 	glm::mat4 trans;
-	trans = glm::rotate(trans, glm::radians(angle), *axis);
+	if (!isRaduis)
+	{
+		trans = glm::rotate(trans, glm::radians(angle), *axis);
+	}
+	else
+	{
+		trans = glm::rotate(trans, angle, *axis);
+	}
+	
 	*vec = trans * (*vec);
 }
 
@@ -45,9 +53,16 @@ void MathUtils::setTranslateMat4(glm::mat4 *mat, glm::vec3 *transform)
 }
 
 
-void MathUtils::setRoateMat4(glm::mat4 *mat, float angle, glm::vec3 *axis)
+void MathUtils::setRotateMat4(glm::mat4 *mat, float angle, glm::vec3 *axis, bool isRaduis)
 {
-	*mat = glm::rotate(*mat, glm::radians(angle), *axis);
+	if (!isRaduis)
+	{
+		*mat = glm::rotate(*mat, glm::radians(angle), *axis);
+	}
+	else
+	{
+		*mat = glm::rotate(*mat, angle, *axis);
+	}
 }
 
 void MathUtils::setSclaeMat4(glm::mat4 *mat, glm::vec3 *s)
