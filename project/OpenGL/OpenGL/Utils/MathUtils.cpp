@@ -69,3 +69,8 @@ void MathUtils::setSclaeMat4(glm::mat4 *mat, glm::vec3 *s)
 {
 	*mat = glm::scale(*mat, *s);
 }
+
+void MathUtils::setPerspective(glm::mat4 *mat, float radian, float width, float height, float nearD, float farD)
+{
+	*mat = glm::perspective(glm::radians(radian), width / height, nearD, farD);
+}

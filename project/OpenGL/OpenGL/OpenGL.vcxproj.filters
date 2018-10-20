@@ -78,6 +78,9 @@
     <ClCompile Include="Class\OpenglStateMultTextureMat4.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTexture3D.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -123,6 +126,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureMat4.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTexture3D.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -173,6 +179,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader7.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader8.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader8.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

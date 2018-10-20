@@ -11,6 +11,7 @@
 #include "OpenglStateTexture.h"
 #include "OpenglStateMultTexture.h"
 #include "OpenglStateMultTextureMat4.h"
+#include "OpenglStateMultTexture3D.h"
 
 #include "practice/practice_2_1.h"
 
@@ -83,6 +84,7 @@ void intShaders()
 	OpenglStatesMap[5] = "shader5";
 	OpenglStatesMap[6] = "shader6";
 	OpenglStatesMap[7] = "shader7";
+	OpenglStatesMap[8] = "shader8";
 }
 
 int main(int argc, char* argv[])
@@ -161,7 +163,7 @@ int main(int argc, char* argv[])
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
-	OpenglState *glState = new OpenglStateMultTextureMat4();
+	OpenglState *glState = new OpenglStateMultTexture3D();
 	int index = glState->getShaderIndex();
 	string shaderName = OpenglStatesMap[index];
 	string vertFile = "shader/" + shaderName + ".vert";

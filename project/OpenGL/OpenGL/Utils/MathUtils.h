@@ -29,6 +29,9 @@ public:
 
 	//Ëõ·Å±ä»¯¾ØÕó
 	void setSclaeMat4(glm::mat4 *mat, glm::vec3 *s);
+
+
+	void setPerspective(glm::mat4 *mat , float radian,float width, float height, float nearD, float farD);
 	
 
 };
