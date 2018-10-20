@@ -14,10 +14,25 @@
 #include "OpenglStateMultTexture3D.h"
 #include "OpenglStateMultTextureCube.h"
 #include "OpenglStateMultTextureCamera.h"
+#include "OpenglStateMultTextureCameraManuel.h"
 
 #include "practice/practice_2_1.h"
 
 float mixValue = 0.2f;
+
+float deltaTime = 0.0f; // 当前帧与上一帧的时间差
+float lastFrame = 0.0f; // 上一帧的时间
+
+bool firstMouse = true;
+float lastX = 400, lastY = 300; //记录鼠标的位置
+float yaw = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
+float pitch = 0.0f;
+
+float fov = 45.0f;
+
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 using namespace std;
 
@@ -45,8 +60,65 @@ void processInput(GLFWwindow *window)
 			mixValue = 0.0f;
 	}
 
+	float cameraSpeed = 2.5f * deltaTime; // adjust accordingly
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		cameraPos += cameraSpeed * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		cameraPos -= cameraSpeed * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+
 }
 
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+	//计算当前帧和上一帧鼠标位置的偏移量
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // 注意这里是相反的，因为y坐标是从底部往顶部依次增大的
+	lastX = xpos;
+	lastY = ypos;
+
+	float sensitivity = 0.05f;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw -= xoffset;
+	pitch += yoffset;
+
+	/*
+		对于俯仰角，要让用户不能看向高于89度的地方（在90度时视角会发生逆转，所以我们把89度作为极限），
+		同样也不允许小于-89度。这样能够保证用户只能看到天空或脚下，但是不能超越这个限制
+	*/
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+
+	//通过俯仰角和偏航角来计算以得到真正的方向向量
+	glm::vec3 front;
+	front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+	front.y = sin(glm::radians(pitch));
+	front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+	cameraFront = glm::normalize(front);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	if (fov >= 1.0f && fov <= 45.0f)
+		fov -= yoffset;
+	if (fov <= 1.0f)
+		fov = 1.0f;
+	if (fov >= 45.0f)
+		fov = 45.0f;
+}
 
 int createWindow(GLFWwindow** pWindow)
 {
@@ -71,6 +143,11 @@ int createWindow(GLFWwindow** pWindow)
 	glViewport(0, 0, width, heght); //必须告诉OpenGL渲染窗口的尺寸大小，即视口(Viewport)==>设置视口
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
+
 	*pWindow = window;
 	return 0;
 }
@@ -166,7 +243,7 @@ int main(int argc, char* argv[])
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
-	OpenglState *glState = new OpenglStateMultTextureCamera();
+	OpenglState *glState = new OpenglStateMultTextureCameraManuel();
 	int index = glState->getShaderIndex();
 	string shaderName = OpenglStatesMap[index];
 	string vertFile = "shader/" + shaderName + ".vert";
@@ -184,11 +261,18 @@ int main(int argc, char* argv[])
 	glfwPollEvents函数检查有没有触发什么事件（比如键盘输入、鼠标移动等）、更新窗口状态，并调用对应的回调函数（可以通过回调方法手动设置）。
 	glfwSwapBuffers函数会交换颜色缓冲（它是一个储存着GLFW窗口每一个像素颜色值的大缓冲），它在这一迭代中被用来绘制，并且将会作为输出显示在屏幕上。
 	*/
-	// 渲染循环
+	
+	
 
+	// 渲染循环
 	glEnable(GL_DEPTH_TEST); // 开启深度测试
 	while (!glfwWindowShouldClose(window))
 	{
+		//记录上一帧所使用的时间
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		// 输入
 		processInput(window);
 
@@ -208,6 +292,9 @@ int main(int argc, char* argv[])
 		//	glDrawArrays(GL_TRIANGLES, 0, 3);
 		//}
 		glState->_param1 = mixValue;
+		glState->_param2 = cameraPos;
+		glState->_param3 = cameraFront;
+		glState->_param4 = fov;
 		glState->rendeCommand();
 		
 		glfwSwapBuffers(window);

@@ -43,5 +43,8 @@ public:
 	string _fragFile;
 
 	float  _param1 = 0.0f;
+	glm::vec3 _param2 = glm::vec3(0.0f,0.0f,0.0f);
+	glm::vec3 _param3 = glm::vec3(0.0f, 0.0f, 0.0f);
+	float _param4 = 0.0f;
 
 };
