@@ -12,6 +12,7 @@
 #include "OpenglStateMultTexture.h"
 #include "OpenglStateMultTextureMat4.h"
 #include "OpenglStateMultTexture3D.h"
+#include "OpenglStateMultTextureCube.h"
 
 #include "practice/practice_2_1.h"
 
@@ -85,6 +86,7 @@ void intShaders()
 	OpenglStatesMap[6] = "shader6";
 	OpenglStatesMap[7] = "shader7";
 	OpenglStatesMap[8] = "shader8";
+	OpenglStatesMap[9] = "shader9";
 }
 
 int main(int argc, char* argv[])
@@ -163,7 +165,7 @@ int main(int argc, char* argv[])
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
-	OpenglState *glState = new OpenglStateMultTexture3D();
+	OpenglState *glState = new OpenglStateMultTextureCube();
 	int index = glState->getShaderIndex();
 	string shaderName = OpenglStatesMap[index];
 	string vertFile = "shader/" + shaderName + ".vert";
@@ -182,6 +184,8 @@ int main(int argc, char* argv[])
 	glfwSwapBuffers函数会交换颜色缓冲（它是一个储存着GLFW窗口每一个像素颜色值的大缓冲），它在这一迭代中被用来绘制，并且将会作为输出显示在屏幕上。
 	*/
 	// 渲染循环
+
+	glEnable(GL_DEPTH_TEST); // 开启深度测试
 	while (!glfwWindowShouldClose(window))
 	{
 		// 输入
@@ -189,7 +193,7 @@ int main(int argc, char* argv[])
 
 		// 渲染指令
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);// 清除颜色缓冲和深度缓冲
 
 		//glUseProgram(shaderProgram); //激活着色器程序对象：已激活着色器程序的着色器将在我们发送渲染调用的时候被使用
 		//glBindVertexArray(VAO);     // 使用VAO后就是每一次渲染的时候直接使用VAO存储好的属性指针
