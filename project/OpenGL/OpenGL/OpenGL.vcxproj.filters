@@ -90,6 +90,9 @@
     <ClCompile Include="Class\OpenglStateMultTextureCameraManuel.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglCamera.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -147,6 +150,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureCameraManuel.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglCamera.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>

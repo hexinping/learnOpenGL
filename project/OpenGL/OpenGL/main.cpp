@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include "OpenglUtils.h"
+#include "OpenglCamera.h"
 #include "OpenglState.h"
 #include "OpenglStateTriangle.h"
 #include "OpenglStateRect.h"
@@ -36,6 +37,8 @@ glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 using namespace std;
 
+OpenglCamera *camera = nullptr;
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -62,18 +65,23 @@ void processInput(GLFWwindow *window)
 
 	float cameraSpeed = 2.5f * deltaTime; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		cameraPos += cameraSpeed * cameraFront;
+		//cameraPos += cameraSpeed * cameraFront;
+		camera->ProcessKeyboard(Camera_Movement::FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		cameraPos -= cameraSpeed * cameraFront;
+		//cameraPos -= cameraSpeed * cameraFront;
+		camera->ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		//cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		camera->ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		//cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		camera->ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
 
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
+	
 	if (firstMouse)
 	{
 		lastX = xpos;
@@ -85,39 +93,43 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	float yoffset = lastY - ypos; // 注意这里是相反的，因为y坐标是从底部往顶部依次增大的
 	lastX = xpos;
 	lastY = ypos;
+	camera->ProcessMouseMovement(xoffset, yoffset);
 
-	float sensitivity = 0.05f;
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
+	//float sensitivity = 0.05f;
+	//xoffset *= sensitivity;
+	//yoffset *= sensitivity;
 
-	yaw += xoffset;
-	pitch += yoffset;
+	//yaw += xoffset;
+	//pitch += yoffset;
+
 
 	/*
 		对于俯仰角，要让用户不能看向高于89度的地方（在90度时视角会发生逆转，所以我们把89度作为极限），
 		同样也不允许小于-89度。这样能够保证用户只能看到天空或脚下，但是不能超越这个限制
 	*/
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
+	//if (pitch > 89.0f)
+	//	pitch = 89.0f;
+	//if (pitch < -89.0f)
+	//	pitch = -89.0f;
 
-	//通过俯仰角和偏航角来计算以得到真正的方向向量
-	glm::vec3 front;
-	front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-	front.y = sin(glm::radians(pitch));
-	front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-	cameraFront = glm::normalize(front);
+	////通过俯仰角和偏航角来计算以得到真正的方向向量
+	//glm::vec3 front;
+	//front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+	//front.y = sin(glm::radians(pitch));
+	//front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+	//cameraFront = glm::normalize(front);
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= yoffset;
-	if (fov <= 1.0f)
-		fov = 1.0f;
-	if (fov >= 45.0f)
-		fov = 45.0f;
+	//if (fov >= 1.0f && fov <= 45.0f)
+	//	fov -= yoffset;
+	//if (fov <= 1.0f)
+	//	fov = 1.0f;
+	//if (fov >= 45.0f)
+	//	fov = 45.0f;
+
+	camera->ProcessMouseScroll(yoffset);
 }
 
 int createWindow(GLFWwindow** pWindow)
@@ -181,6 +193,7 @@ int main(int argc, char* argv[])
 	GLFWwindow* window;
 	createWindow(&window);
 
+	camera = new OpenglCamera();
 	// ------------------------------------------------------------------
 
 	
@@ -292,9 +305,9 @@ int main(int argc, char* argv[])
 		//	glDrawArrays(GL_TRIANGLES, 0, 3);
 		//}
 		glState->_param1 = mixValue;
-		glState->_param2 = cameraPos;
-		glState->_param3 = cameraFront;
-		glState->_param4 = fov;
+		glState->_param2 = camera->Position; //更新观察矩阵
+		glState->_param3 = camera->Front; //更新观察矩阵
+		glState->_param4 = camera->Zoom;   //更新矩阵投影
 		glState->rendeCommand();
 		
 		glfwSwapBuffers(window);
