@@ -5,12 +5,17 @@ OpenglState::OpenglState()
 : _glUtils(nullptr)
 , _mathUtils(nullptr)
 , _isUseEBORender(true)
+, _isLight(false)
 , _VBO(0)
 , _VAO(0)
 , _EBO(0)
+, _lightVBO(0)
+, _lightVAO(0)
+, _lightEBO(0)
 , _vertexShader(0)
 , _fragmentShader(0)
 , _shaderProgram(0)
+, _lightShaderProgram(0)
 {
 	_glUtils = OpenglUtils::getInstance();
 	_mathUtils = MathUtils::getInstance();
@@ -25,12 +30,33 @@ bool OpenglState::init(string vertFile, string fragFile)
 
 void OpenglState::initRendCommand()
 {
-	_isUseEBORender = this->isUseEBORender();
-	_glUtils->bindVBOAndVAO(&_VBO, &_VAO, _vertices, sizeof(_vertices), _isUseEBORender, &_EBO, _indices, sizeof(_indices));
 	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, _vertFile);
 	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, _fragFile);
 	_glUtils->linkShader(&_shaderProgram, _vertexShader, _fragmentShader);
+
+	_isUseEBORender = this->isUseEBORender();
+	_glUtils->bindVBOAndVAO(&_VBO, &_VAO, _vertices, sizeof(_vertices), _isUseEBORender, &_EBO, _indices, sizeof(_indices));
 	this->enableVertexAttribArray();
+	if (_isLight)
+	{
+		glEnableVertexAttribArray(0);
+		unsigned int _lightVertexShader;
+		unsigned int _lightFragmentShader;
+		_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_lightVertexShader, "shader/lamp.vert");
+		_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_lightFragmentShader, "shader/lamp.frag");
+		_glUtils->linkShader(&_lightShaderProgram, _lightVertexShader, _lightFragmentShader);
+
+		
+		_glUtils->bindVBOAndVAO(&_lightVBO, &_lightVAO, _lightVertices, sizeof(_lightVertices), false, &_lightEBO, _lightIndices, sizeof(_lightIndices));
+		this->enableLightVertexAttribArray();
+		glEnableVertexAttribArray(0);
+	}
+
+}
+
+void OpenglState::setLight(bool light)
+{
+	_isLight = light;
 }
 
 bool OpenglState::isUseEBORender()
@@ -45,10 +71,23 @@ void OpenglState::enableVertexAttribArray()
 	glEnableVertexAttribArray(posLocation); //以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
 }
 
+void OpenglState::enableLightVertexAttribArray()
+{
+	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
+	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //函数告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上)
+	glEnableVertexAttribArray(posLocation); //以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
+}
+
 void OpenglState::rendeCommand()
 {
 	glUseProgram(_shaderProgram); //激活着色器程序对象：已激活着色器程序的着色器将在我们发送渲染调用的时候被使用
 	glBindVertexArray(_VAO);     // 使用VAO后就是每一次渲染的时候直接使用VAO存储好的属性指针
+}
+
+void OpenglState::lightRendeCommand()
+{
+	glUseProgram(_lightShaderProgram);
+	glBindVertexArray(_lightVAO);
 }
 
 GLint OpenglState::getUniformLocation(unsigned int program, const char *name)
@@ -93,4 +132,14 @@ void OpenglState::useProgram(unsigned int program)
 void OpenglState::setMat4(unsigned int program, const char *name, glm::mat4 *mat)
 {
 	_glUtils->setMat4(program, name, mat);
+}
+
+void OpenglState::setVec3(unsigned int program, const char *name, float x, float y, float z)
+{
+	_glUtils->setVec3(program, name, x, y, z);
+}
+
+void OpenglState::setVec4(unsigned int program, const char *name, float x, float y, float z, float w)
+{
+	_glUtils->setVec4(program, name, x, y, z, w);
 }

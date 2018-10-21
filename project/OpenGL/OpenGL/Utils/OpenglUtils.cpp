@@ -199,3 +199,14 @@ void OpenglUtils::setMat4(unsigned int program, const char *name, glm::mat4 *mat
 	unsigned int transformLoc = glGetUniformLocation(program, name);
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(*mat));
 }
+
+void OpenglUtils::setVec3(unsigned int program, const char *name, float x, float y, float z)
+{
+	unsigned int location = glGetUniformLocation(program, name);
+	glUniform3f(location, x, y, z);
+}
+void OpenglUtils::setVec4(unsigned int program, const char *name, float x, float y, float z, float w)
+{
+	unsigned int location = glGetUniformLocation(program, name);
+	glUniform4f(location, x, y, z, w);
+}

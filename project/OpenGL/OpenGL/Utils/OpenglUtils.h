@@ -33,6 +33,8 @@ public:
 	void setFloat(unsigned int program, const char *name, float value) const;
 
 	void setMat4(unsigned int program, const char *name, glm::mat4 *mat);
+	void setVec3(unsigned int program, const char *name, float x, float y, float z);
+	void setVec4(unsigned int program, const char *name, float x, float y, float z, float w);
 
 	
 

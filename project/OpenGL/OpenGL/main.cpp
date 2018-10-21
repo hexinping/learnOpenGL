@@ -16,6 +16,7 @@
 #include "OpenglStateMultTextureCube.h"
 #include "OpenglStateMultTextureCamera.h"
 #include "OpenglStateMultTextureCameraManuel.h"
+#include "OpenglStateMultTextureLight.h"
 
 #include "practice/practice_2_1.h"
 
@@ -177,6 +178,7 @@ void intShaders()
 	OpenglStatesMap[7] = "shader7";
 	OpenglStatesMap[8] = "shader8";
 	OpenglStatesMap[9] = "shader9";
+	OpenglStatesMap[10] = "shader10";
 }
 
 int main(int argc, char* argv[])
@@ -256,7 +258,7 @@ int main(int argc, char* argv[])
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
-	OpenglState *glState = new OpenglStateMultTextureCameraManuel();
+	OpenglState *glState = new OpenglStateMultTextureLight();
 	int index = glState->getShaderIndex();
 	string shaderName = OpenglStatesMap[index];
 	string vertFile = "shader/" + shaderName + ".vert";
@@ -266,6 +268,14 @@ int main(int argc, char* argv[])
 	VBO = glState->_VBO;
 	VAO = glState->_VAO;
 	EBO = glState->_EBO;
+
+	unsigned int lightVBO = 0, lighgtVAO = 0, lightEBO = 0;
+	if (glState->_isLight)
+	{
+		lightVBO = glState->_lightVBO;
+		lighgtVAO = glState->_lightVAO;
+		lightEBO = glState->_lightEBO;
+	}
 
 
 
@@ -318,6 +328,10 @@ int main(int argc, char* argv[])
 	glDeleteBuffers(1, &EBO);
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
+
+	glDeleteBuffers(1, &lightEBO);
+	glDeleteVertexArrays(1, &lighgtVAO);
+	glDeleteBuffers(1, &lightVBO);
 
 	glfwTerminate(); //当渲染循环结束后我们需要正确释放/删除之前的分配的所有资源
 	return 0;

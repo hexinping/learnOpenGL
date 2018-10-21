@@ -12,7 +12,9 @@ public:
 	void initRendCommand();
 	virtual bool isUseEBORender();
 	virtual void rendeCommand();
+	virtual void lightRendeCommand();
 	virtual void enableVertexAttribArray();
+	virtual void enableLightVertexAttribArray();
 	GLint getUniformLocation(unsigned int program, const char *name);
 	GLint getAttribLocation(unsigned int program, const char *name);
 	void useProgram(unsigned int program);
@@ -24,9 +26,13 @@ public:
 	void setInt(unsigned int program, const char *name, int value) const;
 	void setFloat(unsigned int program, const char *name, float value) const;
 	void setMat4(unsigned int program, const char *name, glm::mat4 *mat);
+	void setVec3(unsigned int program, const char *name, float x, float y, float z);
+	void setVec4(unsigned int program, const char *name, float x, float y, float z, float w);
+	
 
 	void genTexImage2D(const char *file, int type = GL_RGB, int level = 0, int textureUnit = GL_TEXTURE0, int around = GL_REPEAT, int filter = GL_LINEAR);
 
+	void setLight(bool light);
 public:
 	OpenglUtils * _glUtils;
 	MathUtils   * _mathUtils;
@@ -35,9 +41,18 @@ public:
 	unsigned int _vertexShader;
 	unsigned int _fragmentShader;
 	unsigned int _shaderProgram;
+	unsigned int _lightShaderProgram;
+
+	//单独为光源配置一个vao 与模型的vao分开
+	bool _isLight;
+	unsigned int _lightVBO, _lightVAO, _lightEBO;
+
 
 	float _vertices[1024];
 	unsigned int _indices[1024];
+
+	float _lightVertices[1024];
+	unsigned int _lightIndices[1024];
 
 	string _vertFile;
 	string _fragFile;
