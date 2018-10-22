@@ -27,6 +27,7 @@ struct Material {
 
 	sampler2D diffuse; //漫反射贴图
 	sampler2D specular; //高光贴图
+	sampler2D emission; //自发光贴图
 }; 
 
 uniform Material material;
@@ -51,7 +52,7 @@ void main()
 
 	vec3 diffuseMapColor = vec3(texture(material.diffuse, TexCoords)); //漫反射贴图纹理颜色
 	vec3 specularMapColor = vec3(texture(material.specular, TexCoords)); //高光贴图纹理颜色
-
+	vec3 emissionMapColor = vec3(texture(material.emission, TexCoords)); //自发光贴图纹理颜色
 
 	vec3 ambient = light.ambient * diffuseMapColor; //环境光光照
 
@@ -73,6 +74,9 @@ void main()
     //vec3 specular = spec * material.specular * light.specular;
 	vec3 specular = spec * light.specular * specularMapColor;
 
+	
+
+	//vec3 result = (ambient + diffuse + specular + emissionMapColor) * lightColor * objectColor;//使用自发光贴图
 	vec3 result = (ambient + diffuse + specular) * lightColor * objectColor;
 	FragColor = vec4(result, 1.0);
 
