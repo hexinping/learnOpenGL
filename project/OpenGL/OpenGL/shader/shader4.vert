@@ -1,10 +1,10 @@
-ï»¿#version 330 core
+#version 330 core
 layout (location = 0) in vec3 aPos;
 
-uniform float ourPos; // åœ¨OpenGLç¨‹åºä»£ç ä¸­è®¾å®šè¿™ä¸ªå˜é‡
+uniform float ourPos; // ÔÚOpenGL³ÌĞò´úÂëÖĞÉè¶¨Õâ¸ö±äÁ¿
 
 void main()
 {
 
-    gl_Position = vec4(aPos.x + ourPos, aPos.y, aPos.z, 1.0); //æ³¨æ„æˆ‘ä»¬å¦‚ä½•æŠŠä¸€ä¸ªvec3ä½œä¸ºvec4çš„æ„é€ å™¨çš„å‚æ•°
+    gl_Position = vec4(aPos.x + ourPos, aPos.y, aPos.z, 1.0); //×¢ÒâÎÒÃÇÈçºÎ°ÑÒ»¸övec3×÷Îªvec4µÄ¹¹ÔìÆ÷µÄ²ÎÊı
 }

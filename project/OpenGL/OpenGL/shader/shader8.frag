@@ -1,4 +1,4 @@
-ï»¿#version 330 core
+#version 330 core
 out vec4 FragColor;  
 
 in vec3 ourColor;
@@ -11,24 +11,24 @@ uniform float textureAlpha;
 
 void main()
 {
-	//æœ€ç»ˆè¾“å‡ºé¢œè‰²ç°åœ¨æ˜¯ä¸¤ä¸ªçº¹ç†çš„ç»“åˆã€‚GLSLå†…å»ºçš„mixå‡½æ•°éœ€è¦æ¥å—ä¸¤ä¸ªå€¼ä½œä¸ºå‚æ•°ï¼Œå¹¶å¯¹å®ƒä»¬æ ¹æ®ç¬¬ä¸‰ä¸ªå‚æ•°è¿›è¡Œçº¿æ€§æ’å€¼ã€‚
-	//å¦‚æœç¬¬ä¸‰ä¸ªå€¼æ˜¯0.0ï¼Œå®ƒä¼šè¿”å›ç¬¬ä¸€ä¸ªè¾“å…¥ï¼›å¦‚æœæ˜¯1.0ï¼Œä¼šè¿”å›ç¬¬äºŒä¸ªè¾“å…¥å€¼ã€‚
-	//0.2ä¼šè¿”å›80%çš„ç¬¬ä¸€ä¸ªè¾“å…¥é¢œè‰²å’Œ20%çš„ç¬¬äºŒä¸ªè¾“å…¥é¢œè‰²ï¼Œå³è¿”å›ä¸¤ä¸ªçº¹ç†çš„æ··åˆè‰²
+	//×îÖÕÊä³öÑÕÉ«ÏÖÔÚÊÇÁ½¸öÎÆÀíµÄ½áºÏ¡£GLSLÄÚ½¨µÄmixº¯ÊıĞèÒª½ÓÊÜÁ½¸öÖµ×÷Îª²ÎÊı£¬²¢¶ÔËüÃÇ¸ù¾İµÚÈı¸ö²ÎÊı½øĞĞÏßĞÔ²åÖµ¡£
+	//Èç¹ûµÚÈı¸öÖµÊÇ0.0£¬Ëü»á·µ»ØµÚÒ»¸öÊäÈë£»Èç¹ûÊÇ1.0£¬»á·µ»ØµÚ¶ş¸öÊäÈëÖµ¡£
+	//0.2»á·µ»Ø80%µÄµÚÒ»¸öÊäÈëÑÕÉ«ºÍ20%µÄµÚ¶ş¸öÊäÈëÑÕÉ«£¬¼´·µ»ØÁ½¸öÎÆÀíµÄ»ìºÏÉ«
 
     //FragColor = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), 0.2);
 
 
-	//ä½¿ç”¨å¤–éƒ¨ä¼ æ¥çš„é¡¶ç‚¹é¢œè‰²æ··åˆ
+	//Ê¹ÓÃÍâ²¿´«À´µÄ¶¥µãÑÕÉ«»ìºÏ
 	//vec4 color = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), 0.2);
 	//FragColor = color * vec4(ourColor,1.0);
 
 
-	//ä¿®æ”¹çº¹ç†texture2çš„æ°´å¹³ç¿»è½¬
+	//ĞŞ¸ÄÎÆÀítexture2µÄË®Æ½·­×ª
 	//vec2 textcoord2 = vec2(-TexCoord.x,TexCoord.y);
 	//vec4 color = mix(texture(texture1, TexCoord), texture(texture2, textcoord2), 0.2);
 	//FragColor = color * vec4(ourColor,1.0);
 
-	//ä½¿ç”¨ä¸€ä¸ªuniformå˜é‡ä½œä¸ºmixå‡½æ•°çš„ç¬¬ä¸‰ä¸ªå‚æ•°æ¥æ”¹å˜ä¸¤ä¸ªçº¹ç†å¯è§åº¦
+	//Ê¹ÓÃÒ»¸öuniform±äÁ¿×÷Îªmixº¯ÊıµÄµÚÈı¸ö²ÎÊıÀ´¸Ä±äÁ½¸öÎÆÀí¿É¼û¶È
 	vec4 color = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), textureAlpha);
 	FragColor = color * vec4(ourColor,1.0);
 }

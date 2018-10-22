@@ -1,12 +1,12 @@
-ï»¿#version 330 core
-layout (location = 0) in vec3 aPos;			// ä½ç½®å˜é‡çš„å±æ€§ä½ç½®å€¼ä¸º 0 
-//layout (location = 1) in vec2 aTexCoord;	// çº¹ç†åæ ‡å˜é‡çš„å±æ€§ä½ç½®å€¼ä¸º 2
-layout (location = 2) in vec3 aNormal;      // æ³•çº¿
+#version 330 core
+layout (location = 0) in vec3 aPos;			// Î»ÖÃ±äÁ¿µÄÊôĞÔÎ»ÖÃÖµÎª 0 
+//layout (location = 1) in vec2 aTexCoord;	// ÎÆÀí×ø±ê±äÁ¿µÄÊôĞÔÎ»ÖÃÖµÎª 2
+layout (location = 2) in vec3 aNormal;      // ·¨Ïß
 
 //out vec2 TexCoord;
 
 out vec3 Normal;
-out vec3 FragPos;  //ä¸–ç•Œç©ºé—´çš„åæ ‡
+out vec3 FragPos;  //ÊÀ½ç¿Õ¼äµÄ×ø±ê
 
 uniform mat4 model;
 uniform mat4 view;
@@ -17,10 +17,10 @@ void main()
     gl_Position = projection * view * model * vec4(aPos, 1.0f);
 	//TexCoord = aTexCoord;
 
-	Normal = mat3(transpose(inverse(model))) * aNormal;// ä½¿ç”¨æ³•çº¿çŸ©é˜µï¼Œé¿å…ä¸ç­‰æ¯”ç¼©æ”¾é€ æˆçš„æ³•çº¿ä¸å‚ç›´ä¸è¡¨é¢ï¼Œæ¥ä¿è¯å®ƒå¤±å»äº†ä½ç§»å±æ€§ä»¥åŠèƒ½å¤Ÿä¹˜ä»¥vec3çš„æ³•å‘é‡ã€‚
+	Normal = mat3(transpose(inverse(model))) * aNormal;// Ê¹ÓÃ·¨Ïß¾ØÕó£¬±ÜÃâ²»µÈ±ÈËõ·ÅÔì³ÉµÄ·¨Ïß²»´¹Ö±Óë±íÃæ£¬À´±£Ö¤ËüÊ§È¥ÁËÎ»ÒÆÊôĞÔÒÔ¼°ÄÜ¹»³ËÒÔvec3µÄ·¨ÏòÁ¿¡£
 
-	FragPos = vec3(model * vec4(aPos, 1.0f)); //ä¹˜ä»¥æ¨¡å‹çŸ©é˜µæŠŠé¡¶ç‚¹åæ ‡è½¬åˆ°ä¸–ç•Œç©ºé—´é‡Œ
+	FragPos = vec3(model * vec4(aPos, 1.0f)); //³ËÒÔÄ£ĞÍ¾ØÕó°Ñ¶¥µã×ø±ê×ªµ½ÊÀ½ç¿Õ¼äÀï
 
-    //TexCoord = vec2(aTexCoord.x, 1.0 - aTexCoord.y);  //æ°´å¹³ç¿»è½¬
-	//TexCoord = vec2(1.0-aTexCoord.x, aTexCoord.y);   //ç«–ç›´ç¿»è½¬
+    //TexCoord = vec2(aTexCoord.x, 1.0 - aTexCoord.y);  //Ë®Æ½·­×ª
+	//TexCoord = vec2(1.0-aTexCoord.x, aTexCoord.y);   //ÊúÖ±·­×ª
 }

@@ -1,13 +1,13 @@
-ï»¿#version 330 core
-layout (location = 0) in vec3 aPos;   // ä½ç½®å˜é‡çš„å±æ€§ä½ç½®å€¼ä¸º 0 
-layout (location = 1) in vec3 aColor; // é¢œè‰²å˜é‡çš„å±æ€§ä½ç½®å€¼ä¸º 1
+#version 330 core
+layout (location = 0) in vec3 aPos;   // Î»ÖÃ±äÁ¿µÄÊôĞÔÎ»ÖÃÖµÎª 0 
+layout (location = 1) in vec3 aColor; // ÑÕÉ«±äÁ¿µÄÊôĞÔÎ»ÖÃÖµÎª 1
 
-out vec3 ourColor; // å‘ç‰‡æ®µç€è‰²å™¨è¾“å‡ºä¸€ä¸ªé¢œè‰²
+out vec3 ourColor; // ÏòÆ¬¶Î×ÅÉ«Æ÷Êä³öÒ»¸öÑÕÉ«
 
 void main()
 {
     gl_Position = vec4(aPos, 1.0);
 
-	//gl_Position = vec4(aPos.x, -aPos.y, aPos.z, 1.0); // just add a - to the y position  ä½ç½®ä¸Šä¸‹é¢ å€’
-    ourColor = aColor; // å°†ourColorè®¾ç½®ä¸ºæˆ‘ä»¬ä»é¡¶ç‚¹æ•°æ®é‚£é‡Œå¾—åˆ°çš„è¾“å…¥é¢œè‰²
+	//gl_Position = vec4(aPos.x, -aPos.y, aPos.z, 1.0); // just add a - to the y position  Î»ÖÃÉÏÏÂµßµ¹
+    ourColor = aColor; // ½«ourColorÉèÖÃÎªÎÒÃÇ´Ó¶¥µãÊı¾İÄÇÀïµÃµ½µÄÊäÈëÑÕÉ«
 }
