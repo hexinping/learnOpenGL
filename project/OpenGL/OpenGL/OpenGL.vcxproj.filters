@@ -25,9 +25,6 @@
     <Filter Include="practice">
       <UniqueIdentifier>{dfcf37b9-5c96-4e89-9db4-cb9db90b2926}</UniqueIdentifier>
     </Filter>
-    <Filter Include="资源文件\resource">
-      <UniqueIdentifier>{7fcb0238-bad1-4c87-a14c-2f0a3ddf3732}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -102,6 +99,9 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMap.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapDirLight.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -173,11 +173,9 @@
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMap.h">
       <Filter>Class</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="resource\wall.jpg">
-      <Filter>资源文件\resource</Filter>
-    </Image>
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapDirLight.h">
+      <Filter>Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\base.frag">
@@ -262,6 +260,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader12.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader13.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader13.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
