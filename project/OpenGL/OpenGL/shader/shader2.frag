@@ -1,7 +1,7 @@
-#version 330 core
+ï»¿#version 330 core
 out vec4 FragColor;
 
-uniform vec4 ourColor; // ÔÚOpenGL³ÌĞò´úÂëÖĞÉè¶¨Õâ¸ö±äÁ¿
+uniform vec4 ourColor; // åœ¨OpenGLç¨‹åºä»£ç ä¸­è®¾å®šè¿™ä¸ªå˜é‡
 
 void main()
 {

@@ -1,20 +1,20 @@
-#version 330 core
-layout (location = 0) in vec3 aPos;			// Î»ÖÃ±äÁ¿µÄÊôĞÔÎ»ÖÃÖµÎª 0 
-layout (location = 1) in vec3 aColor;		// ÑÕÉ«±äÁ¿µÄÊôĞÔÎ»ÖÃÖµÎª 1
-layout (location = 2) in vec2 aTexCoord;	// ÎÆÀí×ø±ê±äÁ¿µÄÊôĞÔÎ»ÖÃÖµÎª 2
+ï»¿#version 330 core
+layout (location = 0) in vec3 aPos;			// ä½ç½®å˜é‡çš„å±æ€§ä½ç½®å€¼ä¸º 0 
+layout (location = 1) in vec3 aColor;		// é¢œè‰²å˜é‡çš„å±æ€§ä½ç½®å€¼ä¸º 1
+layout (location = 2) in vec2 aTexCoord;	// çº¹ç†åæ ‡å˜é‡çš„å±æ€§ä½ç½®å€¼ä¸º 2
 
 out vec2 TexCoord;
-out vec3 ourColor; // ÏòÆ¬¶Î×ÅÉ«Æ÷Êä³öÒ»¸öÑÕÉ«
+out vec3 ourColor; // å‘ç‰‡æ®µç€è‰²å™¨è¾“å‡ºä¸€ä¸ªé¢œè‰²
 
 uniform mat4 transform;
 
 void main()
 {
     gl_Position = transform * vec4(aPos, 1.0f);
-	ourColor = aColor; // ½«ourColorÉèÖÃÎªÎÒÃÇ´Ó¶¥µãÊı¾İÄÇÀïµÃµ½µÄÊäÈëÑÕÉ«
+	ourColor = aColor; // å°†ourColorè®¾ç½®ä¸ºæˆ‘ä»¬ä»é¡¶ç‚¹æ•°æ®é‚£é‡Œå¾—åˆ°çš„è¾“å…¥é¢œè‰²
 	TexCoord = aTexCoord;
 
 
-    //TexCoord = vec2(aTexCoord.x, 1.0 - aTexCoord.y);  //Ë®Æ½·­×ª
-	//TexCoord = vec2(1.0-aTexCoord.x, aTexCoord.y);   //ÊúÖ±·­×ª
+    //TexCoord = vec2(aTexCoord.x, 1.0 - aTexCoord.y);  //æ°´å¹³ç¿»è½¬
+	//TexCoord = vec2(1.0-aTexCoord.x, aTexCoord.y);   //ç«–ç›´ç¿»è½¬
 }

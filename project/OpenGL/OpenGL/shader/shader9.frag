@@ -1,4 +1,4 @@
-#version 330 core
+ï»¿#version 330 core
 out vec4 FragColor;  
 
 in vec2 TexCoord;
@@ -10,6 +10,6 @@ uniform float textureAlpha;
 
 void main()
 {
-	//Ê¹ÓÃÒ»¸öuniform±äÁ¿×÷Îªmixº¯ÊıµÄµÚÈı¸ö²ÎÊıÀ´¸Ä±äÁ½¸öÎÆÀí¿É¼û¶È
+	//ä½¿ç”¨ä¸€ä¸ªuniformå˜é‡ä½œä¸ºmixå‡½æ•°çš„ç¬¬ä¸‰ä¸ªå‚æ•°æ¥æ”¹å˜ä¸¤ä¸ªçº¹ç†å¯è§åº¦
 	FragColor = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), textureAlpha);
 }

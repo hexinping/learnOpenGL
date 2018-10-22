@@ -1,7 +1,7 @@
-#version 330 core
+ï»¿#version 330 core
 out vec4 FragColor;
 
 void main()
 {
-    FragColor = vec4(1.0); // ½«ÏòÁ¿µÄËÄ¸ö·ÖÁ¿È«²¿ÉèÖÃÎª1.0
+    FragColor = vec4(1.0); // å°†å‘é‡çš„å››ä¸ªåˆ†é‡å…¨éƒ¨è®¾ç½®ä¸º1.0
 }

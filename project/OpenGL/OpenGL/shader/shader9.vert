@@ -1,6 +1,6 @@
-#version 330 core
-layout (location = 0) in vec3 aPos;			// Î»ÖÃ±äÁ¿µÄÊôĞÔÎ»ÖÃÖµÎª 0 
-layout (location = 1) in vec2 aTexCoord;	// ÎÆÀí×ø±ê±äÁ¿µÄÊôĞÔÎ»ÖÃÖµÎª 2
+ï»¿#version 330 core
+layout (location = 0) in vec3 aPos;			// ä½ç½®å˜é‡çš„å±æ€§ä½ç½®å€¼ä¸º 0 
+layout (location = 1) in vec2 aTexCoord;	// çº¹ç†åæ ‡å˜é‡çš„å±æ€§ä½ç½®å€¼ä¸º 2
 
 out vec2 TexCoord;
 
@@ -14,6 +14,6 @@ void main()
 	TexCoord = aTexCoord;
 
 
-    //TexCoord = vec2(aTexCoord.x, 1.0 - aTexCoord.y);  //Ë®Æ½·­×ª
-	//TexCoord = vec2(1.0-aTexCoord.x, aTexCoord.y);   //ÊúÖ±·­×ª
+    //TexCoord = vec2(aTexCoord.x, 1.0 - aTexCoord.y);  //æ°´å¹³ç¿»è½¬
+	//TexCoord = vec2(1.0-aTexCoord.x, aTexCoord.y);   //ç«–ç›´ç¿»è½¬
 }
