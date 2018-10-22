@@ -105,6 +105,9 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapDirLight.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapSpotLight.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -180,6 +183,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapDirLight.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapSpotLight.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -278,6 +284,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader14.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader15.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader15.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
