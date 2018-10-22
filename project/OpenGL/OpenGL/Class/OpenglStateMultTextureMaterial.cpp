@@ -164,6 +164,11 @@ bool OpenglStateMultTextureMaterial::init(string vertFile, string fragFile)
 	setFloat(_shaderProgram, "material.shininess", 32.0f);
 
 
+	setVec3(_shaderProgram, "light.ambient", 0.2f, 0.2f, 0.2f);
+	setVec3(_shaderProgram, "light.diffuse", 0.5f, 0.5f, 0.5f);
+	setVec3(_shaderProgram, "light.specular", 1.0f, 1.0f, 1.0f);
+
+
 	return true;
 }
 bool OpenglStateMultTextureMaterial::isUseEBORender()

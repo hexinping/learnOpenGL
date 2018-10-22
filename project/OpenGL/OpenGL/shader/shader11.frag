@@ -26,11 +26,23 @@ struct Material {
 
 uniform Material material;
 
+struct Light{
+    vec3 position;   //光源的位置
+
+	//光源对它的ambient、diffuse和specular光照有着不同的强度
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+
+uniform Light light;
+
 
 void main()
 {
 	//float ambientStrength = 0.1; 
-    vec3 ambient = material.ambient * lightColor; //环境光光照
+
+    vec3 ambient = light.ambient * material.ambient * lightColor; //环境光光照
 
 	//使用一个uniform变量作为mix函数的第三个参数来改变两个纹理可见度
 	//vec4 color = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), textureAlpha);
@@ -42,7 +54,7 @@ void main()
 
 	//计算漫反射光照
 	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 diffuse = (diff * material.diffuse) * lightColor; //漫反射光光照
+	vec3 diffuse = (diff * material.diffuse * light.diffuse) * lightColor; //漫反射光光照
 
 	//float specularStrength = 0.5; // 高光强度
 	vec3 viewDir = normalize(viewPos - FragPos);
@@ -50,7 +62,7 @@ void main()
 
 	//计算高光光照
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);//反光度
-    vec3 specular = (spec * material.specular) * lightColor;
+    vec3 specular = (spec * material.specular * light.specular) * lightColor;
 
 	vec3 result = (ambient + diffuse + specular) * objectColor;
 	FragColor = vec4(result, 1.0);
