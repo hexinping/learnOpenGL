@@ -1,11 +1,11 @@
-#include "OpenglStateMultTextureMaterialMapDirLight.h"
+#include "OpenglStateMultTextureMaterialMapPointLight.h"
 
-OpenglStateMultTextureMaterialMapDirLight::OpenglStateMultTextureMaterialMapDirLight()
+OpenglStateMultTextureMaterialMapPointLight::OpenglStateMultTextureMaterialMapPointLight()
 {
 	OpenglState::OpenglState();
 }
 
-bool OpenglStateMultTextureMaterialMapDirLight::init(string vertFile, string fragFile)
+bool OpenglStateMultTextureMaterialMapPointLight::init(string vertFile, string fragFile)
 {
 	float vertices[] = {
 		// positions          // normals           // texture coords
@@ -182,7 +182,7 @@ bool OpenglStateMultTextureMaterialMapDirLight::init(string vertFile, string fra
 	setVec3(_shaderProgram, "light.ambient", ambientColor);
 	setVec3(_shaderProgram, "light.diffuse", diffuseColor);
 	setVec3(_shaderProgram, "light.specular", 1.0f, 1.0f, 1.0f);
-	setVec3(_shaderProgram, "light.direction", -0.2f, -1.0f, -0.3f); //（0.2f, 1.0f, 0.3f) 可以理解光源的位置点
+	//setVec3(_shaderProgram, "light.direction", -0.2f, -1.0f, -0.3f); //（0.2f, 1.0f, 0.3f) 可以理解光源的位置点
 
 	//设置点光源的衰减变量
 	setFloat(_shaderProgram, "light.constant", 1.0f);
@@ -192,12 +192,12 @@ bool OpenglStateMultTextureMaterialMapDirLight::init(string vertFile, string fra
 
 	return true;
 }
-bool OpenglStateMultTextureMaterialMapDirLight::isUseEBORender()
+bool OpenglStateMultTextureMaterialMapPointLight::isUseEBORender()
 {
 	return false;
 }
 
-void OpenglStateMultTextureMaterialMapDirLight::rendeCommand()
+void OpenglStateMultTextureMaterialMapPointLight::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新
 	/*
@@ -224,7 +224,7 @@ void OpenglStateMultTextureMaterialMapDirLight::rendeCommand()
 	setVec3(_shaderProgram, "lightPos", lightPos.x, lightPos.y, lightPos.z);		// 光源的位置
 	setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// 摄像机的位置（观察空间的原点）
 
-	//setVec3(_shaderProgram, "light.position", lightPos);
+	setVec3(_shaderProgram, "light.position", lightPos);
 
 	if (_isUseEBORender)
 	{
@@ -262,7 +262,7 @@ void OpenglStateMultTextureMaterialMapDirLight::rendeCommand()
 			
 
 			glm::mat4 model;
-			//model = glm::translate(model, lightPos);
+			model = glm::translate(model, lightPos);
 			model = glm::scale(model, glm::vec3(0.05f));
 			setMat4(_lightShaderProgram, "model", &model);
 
@@ -274,12 +274,12 @@ void OpenglStateMultTextureMaterialMapDirLight::rendeCommand()
 	}
 }
 
-int OpenglStateMultTextureMaterialMapDirLight::getShaderIndex()
+int OpenglStateMultTextureMaterialMapPointLight::getShaderIndex()
 {
-	return 14;
+	return 13;
 }
 
-void OpenglStateMultTextureMaterialMapDirLight::enableVertexAttribArray()
+void OpenglStateMultTextureMaterialMapPointLight::enableVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
 	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //函数告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上)
@@ -299,7 +299,7 @@ void OpenglStateMultTextureMaterialMapDirLight::enableVertexAttribArray()
 
 }
 
-void OpenglStateMultTextureMaterialMapDirLight::enableLightVertexAttribArray()
+void OpenglStateMultTextureMaterialMapPointLight::enableLightVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
 	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //函数告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上)

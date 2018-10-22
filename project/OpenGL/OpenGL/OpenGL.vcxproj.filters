@@ -99,6 +99,9 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMap.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapPointLight.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapDirLight.cpp">
       <Filter>Class</Filter>
     </ClCompile>
@@ -171,6 +174,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMap.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapPointLight.h">
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapDirLight.h">
@@ -266,6 +272,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader13.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader14.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader14.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
