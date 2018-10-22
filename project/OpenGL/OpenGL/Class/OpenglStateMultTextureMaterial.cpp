@@ -154,7 +154,7 @@ bool OpenglStateMultTextureMaterial::init(string vertFile, string fragFile)
 	//setMat4(_shaderProgram, "projection", &projection);
 
 	//设置光源的颜色
-	setVec3(_shaderProgram, "lightColor", 1.0f, 1.0f, 1.0f);
+	//setVec3(_shaderProgram, "lightColor", 1.0f, 1.0f, 1.0f);
 	setVec3(_shaderProgram, "objectColor", 1.0f, 0.5f, 0.31f);
 
 	//ambient材质和diffuse材质都设置成跟物体的颜色一样
@@ -164,8 +164,8 @@ bool OpenglStateMultTextureMaterial::init(string vertFile, string fragFile)
 	setFloat(_shaderProgram, "material.shininess", 32.0f);
 
 
-	setVec3(_shaderProgram, "light.ambient", 0.2f, 0.2f, 0.2f);
-	setVec3(_shaderProgram, "light.diffuse", 0.5f, 0.5f, 0.5f);
+	//setVec3(_shaderProgram, "light.ambient", 0.2f, 0.2f, 0.2f);
+	//setVec3(_shaderProgram, "light.diffuse", 0.5f, 0.5f, 0.5f);
 	setVec3(_shaderProgram, "light.specular", 1.0f, 1.0f, 1.0f);
 
 
@@ -203,9 +203,19 @@ void OpenglStateMultTextureMaterial::rendeCommand()
 	setVec3(_shaderProgram, "lightPos", lightPos.x, lightPos.y, lightPos.z);		// 光源的位置
 	setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// 摄像机的位置（观察空间的原点）
 
+	//设置光源的颜色
+	glm::vec3 lightColor;
+	lightColor.x = sin(glfwGetTime() * 2.0f);
+	lightColor.y = sin(glfwGetTime() * 0.7f);
+	lightColor.z = sin(glfwGetTime() * 1.3f);
+	setVec3(_shaderProgram, "lightColor", lightColor);
 
-	
-	
+	glm::vec3 diffuseColor = lightColor   * glm::vec3(0.5f); // 降低影响
+	glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); // 很低的影响
+
+	setVec3(_shaderProgram, "light.ambient", ambientColor);
+	setVec3(_shaderProgram, "light.diffuse", diffuseColor);
+
 
 	if (_isUseEBORender)
 	{
