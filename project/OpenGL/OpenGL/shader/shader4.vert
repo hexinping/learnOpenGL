@@ -1,10 +1,13 @@
 #version 330 core
-layout (location = 0) in vec3 aPos;
+layout (location = 0) in vec3 aPos;   // ä½ç½®å˜é‡çš„å±æ€§ä½ç½®å€¼ä¸º 0 
+layout (location = 1) in vec3 aColor; // é¢œè‰²å˜é‡çš„å±æ€§ä½ç½®å€¼ä¸º 1
 
-uniform float ourPos; // ÔÚOpenGL³ÌĞò´úÂëÖĞÉè¶¨Õâ¸ö±äÁ¿
+out vec3 ourColor; // å‘ç‰‡æ®µç€è‰²å™¨è¾“å‡ºä¸€ä¸ªé¢œè‰²
 
 void main()
 {
+    gl_Position = vec4(aPos, 1.0);
 
-    gl_Position = vec4(aPos.x + ourPos, aPos.y, aPos.z, 1.0); //×¢ÒâÎÒÃÇÈçºÎ°ÑÒ»¸övec3×÷Îªvec4µÄ¹¹ÔìÆ÷µÄ²ÎÊı
+	//gl_Position = vec4(aPos.x, -aPos.y, aPos.z, 1.0); // just add a - to the y position  ä½ç½®ä¸Šä¸‹é¢ å€’
+    ourColor = aColor; // å°†ourColorè®¾ç½®ä¸ºæˆ‘ä»¬ä»é¡¶ç‚¹æ•°æ®é‚£é‡Œå¾—åˆ°çš„è¾“å…¥é¢œè‰²
 }

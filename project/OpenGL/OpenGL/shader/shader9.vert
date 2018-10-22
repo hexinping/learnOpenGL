@@ -1,6 +1,6 @@
 #version 330 core
-layout (location = 0) in vec3 aPos;			// 位置变量的属性位置值为 0 
-layout (location = 1) in vec2 aTexCoord;	// 纹理坐标变量的属性位置值为 2
+layout (location = 0) in vec3 aPos;			// 浣嶇疆鍙橀噺鐨勫睘鎬т綅缃�间负 0 
+layout (location = 1) in vec2 aTexCoord;	// 绾圭悊鍧愭爣鍙橀噺鐨勫睘鎬т綅缃�间负 2
 
 out vec2 TexCoord;
 
@@ -14,6 +14,6 @@ void main()
 	TexCoord = aTexCoord;
 
 
-    //TexCoord = vec2(aTexCoord.x, 1.0 - aTexCoord.y);  //水平翻转
-	//TexCoord = vec2(1.0-aTexCoord.x, aTexCoord.y);   //竖直翻转
+    //TexCoord = vec2(aTexCoord.x, 1.0 - aTexCoord.y);  //姘村钩缈昏浆
+	//TexCoord = vec2(1.0-aTexCoord.x, aTexCoord.y);   //绔栫洿缈昏浆
 }

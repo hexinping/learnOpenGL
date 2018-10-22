@@ -7,8 +7,8 @@ uniform sampler2D ourTexture;
 
 void main()
 {
-	//texture(ourTexture, TexCoord) ·µ»ØµÄÊÇÒ»¸övec4
+	//texture(ourTexture, TexCoord) è¿”å›çš„æ˜¯ä¸€ä¸ªvec4
 
-    //FragColor = texture(ourTexture, TexCoord); //Ö±½ÓÓÃÎÆÀíµÄÑÕÉ«×îÖÕÊä³ö
-	FragColor = texture(ourTexture, TexCoord) * vec4(ourColor, 1.0); //ÓÃÎÆÀíµÄÑÕÉ«*¶¥µãÑÕÉ«×îÖÕÊä³ö
+    //FragColor = texture(ourTexture, TexCoord); //ç›´æ¥ç”¨çº¹ç†çš„é¢œè‰²æœ€ç»ˆè¾“å‡º
+	FragColor = texture(ourTexture, TexCoord) * vec4(ourColor, 1.0); //ç”¨çº¹ç†çš„é¢œè‰²*é¡¶ç‚¹é¢œè‰²æœ€ç»ˆè¾“å‡º
 }

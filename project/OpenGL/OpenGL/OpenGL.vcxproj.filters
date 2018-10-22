@@ -175,10 +175,21 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resource\wall.jpg">
+      <Filter>资源文件\resource</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\base.frag">
+      <Filter>shader</Filter>
+    </None>
     <None Include="shader\base.vert">
       <Filter>shader</Filter>
     </None>
-    <None Include="shader\base.frag">
+    <None Include="shader\lamp.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\lamp.vert">
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader1.frag">
@@ -223,12 +234,6 @@
     <None Include="shader\shader7.vert">
       <Filter>shader</Filter>
     </None>
-    <None Include="shader\lamp.frag">
-      <Filter>shader</Filter>
-    </None>
-    <None Include="shader\lamp.vert">
-      <Filter>shader</Filter>
-    </None>
     <None Include="shader\shader8.frag">
       <Filter>shader</Filter>
     </None>
@@ -259,10 +264,5 @@
     <None Include="shader\shader12.vert">
       <Filter>shader</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="resource\wall.jpg">
-      <Filter>资源文件\resource</Filter>
-    </Image>
   </ItemGroup>
 </Project>

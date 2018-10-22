@@ -9,15 +9,15 @@ in vec2 TexCoords;
 //uniform float textureAlpha;
 
 
-uniform vec3 objectColor; //ÎïÌåµÄÑÕÉ«
-uniform vec3 lightColor; //¹âµÄÑÕÉ«
-uniform vec3 lightPos;  //¹âÔ´µÄÎ»ÖÃ
-uniform vec3 viewPos;  // ÉãÏñ»úµÄÎ»ÖÃ
+uniform vec3 objectColor; //ç‰©ä½“çš„é¢œè‰²
+uniform vec3 lightColor; //å…‰çš„é¢œè‰²
+uniform vec3 lightPos;  //å…‰æºçš„ä½ç½®
+uniform vec3 viewPos;  // æ‘„åƒæœºçš„ä½ç½®
 
 in vec3 Normal;
 in vec3 FragPos;
 
-//ÎÒÃÇÒ²ÒÆ³ıÁË»·¾³¹â²ÄÖÊÑÕÉ«ÏòÁ¿£¬ÒòÎª»·¾³¹âÑÕÉ«ÔÚ¼¸ºõËùÓĞÇé¿öÏÂ¶¼µÈÓÚÂş·´ÉäÑÕÉ«
+//æˆ‘ä»¬ä¹Ÿç§»é™¤äº†ç¯å¢ƒå…‰æè´¨é¢œè‰²å‘é‡ï¼Œå› ä¸ºç¯å¢ƒå…‰é¢œè‰²åœ¨å‡ ä¹æ‰€æœ‰æƒ…å†µä¸‹éƒ½ç­‰äºæ¼«åå°„é¢œè‰²
 
 struct Material {
     //vec3 ambient;
@@ -25,17 +25,17 @@ struct Material {
     //vec3 specular;
     float shininess;
 
-	sampler2D diffuse; //Âş·´ÉäÌùÍ¼
-	sampler2D specular; //¸ß¹âÌùÍ¼
-	sampler2D emission; //×Ô·¢¹âÌùÍ¼
+	sampler2D diffuse; //æ¼«åå°„è´´å›¾
+	sampler2D specular; //é«˜å…‰è´´å›¾
+	sampler2D emission; //è‡ªå‘å…‰è´´å›¾
 }; 
 
 uniform Material material;
 
 struct Light{
-    vec3 position;   //¹âÔ´µÄÎ»ÖÃ
+    vec3 position;   //å…‰æºçš„ä½ç½®
 
-	//¹âÔ´¶ÔËüµÄambient¡¢diffuseºÍspecular¹âÕÕÓĞ×Å²»Í¬µÄÇ¿¶È
+	//å…‰æºå¯¹å®ƒçš„ambientã€diffuseå’Œspecularå…‰ç…§æœ‰ç€ä¸åŒçš„å¼ºåº¦
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
@@ -48,35 +48,35 @@ void main()
 {
 	//float ambientStrength = 0.1; 
 
-    //vec3 ambient = light.ambient * material.ambient ; //»·¾³¹â¹âÕÕ
+    //vec3 ambient = light.ambient * material.ambient ; //ç¯å¢ƒå…‰å…‰ç…§
 
-	vec3 diffuseMapColor = vec3(texture(material.diffuse, TexCoords)); //Âş·´ÉäÌùÍ¼ÎÆÀíÑÕÉ«
-	vec3 specularMapColor = vec3(texture(material.specular, TexCoords)); //¸ß¹âÌùÍ¼ÎÆÀíÑÕÉ«
-	vec3 emissionMapColor = vec3(texture(material.emission, TexCoords)); //×Ô·¢¹âÌùÍ¼ÎÆÀíÑÕÉ«
+	vec3 diffuseMapColor = vec3(texture(material.diffuse, TexCoords)); //æ¼«åå°„è´´å›¾çº¹ç†é¢œè‰²
+	vec3 specularMapColor = vec3(texture(material.specular, TexCoords)); //é«˜å…‰è´´å›¾çº¹ç†é¢œè‰²
+	vec3 emissionMapColor = vec3(texture(material.emission, TexCoords)); //è‡ªå‘å…‰è´´å›¾çº¹ç†é¢œè‰²
 
-	vec3 ambient = light.ambient * diffuseMapColor; //»·¾³¹â¹âÕÕ
+	vec3 ambient = light.ambient * diffuseMapColor; //ç¯å¢ƒå…‰å…‰ç…§
 
 
 	vec3 norm = normalize(Normal);
-	vec3 lightDir = normalize(lightPos - FragPos); // ÕâÀïÎªÊ²Ã´²»ÊÇFragPos - lightPos 
+	vec3 lightDir = normalize(lightPos - FragPos); // è¿™é‡Œä¸ºä»€ä¹ˆä¸æ˜¯FragPos - lightPos 
 
-	//¼ÆËãÂş·´Éä¹âÕÕ
+	//è®¡ç®—æ¼«åå°„å…‰ç…§
 	float diff = max(dot(norm, lightDir), 0.0);
-	//vec3 diffuse = diff * material.diffuse * light.diffuse; //Âş·´Éä¹â¹âÕÕ
-	vec3 diffuse = diff * light.diffuse * diffuseMapColor; //Âş·´Éä¹â¹âÕÕ
+	//vec3 diffuse = diff * material.diffuse * light.diffuse; //æ¼«åå°„å…‰å…‰ç…§
+	vec3 diffuse = diff * light.diffuse * diffuseMapColor; //æ¼«åå°„å…‰å…‰ç…§
 
-	//float specularStrength = 0.5; // ¸ß¹âÇ¿¶È
+	//float specularStrength = 0.5; // é«˜å…‰å¼ºåº¦
 	vec3 viewDir = normalize(viewPos - FragPos);
-	vec3 reflectDir = reflect(-lightDir, norm); //reflectº¯ÊıÒªÇóµÚÒ»¸öÏòÁ¿ÊÇ´Ó¹âÔ´Ö¸ÏòÆ¬¶ÎÎ»ÖÃµÄÏòÁ¿£¬µ«ÊÇlightDirµ±Ç°ÕıºÃÏà·´£¬
+	vec3 reflectDir = reflect(-lightDir, norm); //reflectå‡½æ•°è¦æ±‚ç¬¬ä¸€ä¸ªå‘é‡æ˜¯ä»å…‰æºæŒ‡å‘ç‰‡æ®µä½ç½®çš„å‘é‡ï¼Œä½†æ˜¯lightDirå½“å‰æ­£å¥½ç›¸åï¼Œ
 
-	//¼ÆËã¸ß¹â¹âÕÕ
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);//·´¹â¶È
+	//è®¡ç®—é«˜å…‰å…‰ç…§
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);//åå…‰åº¦
     //vec3 specular = spec * material.specular * light.specular;
 	vec3 specular = spec * light.specular * specularMapColor;
 
 	
 
-	//vec3 result = (ambient + diffuse + specular + emissionMapColor) * lightColor * objectColor;//Ê¹ÓÃ×Ô·¢¹âÌùÍ¼
+	//vec3 result = (ambient + diffuse + specular + emissionMapColor) * lightColor * objectColor;//ä½¿ç”¨è‡ªå‘å…‰è´´å›¾
 	vec3 result = (ambient + diffuse + specular) * lightColor * objectColor;
 	FragColor = vec4(result, 1.0);
 

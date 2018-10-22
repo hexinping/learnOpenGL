@@ -10,6 +10,6 @@ uniform float textureAlpha;
 
 void main()
 {
-	//使用一个uniform变量作为mix函数的第三个参数来改变两个纹理可见度
+	//浣跨敤涓�涓猽niform鍙橀噺浣滀负mix鍑芥暟鐨勭涓変釜鍙傛暟鏉ユ敼鍙樹袱涓汗鐞嗗彲瑙佸害
 	FragColor = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), textureAlpha);
 }

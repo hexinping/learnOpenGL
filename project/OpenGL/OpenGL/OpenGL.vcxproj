@@ -122,6 +122,9 @@
     <ClInclude Include="Utils\OpenglUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resource\wall.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="shader\base.frag" />
     <None Include="shader\base.vert" />
     <None Include="shader\lamp.frag" />
@@ -150,9 +153,6 @@
     <None Include="shader\shader8.vert" />
     <None Include="shader\shader9.frag" />
     <None Include="shader\shader9.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="resource\wall.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
