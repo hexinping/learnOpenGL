@@ -4,7 +4,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include <iostream>
 #include <vector>
 
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
@@ -42,7 +42,7 @@ public:
 	float Zoom;
 
 	// Constructor with vectors
-	OpenglCamera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
+	OpenglCamera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 6.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
 	
 	// Constructor with scalar values
 	OpenglCamera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);

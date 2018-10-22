@@ -187,8 +187,12 @@ void OpenglStateMultTextureLight::rendeCommand()
 
 	
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+	lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
+	lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
 	setVec3(_shaderProgram, "lightPos", lightPos.x, lightPos.y, lightPos.z);		// 光源的位置
 	setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// 摄像机的位置（观察空间的原点）
+
+	
 
 	if (_isUseEBORender)
 	{
