@@ -25,10 +25,22 @@ public:
 	void setBool(unsigned int program, const char *name, bool value) const;
 	void setInt(unsigned int program, const char *name, int value) const;
 	void setFloat(unsigned int program, const char *name, float value) const;
+	/*void setMat4(unsigned int program, const char *name, glm::mat4 *mat);
+	void setVec3(unsigned int program, const char *name, float x, float y, float z);
+	void setVec4(unsigned int program, const char *name, float x, float y, float z, float w);*/
+	
+
+	void setMat2(unsigned int program, const char *name, glm::mat2 &mat);
+	void setMat3(unsigned int program, const char *name, glm::mat3 &mat);
 	void setMat4(unsigned int program, const char *name, glm::mat4 *mat);
+
+	void setVec2(unsigned int program, const char *name, float x, float y);
 	void setVec3(unsigned int program, const char *name, float x, float y, float z);
 	void setVec4(unsigned int program, const char *name, float x, float y, float z, float w);
-	
+
+	void setVec2(unsigned int program, const char *name, glm::vec2 &value);
+	void setVec3(unsigned int program, const char *name, glm::vec3 &value);
+	void setVec4(unsigned int program, const char *name, glm::vec4 &value);
 
 	void genTexImage2D(const char *file, int type = GL_RGB, int level = 0, int textureUnit = GL_TEXTURE0, int around = GL_REPEAT, int filter = GL_LINEAR);
 

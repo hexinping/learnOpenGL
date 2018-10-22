@@ -32,11 +32,17 @@ public:
 	void setInt(unsigned int program, const char *name, int value) const;
 	void setFloat(unsigned int program, const char *name, float value) const;
 
+	void setMat2(unsigned int program, const char *name, glm::mat2 &mat);
+	void setMat3(unsigned int program, const char *name, glm::mat3 &mat);
 	void setMat4(unsigned int program, const char *name, glm::mat4 *mat);
+
+	void setVec2(unsigned int program, const char *name, float x, float y);
 	void setVec3(unsigned int program, const char *name, float x, float y, float z);
 	void setVec4(unsigned int program, const char *name, float x, float y, float z, float w);
-
 	
-
+	void setVec2(unsigned int program, const char *name, glm::vec2 &value);
+	void setVec3(unsigned int program, const char *name, glm::vec3 &value);
+	void setVec4(unsigned int program, const char *name, glm::vec4 &value);
+	
 };
 

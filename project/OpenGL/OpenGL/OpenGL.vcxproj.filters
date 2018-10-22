@@ -96,6 +96,9 @@
     <ClCompile Include="Class\OpenglStateMultTextureLight.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureMaterial.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -159,6 +162,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureLight.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureMaterial.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -233,6 +239,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader10.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader11.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader11.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

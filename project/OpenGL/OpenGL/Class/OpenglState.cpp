@@ -105,6 +105,62 @@ int OpenglState::getShaderIndex()
 	return 0;
 }
 
+void OpenglState::genTexImage2D(const char *file, int type, int level, int textureUnit, int around, int filter)
+{
+	_glUtils->genTexImage2D(file, type, level, textureUnit, around, filter);
+}
+
+void OpenglState::useProgram(unsigned int program)
+{
+	_glUtils->useProgram(program);
+}
+
+void OpenglState::setMat2(unsigned int program, const char *name, glm::mat2 &mat)
+{
+	_glUtils->setMat2(program, name, mat);
+}
+
+void OpenglState::setMat3(unsigned int program, const char *name, glm::mat3 &mat)
+{
+	_glUtils->setMat3(program, name, mat);
+}
+
+void OpenglState::setMat4(unsigned int program, const char *name, glm::mat4 *mat)
+{
+	_glUtils->setMat4(program, name, mat);
+}
+
+
+void OpenglState::setVec2(unsigned int program, const char *name, float x, float y)
+{
+	_glUtils->setVec2(program, name, x, y);
+}
+
+void OpenglState::setVec3(unsigned int program, const char *name, float x, float y, float z)
+{
+	_glUtils->setVec3(program, name, x, y, z);
+}
+
+void OpenglState::setVec4(unsigned int program, const char *name, float x, float y, float z, float w)
+{
+	_glUtils->setVec4(program, name, x, y, z, w);
+}
+
+void OpenglState::setVec2(unsigned int program, const char *name, glm::vec2 &value)
+{
+	_glUtils->setVec2(program, name, value);
+}
+
+void OpenglState::setVec3(unsigned int program, const char *name, glm::vec3 &value)
+{
+	_glUtils->setVec3(program, name, value);
+}
+
+void OpenglState::setVec4(unsigned int program, const char *name, glm::vec4 &value)
+{
+	_glUtils->setVec4(program, name, value);
+}
+
 void OpenglState::setBool(unsigned int program, const char *name, bool value) const
 {
 	_glUtils->setBool(program, name, value);
@@ -118,28 +174,3 @@ void OpenglState::setFloat(unsigned int program, const char *name, float value) 
 	_glUtils->setFloat(program, name, value);
 }
 
-
-void OpenglState::genTexImage2D(const char *file, int type, int level, int textureUnit, int around, int filter)
-{
-	_glUtils->genTexImage2D(file, type, level, textureUnit, around, filter);
-}
-
-void OpenglState::useProgram(unsigned int program)
-{
-	_glUtils->useProgram(program);
-}
-
-void OpenglState::setMat4(unsigned int program, const char *name, glm::mat4 *mat)
-{
-	_glUtils->setMat4(program, name, mat);
-}
-
-void OpenglState::setVec3(unsigned int program, const char *name, float x, float y, float z)
-{
-	_glUtils->setVec3(program, name, x, y, z);
-}
-
-void OpenglState::setVec4(unsigned int program, const char *name, float x, float y, float z, float w)
-{
-	_glUtils->setVec4(program, name, x, y, z, w);
-}

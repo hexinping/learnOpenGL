@@ -200,6 +200,11 @@ void OpenglUtils::setMat4(unsigned int program, const char *name, glm::mat4 *mat
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(*mat));
 }
 
+void OpenglUtils::setVec2(unsigned int program, const char *name, float x, float y)
+{
+	glUniform2f(glGetUniformLocation(program, name), x, y);
+}
+
 void OpenglUtils::setVec3(unsigned int program, const char *name, float x, float y, float z)
 {
 	unsigned int location = glGetUniformLocation(program, name);
@@ -209,4 +214,29 @@ void OpenglUtils::setVec4(unsigned int program, const char *name, float x, float
 {
 	unsigned int location = glGetUniformLocation(program, name);
 	glUniform4f(location, x, y, z, w);
+}
+
+void OpenglUtils::setVec2(unsigned int program, const char *name, glm::vec2 &value)
+{
+	glUniform2fv(glGetUniformLocation(program, name), 1, &value[0]);
+}
+
+void OpenglUtils::setVec3(unsigned int program, const char *name, glm::vec3 &value)
+{
+	glUniform3fv(glGetUniformLocation(program, name), 1, &value[0]);
+}
+
+void OpenglUtils::setVec4(unsigned int program, const char *name, glm::vec4 &value)
+{
+	glUniform4fv(glGetUniformLocation(program, name), 1, &value[0]);
+}
+
+void OpenglUtils::setMat2(unsigned int program, const char *name, glm::mat2 &mat)
+{
+	glUniformMatrix2fv(glGetUniformLocation(program, name), 1, GL_FALSE, &mat[0][0]);
+}
+
+void OpenglUtils::setMat3(unsigned int program, const char *name, glm::mat3 &mat)
+{
+	glUniformMatrix3fv(glGetUniformLocation(program, name), 1, GL_FALSE, &mat[0][0]);
 }
