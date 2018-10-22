@@ -83,6 +83,7 @@
     <ClCompile Include="Class\OpenglStateMultTextureLight.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMat4.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterial.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMap.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="Class\OpenglStateMultTextureLight.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMat4.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterial.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMap.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateTexture.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
@@ -130,6 +132,8 @@
     <None Include="shader\shader10.vert" />
     <None Include="shader\shader11.frag" />
     <None Include="shader\shader11.vert" />
+    <None Include="shader\shader12.frag" />
+    <None Include="shader\shader12.vert" />
     <None Include="shader\shader2.frag" />
     <None Include="shader\shader2.vert" />
     <None Include="shader\shader3.frag" />
