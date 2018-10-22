@@ -182,7 +182,7 @@ void OpenglStateMultTextureLight::rendeCommand()
 	setMat4(_shaderProgram, "view", &view);	
 
 	//设置光源的颜色
-	setVec3(_shaderProgram, "lightColor", 1.0f, 0.0f, 1.0f);
+	setVec3(_shaderProgram, "lightColor", 1.0f, 1.0f, 1.0f);
 
 
 	if (_isUseEBORender)

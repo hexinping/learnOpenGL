@@ -72,9 +72,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\glad\glad.c" />
+    <ClCompile Include="Class\OpenglCamera.cpp" />
     <ClCompile Include="Class\OpenglState.cpp" />
     <ClCompile Include="Class\OpenglStateMultAttr.cpp" />
     <ClCompile Include="Class\OpenglStateMultTexture.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTexture3D.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureCamera.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureCameraManuel.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureCube.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureLight.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMat4.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
@@ -89,9 +95,15 @@
     <ClCompile Include="Utils\OpenglUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Class\OpenglCamera.h" />
     <ClInclude Include="Class\OpenglState.h" />
     <ClInclude Include="Class\OpenglStateMultAttr.h" />
     <ClInclude Include="Class\OpenglStateMultTexture.h" />
+    <ClInclude Include="Class\OpenglStateMultTexture3D.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureCamera.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureCameraManuel.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureCube.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureLight.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMat4.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateTexture.h" />
@@ -108,8 +120,12 @@
   <ItemGroup>
     <None Include="shader\base.frag" />
     <None Include="shader\base.vert" />
+    <None Include="shader\lamp.frag" />
+    <None Include="shader\lamp.vert" />
     <None Include="shader\shader1.frag" />
     <None Include="shader\shader1.vert" />
+    <None Include="shader\shader10.frag" />
+    <None Include="shader\shader10.vert" />
     <None Include="shader\shader2.frag" />
     <None Include="shader\shader2.vert" />
     <None Include="shader\shader3.frag" />
@@ -122,6 +138,10 @@
     <None Include="shader\shader6.vert" />
     <None Include="shader\shader7.frag" />
     <None Include="shader\shader7.vert" />
+    <None Include="shader\shader8.frag" />
+    <None Include="shader\shader8.vert" />
+    <None Include="shader\shader9.frag" />
+    <None Include="shader\shader9.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\wall.jpg" />

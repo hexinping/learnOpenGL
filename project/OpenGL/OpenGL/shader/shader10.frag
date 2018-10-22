@@ -15,6 +15,6 @@ void main()
 {
 	//使用一个uniform变量作为mix函数的第三个参数来改变两个纹理可见度
 	vec4 color = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), textureAlpha);
-	FragColor =  color * lightColor;
+	FragColor =  vec4(color.xyz * lightColor,1.0);
 
 }
