@@ -174,20 +174,84 @@ bool OpenglStateMultTextureMaterialMapMultLights::init(string vertFile, string f
 	//设置光源的颜色
 	glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
 	setVec3(_shaderProgram, "lightColor", lightColor);
+	setVec3(_shaderProgram, "objectColor", lightColor);
 	
 
 	glm::vec3 diffuseColor = lightColor   * glm::vec3(0.5f); // 降低影响
 	glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); // 很低的影响
 
-	setVec3(_shaderProgram, "light.ambient", ambientColor);
-	setVec3(_shaderProgram, "light.diffuse", diffuseColor);
-	setVec3(_shaderProgram, "light.specular", 1.0f, 1.0f, 1.0f);
+	//setVec3(_shaderProgram, "light.ambient", ambientColor);
+	//setVec3(_shaderProgram, "light.diffuse", diffuseColor);
+	//setVec3(_shaderProgram, "light.specular", 1.0f, 1.0f, 1.0f);
 	//setVec3(_shaderProgram, "light.direction", -0.2f, -1.0f, -0.3f); //（0.2f, 1.0f, 0.3f) 可以理解光源的位置点
 
-	//设置点光源的衰减变量
-	setFloat(_shaderProgram, "light.constant", 1.0f);
-	setFloat(_shaderProgram, "light.linear", 0.09f);
-	setFloat(_shaderProgram, "light.quadratic", 0.032f);
+	////设置点光源的衰减变量
+	//setFloat(_shaderProgram, "light.constant", 1.0f);
+	//setFloat(_shaderProgram, "light.linear", 0.09f);
+	//setFloat(_shaderProgram, "light.quadratic", 0.032f);
+
+	//定向光方向
+	setVec3(_shaderProgram, "dirLight.direction", -0.2f, -1.0f, -0.3f); //（0.2f, 1.0f, 0.3f) 可以理解光源的位置点
+	setVec3(_shaderProgram, "dirLight.ambient", 0.05f, 0.05f, 0.05f);
+	setVec3(_shaderProgram, "dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+	setVec3(_shaderProgram, "dirLight.specular", 0.5f, 0.5f, 0.5f);
+
+	//点光源
+	glm::vec3 pointLightPositions[] = {
+		glm::vec3(0.7f, 0.2f, 2.0f),
+		glm::vec3(2.3f, -3.3f, -4.0f),
+		glm::vec3(-4.0f, 2.0f, -12.0f),
+		glm::vec3(0.0f, 0.0f, -3.0f)
+	};
+
+	std::string s = "pointLights";
+	for (unsigned int i = 0; i < 4; i++)
+	{
+		std::string positon = s;
+		positon = positon + "[" + to_string(i) + "].position";
+
+		std::string ambient = s;
+		ambient = ambient + "[" + to_string(i) + "].ambient";
+
+		std::string diffuse = s;
+		diffuse = diffuse + "[" + to_string(i) + "].diffuse";
+
+		std::string specular = s;
+		specular = specular + "[" + to_string(i) + "].specular";
+
+		std::string constant = s;
+		constant = constant + "[" + to_string(i) + "].constant";
+
+		std::string linear = s;
+		linear = linear + "[" + to_string(i) + "].linear";
+
+		std::string quadratic = s;
+		quadratic = quadratic + "[" + to_string(i) + "].quadratic";
+
+		setVec3(_shaderProgram, positon.c_str(), pointLightPositions[i]);
+
+		//设置光源分量的不同强度
+		setVec3(_shaderProgram, ambient.c_str(), 0.05f, 0.05f, 0.05f);
+		setVec3(_shaderProgram, diffuse.c_str(), 0.8f, 0.8f, 0.8f);
+		setVec3(_shaderProgram, specular.c_str(), 1.0f, 1.0f, 1.0f);
+
+		//设置点光源的衰减变量
+		setFloat(_shaderProgram, constant.c_str(), 1.0f);
+		setFloat(_shaderProgram, linear.c_str(), 0.09);
+		setFloat(_shaderProgram, quadratic.c_str(), 0.032);
+	}
+	
+
+	//聚光
+	setVec3(_shaderProgram, "spotLight.ambient", 0.0f, 0.0f, 0.0f);
+	setVec3(_shaderProgram, "spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+	setVec3(_shaderProgram, "spotLight.specular", 1.0f, 1.0f, 1.0f);
+	setFloat(_shaderProgram, "spotLight.constant", 1.0f);
+	setFloat(_shaderProgram, "spotLight.linear", 0.09);
+	setFloat(_shaderProgram, "spotLight.quadratic", 0.032);
+	setFloat(_shaderProgram, "spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+	setFloat(_shaderProgram, "spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+
 
 
 	return true;
@@ -218,13 +282,19 @@ void OpenglStateMultTextureMaterialMapMultLights::rendeCommand()
 	setMat4(_shaderProgram, "view", &view);	
 
 	
-	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-	lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
-	lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
-	setVec3(_shaderProgram, "lightPos", lightPos.x, lightPos.y, lightPos.z);		// 光源的位置
-	setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// 摄像机的位置（观察空间的原点）
+	//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+	//lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
+	//lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
+	//setVec3(_shaderProgram, "lightPos", lightPos.x, lightPos.y, lightPos.z);		// 光源的位置
+	//setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// 摄像机的位置（观察空间的原点）
 
-	setVec3(_shaderProgram, "light.position", lightPos);
+	//setVec3(_shaderProgram, "light.position", lightPos);
+
+	//聚光配置
+	setVec3(_shaderProgram, "spotLight.position", cameraPos);
+	setVec3(_shaderProgram, "spotLight.direction", cameraFront);
+
+
 
 	if (_isUseEBORender)
 	{
@@ -255,28 +325,36 @@ void OpenglStateMultTextureMaterialMapMultLights::rendeCommand()
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
-		//光源的位置
+		//点光源的位置
 		if (_isLight)
 		{	
 			__super::lightRendeCommand();
+			glm::vec3 pointLightPositions[] = {
+				glm::vec3(0.7f, 0.2f, 2.0f),
+				glm::vec3(2.3f, -3.3f, -4.0f),
+				glm::vec3(-4.0f, 2.0f, -12.0f),
+				glm::vec3(0.0f, 0.0f, -3.0f)
+			};
+			for (unsigned int i = 0; i < 4; i++)
+			{
+				glm::mat4 model;
+				model = glm::translate(model, pointLightPositions[i]);
+				//model = glm::scale(model, glm::vec3(0.05f));
+				setMat4(_lightShaderProgram, "model", &model);
+
+				setMat4(_lightShaderProgram, "view", &view);
+				setMat4(_lightShaderProgram, "projection", &projection);
+
+				glDrawArrays(GL_TRIANGLES, 0, 36);
+			}
 			
-
-			glm::mat4 model;
-			model = glm::translate(model, lightPos);
-			model = glm::scale(model, glm::vec3(0.05f));
-			setMat4(_lightShaderProgram, "model", &model);
-
-			setMat4(_lightShaderProgram, "view", &view);
-			setMat4(_lightShaderProgram, "projection", &projection);
-
-			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 	}
 }
 
 int OpenglStateMultTextureMaterialMapMultLights::getShaderIndex()
 {
-	return 13;
+	return 16;
 }
 
 void OpenglStateMultTextureMaterialMapMultLights::enableVertexAttribArray()

@@ -85,6 +85,9 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterial.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMap.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapDirLight.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapMultLights.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapPointLight.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapSpotLight.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
@@ -111,6 +114,9 @@
     <ClInclude Include="Class\OpenglStateMultTextureMaterial.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMap.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapDirLight.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapMultLights.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapPointLight.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapSpotLight.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateTexture.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
@@ -138,6 +144,12 @@
     <None Include="shader\shader12.vert" />
     <None Include="shader\shader13.frag" />
     <None Include="shader\shader13.vert" />
+    <None Include="shader\shader14.frag" />
+    <None Include="shader\shader14.vert" />
+    <None Include="shader\shader15.frag" />
+    <None Include="shader\shader15.vert" />
+    <None Include="shader\shader16.frag" />
+    <None Include="shader\shader16.vert" />
     <None Include="shader\shader2.frag" />
     <None Include="shader\shader2.vert" />
     <None Include="shader\shader3.frag" />

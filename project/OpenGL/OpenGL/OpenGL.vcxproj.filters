@@ -99,10 +99,13 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMap.cpp">
       <Filter>Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapPointLight.cpp">
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapDirLight.cpp">
       <Filter>Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapDirLight.cpp">
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapMultLights.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapPointLight.cpp">
       <Filter>Class</Filter>
     </ClCompile>
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapSpotLight.cpp">
@@ -179,10 +182,13 @@
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMap.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapPointLight.h">
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapDirLight.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapDirLight.h">
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapMultLights.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapPointLight.h">
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapSpotLight.h">
@@ -290,6 +296,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader15.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader16.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader16.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

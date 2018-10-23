@@ -56,22 +56,22 @@ uniform Light light;
 void main()
 {
 	
-	//float ambientStrength = 0.1; 
-
-    //vec3 ambient = light.ambient * material.ambient ; //环境光光照
-
-	vec3 diffuseMapColor = vec3(texture(material.diffuse, TexCoords)); //漫反射贴图纹理颜色
-	vec3 specularMapColor = vec3(texture(material.specular, TexCoords)); //高光贴图纹理颜色
-	vec3 emissionMapColor = vec3(texture(material.emission, TexCoords)); //自发光贴图纹理颜色
-
-	vec3 ambient = light.ambient * diffuseMapColor; //环境光光照
-
+	
 	vec3 norm = normalize(Normal);
 	vec3 lightDir = normalize(lightPos - FragPos); 
 
 	float theta = dot(lightDir, normalize(-light.direction));//片段指向光源的向量 
 	if(theta > light.cutOff)
 	{
+		//float ambientStrength = 0.1; 
+	    //vec3 ambient = light.ambient * material.ambient ; //环境光光照
+
+		vec3 diffuseMapColor = vec3(texture(material.diffuse, TexCoords)); //漫反射贴图纹理颜色
+		vec3 specularMapColor = vec3(texture(material.specular, TexCoords)); //高光贴图纹理颜色
+		vec3 emissionMapColor = vec3(texture(material.emission, TexCoords)); //自发光贴图纹理颜色
+
+		vec3 ambient = light.ambient * diffuseMapColor; //环境光光照
+
 		//计算漫反射光照
 		float diff = max(dot(norm, lightDir), 0.0);
 		//vec3 diffuse = diff * material.diffuse * light.diffuse; //漫反射光光照
@@ -107,7 +107,5 @@ void main()
 		// 否则，使用环境光，让场景在聚光之外时不至于完全黑暗
 		FragColor = vec4(light.ambient * vec3(texture(material.diffuse, TexCoords)), 1.0);
 	}
-
-	
 
 }
