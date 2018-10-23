@@ -1,5 +1,4 @@
 #include "OpenglStateTexture.h"
-#include "std_image.h"
 OpenglStateTexture::OpenglStateTexture()
 {
 	OpenglState::OpenglState();

@@ -1,5 +1,4 @@
 #include "OpenglStateMultTexture.h"
-#include "std_image.h"
 
 OpenglStateMultTexture::OpenglStateMultTexture()
 {

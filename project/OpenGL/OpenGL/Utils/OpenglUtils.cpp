@@ -1,5 +1,5 @@
 #include "OpenglUtils.h"
-#include "std_image.h"
+#include "stb_image.h"
 
 static OpenglUtils *glUtils = nullptr;
 

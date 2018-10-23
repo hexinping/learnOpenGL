@@ -1,5 +1,4 @@
 #include "OpenglStateMultTextureMat4.h"
-#include "std_image.h"
 
 OpenglStateMultTextureMat4::OpenglStateMultTextureMat4()
 {

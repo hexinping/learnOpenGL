@@ -53,7 +53,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\libs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;assimp-vc120-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -72,6 +72,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\glad\glad.c" />
+    <ClCompile Include="Class\Mesh.cpp" />
+    <ClCompile Include="Class\Model.cpp" />
     <ClCompile Include="Class\OpenglCamera.cpp" />
     <ClCompile Include="Class\OpenglState.cpp" />
     <ClCompile Include="Class\OpenglStateMultAttr.cpp" />
@@ -92,7 +94,7 @@
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
     <ClCompile Include="Class\OpenglStateTriangleMove.cpp" />
-    <ClCompile Include="Class\std_image.cpp" />
+    <ClCompile Include="Class\stb_image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="practice\practice_2_1.cpp" />
     <ClCompile Include="practice\practice_2_2.cpp" />
@@ -101,6 +103,8 @@
     <ClCompile Include="Utils\OpenglUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Class\Mesh.h" />
+    <ClInclude Include="Class\Model.h" />
     <ClInclude Include="Class\OpenglCamera.h" />
     <ClInclude Include="Class\OpenglState.h" />
     <ClInclude Include="Class\OpenglStateMultAttr.h" />
@@ -121,7 +125,7 @@
     <ClInclude Include="Class\OpenglStateTexture.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
     <ClInclude Include="Class\OpenglStateTriangleMove.h" />
-    <ClInclude Include="Class\std_image.h" />
+    <ClInclude Include="Class\stb_image.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="practice\practice_2_1.h" />
     <ClInclude Include="practice\practice_2_2.h" />
