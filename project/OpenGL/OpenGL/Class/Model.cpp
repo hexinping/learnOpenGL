@@ -29,13 +29,13 @@ void Model::loadModel(string path)
 
 void Model::processNode(aiNode *node, const aiScene *scene)
 {
-	// ´¦Àí½ÚµãËùÓĞµÄÍø¸ñ£¨Èç¹ûÓĞµÄ»°£©
+	// å¤„ç†èŠ‚ç‚¹æ‰€æœ‰çš„ç½‘æ ¼ï¼ˆå¦‚æœæœ‰çš„è¯ï¼‰
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
 		meshes.push_back(processMesh(mesh, scene));
 	}
-	// ½ÓÏÂÀ´¶ÔËüµÄ×Ó½ÚµãÖØ¸´ÕâÒ»¹ı³Ì
+	// æ¥ä¸‹æ¥å¯¹å®ƒçš„å­èŠ‚ç‚¹é‡å¤è¿™ä¸€è¿‡ç¨‹
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
 		processNode(node->mChildren[i], scene);
@@ -51,7 +51,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		Vertex vertex;
-		// ´¦Àí¶¥µãÎ»ÖÃ¡¢·¨ÏßºÍÎÆÀí×ø±ê
+		// å¤„ç†é¡¶ç‚¹ä½ç½®ã€æ³•çº¿å’Œçº¹ç†åæ ‡
 		glm::vec3 vector;
 		vector.x = mesh->mVertices[i].x;
 		vector.y = mesh->mVertices[i].y;
@@ -63,7 +63,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 		vector.z = mesh->mNormals[i].z;
 		vertex.Normal = vector;
 
-		if (mesh->mTextureCoords[0]) // Íø¸ñÊÇ·ñÓĞÎÆÀí×ø±ê£¿
+		if (mesh->mTextureCoords[0]) // ç½‘æ ¼æ˜¯å¦æœ‰çº¹ç†åæ ‡ï¼Ÿ
 		{
 			glm::vec2 vec;
 			vec.x = mesh->mTextureCoords[0][i].x;
@@ -86,29 +86,29 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 
 		vertices.push_back(vertex);
 	}
-	// ´¦ÀíË÷Òı
+	// å¤„ç†ç´¢å¼•
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 	{
 		aiFace face = mesh->mFaces[i];
 		for (unsigned int j = 0; j < face.mNumIndices; j++)
 			indices.push_back(face.mIndices[j]);
 	}
-	// ´¦Àí²ÄÖÊ
+	// å¤„ç†æè´¨
 	if (mesh->mMaterialIndex >= 0)
 	{
-		//·¨ÏßÌùÍ¼ºÍ¸ß¶ÈÍ¼¶¼ÊôÓÚ°¼Í¹ÌùÍ¼£¬Ä¿µÄÊÇÈÃÎïÌå±íÃæ¸üÓĞÁ¢Ìå¸Ğ
+		//æ³•çº¿è´´å›¾å’Œé«˜åº¦å›¾éƒ½å±äºå‡¹å‡¸è´´å›¾ï¼Œç›®çš„æ˜¯è®©ç‰©ä½“è¡¨é¢æ›´æœ‰ç«‹ä½“æ„Ÿ
 
 		aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-		// 1. diffuse maps Âş·´ÉäÌùÍ¼
+		// 1. diffuse maps æ¼«åå°„è´´å›¾
 		vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-		// 2. specular maps ¸ß¹âÌùÍ¼
+		// 2. specular maps é«˜å…‰è´´å›¾
 		vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-		// 3. normal maps ·¨ÏßÌùÍ¼
+		// 3. normal maps æ³•çº¿è´´å›¾
 		std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
 		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-		// 4. height maps  ¸ß¶ÈÍ¼
+		// 4. height maps  é«˜åº¦å›¾
 		std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
 		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 	}

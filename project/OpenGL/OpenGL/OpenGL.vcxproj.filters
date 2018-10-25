@@ -111,13 +111,13 @@
     <ClCompile Include="Class\Mesh.cpp">
       <Filter>Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\Model.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
     <ClCompile Include="Class\stb_image.cpp">
       <Filter>Class</Filter>
     </ClCompile>
     <ClCompile Include="Class\OpenglStateModel3D.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Model.cpp">
       <Filter>Class</Filter>
     </ClCompile>
   </ItemGroup>
@@ -203,13 +203,13 @@
     <ClInclude Include="Class\Mesh.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="Class\Model.h">
-      <Filter>Class</Filter>
-    </ClInclude>
     <ClInclude Include="Class\stb_image.h">
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateModel3D.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Model.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>

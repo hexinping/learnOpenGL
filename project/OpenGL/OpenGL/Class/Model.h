@@ -7,12 +7,12 @@
 class Model
 {
 public:
-	/*  函数   */
+	/*  鍑芥暟   */
 	Model(char *path, OpenglState *glSate);
 	void Draw();
 private:
 	
-	/*  函数   */
+	/*  鍑芥暟   */
 	void loadModel(string path);
 	void processNode(aiNode *node, const aiScene *scene);
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene);
@@ -22,7 +22,7 @@ private:
 public:
 	OpenglState *_glSate;
 
-	/*  模型数据  */
+	/*  妯″瀷鏁版嵁  */
 	vector<Texture> textures_loaded;// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
 	vector<Mesh> meshes;
 	string directory;
