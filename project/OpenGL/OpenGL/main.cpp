@@ -26,6 +26,7 @@
 #include "OpenglStateModel3D.h"
 
 #include "Model.h"
+#include "OpenglWorld.h"
 
 #include "practice/practice_2_1.h"
 
@@ -48,6 +49,7 @@ glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 using namespace std;
 
 OpenglCamera *camera = nullptr;
+OpenglWorld  *world = nullptr;
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -211,7 +213,9 @@ int main(int argc, char* argv[])
 	GLFWwindow* window;
 	createWindow(&window);
 
+	world = new OpenglWorld();
 	camera = new OpenglCamera();
+
 	// ------------------------------------------------------------------
 
 	
@@ -280,10 +284,14 @@ int main(int argc, char* argv[])
 	string vertFile = "shader/" + shaderName + ".vert";
 	string fragFile = "shader/" + shaderName + ".frag";
 	glState->init(vertFile, fragFile);
-	unsigned int VBO, VAO, EBO;
-	VBO = glState->_VBO;
-	VAO = glState->_VAO;
-	EBO = glState->_EBO;
+	world->add(glState);
+
+
+
+	//------------------------------------------------------------------
+	
+	auto _openglStateArray = world->_openglStateArray;
+	int size = _openglStateArray.size();
 
 	unsigned int lightVBO = 0, lighgtVAO = 0, lightEBO = 0;
 	if (glState->_isLight)
@@ -322,37 +330,45 @@ int main(int argc, char* argv[])
 
 		//glUseProgram(shaderProgram); //激活着色器程序对象：已激活着色器程序的着色器将在我们发送渲染调用的时候被使用
 		//glBindVertexArray(VAO);     // 使用VAO后就是每一次渲染的时候直接使用VAO存储好的属性指针
-
-		//if (isUseEBO)
-		//{
-		//	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
-		//}
-		//else
-		//{
-		//	glDrawArrays(GL_TRIANGLES, 0, 3);
-		//}
-
-		glState->_param1 = mixValue;
-		glState->_param2 = camera->Position; //更新观察矩阵
-		glState->_param3 = camera->Front; //更新观察矩阵
-		glState->_param4 = camera->Zoom;   //更新矩阵投影
-		glState->rendeCommand();
-		if (isRenerModel)
+		
+		for (int i = 0; i < size; i++)
 		{
-			model->Draw();
+			OpenglState *state = _openglStateArray[i];
+			state->_param1 = mixValue;
+			state->_param2 = camera->Position; //更新观察矩阵
+			state->_param3 = camera->Front; //更新观察矩阵
+			state->_param4 = camera->Zoom;   //更新矩阵投影
+			state->rendeCommand();
+			if (isRenerModel)
+			{
+				model->Draw();
+			}
 		}
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
 	//6 解除绑定VAO和VBO：直接绑定为0也是解绑glBindVertexArray(0）
-	glDeleteBuffers(1, &EBO);
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+	for (int i = 0; i < size; i++)
+	{
+		OpenglState *state = _openglStateArray[i];
+		unsigned int sVBO, sVAO, sEBO;
+		sVBO = state->_VBO;
+		sVAO = state->_VAO;
+		sEBO = state->_EBO;
+		glDeleteBuffers(1, &sEBO);
+		glDeleteVertexArrays(1, &sVAO);
+		glDeleteBuffers(1, &sVBO);
+	}
+	
 
 	glDeleteBuffers(1, &lightEBO);
 	glDeleteVertexArrays(1, &lighgtVAO);
 	glDeleteBuffers(1, &lightVBO);
+
+	delete world;
+	delete camera;
 
 	glfwTerminate(); //当渲染循环结束后我们需要正确释放/删除之前的分配的所有资源
 	return 0;
