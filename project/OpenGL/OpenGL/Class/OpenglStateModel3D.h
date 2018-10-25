@@ -8,5 +8,7 @@ public:
 	OpenglStateModel3D();
 	bool init(string vertFile, string fragFile);
 	int getShaderIndex();
+	bool isRenderModel();
+	void rendeCommand();
 };
 

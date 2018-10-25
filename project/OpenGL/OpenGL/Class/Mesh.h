@@ -9,6 +9,11 @@ struct Vertex{
 	glm::vec3 Position;  //顶点位置
 	glm::vec3 Normal;    //顶点法线
 	glm::vec2 TexCoords; //映射纹理坐标
+
+	// tangent
+	glm::vec3 Tangent;
+	// bitangent
+	glm::vec3 Bitangent;
 };
 
 struct Texture
@@ -23,9 +28,9 @@ class Mesh
 public:
 
 	/* 网格数据 */
-	vector<Vertex> vertices;		//顶点数据
-	vector<unsigned int> indices;   //索引数据
-	vector<Texture> textures;       //纹理数据
+	vector<Vertex> _vertices;		//顶点数据
+	vector<unsigned int> _indices;   //索引数据
+	vector<Texture> _textures;       //纹理数据
 
 	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, OpenglState *glSate);
 	void Draw();

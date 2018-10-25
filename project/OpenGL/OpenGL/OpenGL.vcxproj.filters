@@ -117,6 +117,9 @@
     <ClCompile Include="Class\stb_image.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateModel3D.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -204,6 +207,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\stb_image.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateModel3D.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -314,6 +320,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader16.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader17.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader17.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

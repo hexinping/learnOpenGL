@@ -76,6 +76,7 @@
     <ClCompile Include="Class\Model.cpp" />
     <ClCompile Include="Class\OpenglCamera.cpp" />
     <ClCompile Include="Class\OpenglState.cpp" />
+    <ClCompile Include="Class\OpenglStateModel3D.cpp" />
     <ClCompile Include="Class\OpenglStateMultAttr.cpp" />
     <ClCompile Include="Class\OpenglStateMultTexture.cpp" />
     <ClCompile Include="Class\OpenglStateMultTexture3D.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="Class\Model.h" />
     <ClInclude Include="Class\OpenglCamera.h" />
     <ClInclude Include="Class\OpenglState.h" />
+    <ClInclude Include="Class\OpenglStateModel3D.h" />
     <ClInclude Include="Class\OpenglStateMultAttr.h" />
     <ClInclude Include="Class\OpenglStateMultTexture.h" />
     <ClInclude Include="Class\OpenglStateMultTexture3D.h" />
@@ -154,6 +156,8 @@
     <None Include="shader\shader15.vert" />
     <None Include="shader\shader16.frag" />
     <None Include="shader\shader16.vert" />
+    <None Include="shader\shader17.frag" />
+    <None Include="shader\shader17.vert" />
     <None Include="shader\shader2.frag" />
     <None Include="shader\shader2.vert" />
     <None Include="shader\shader3.frag" />

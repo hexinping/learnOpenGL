@@ -25,6 +25,8 @@
 #include "OpenglStateMultTextureMaterialMapMultLights.h"
 #include "OpenglStateModel3D.h"
 
+#include "Model.h"
+
 #include "practice/practice_2_1.h"
 
 float mixValue = 0.2f;
@@ -292,6 +294,7 @@ int main(int argc, char* argv[])
 	}
 
 
+	Model *model = new Model("resource/objects/nanosuit/nanosuit.obj", glState);
 
 	/*
 	glfwWindowShouldClose函数在我们每次循环的开始前检查一次GLFW是否被要求退出，如果是的话该函数返回true然后渲染循环便结束了，之后为我们就可以关闭应用程序了。
@@ -299,7 +302,7 @@ int main(int argc, char* argv[])
 	glfwSwapBuffers函数会交换颜色缓冲（它是一个储存着GLFW窗口每一个像素颜色值的大缓冲），它在这一迭代中被用来绘制，并且将会作为输出显示在屏幕上。
 	*/
 	
-	
+	bool isRenerModel = glState->isRenderModel();
 
 	// 渲染循环
 	glEnable(GL_DEPTH_TEST); // 开启深度测试
@@ -328,12 +331,16 @@ int main(int argc, char* argv[])
 		//{
 		//	glDrawArrays(GL_TRIANGLES, 0, 3);
 		//}
+
 		glState->_param1 = mixValue;
 		glState->_param2 = camera->Position; //更新观察矩阵
 		glState->_param3 = camera->Front; //更新观察矩阵
 		glState->_param4 = camera->Zoom;   //更新矩阵投影
 		glState->rendeCommand();
-		
+		if (isRenerModel)
+		{
+			model->Draw();
+		}
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

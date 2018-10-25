@@ -73,6 +73,17 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 		else
 			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
 
+		// tangent
+		vector.x = mesh->mTangents[i].x;
+		vector.y = mesh->mTangents[i].y;
+		vector.z = mesh->mTangents[i].z;
+		vertex.Tangent = vector;
+		// bitangent
+		vector.x = mesh->mBitangents[i].x;
+		vector.y = mesh->mBitangents[i].y;
+		vector.z = mesh->mBitangents[i].z;
+		vertex.Bitangent = vector;
+
 		vertices.push_back(vertex);
 	}
 	// 处理索引
@@ -85,13 +96,21 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 	// 处理材质
 	if (mesh->mMaterialIndex >= 0)
 	{
+		//法线贴图和高度图都属于凹凸贴图，目的是让物体表面更有立体感
+
 		aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-		vector<Texture> diffuseMaps = loadMaterialTextures(material,
-			aiTextureType_DIFFUSE, "texture_diffuse");
+		// 1. diffuse maps 漫反射贴图
+		vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-		vector<Texture> specularMaps = loadMaterialTextures(material,
-			aiTextureType_SPECULAR, "texture_specular");
+		// 2. specular maps 高光贴图
+		vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+		// 3. normal maps 法线贴图
+		std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+		// 4. height maps  高度图
+		std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 	}
 
 	return Mesh(vertices, indices, textures, _glSate);
@@ -163,4 +182,10 @@ unsigned int Model::TextureFromFile(const char *path, const string &directory, b
 		stbi_image_free(data);
 	}
 	return textureID;
+}
+
+void Model::Draw()
+{
+	for (unsigned int i = 0; i < meshes.size(); i++)
+		meshes[i].Draw();
 }
