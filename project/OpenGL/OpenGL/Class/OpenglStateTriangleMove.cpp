@@ -47,7 +47,7 @@ void OpenglStateTriangleMove::rendeCommand()
 
 	if (_isUseEBORender)
 	{
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //浣跨敤绱㈠紩缁樺埗
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
 	}
 	else
 	{

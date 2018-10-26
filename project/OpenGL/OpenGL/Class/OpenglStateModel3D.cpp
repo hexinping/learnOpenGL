@@ -15,7 +15,7 @@ bool OpenglStateModel3D::init(string vertFile, string fragFile)
 
 	_glUtils->useProgram(_shaderProgram);
 
-	//è®¾ç½®å…‰æºçš„é¢œè‰²
+	//ÉèÖÃ¹âÔ´µÄÑÕÉ«
 	glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
 	setVec3(_shaderProgram, "lightColor", lightColor);
 	setVec3(_shaderProgram, "objectColor", lightColor);
@@ -23,7 +23,7 @@ bool OpenglStateModel3D::init(string vertFile, string fragFile)
 	setFloat(_shaderProgram, "material.shininess", 32.0f);
 
 
-	//ç‚¹å…‰æº
+	//µã¹âÔ´
 	glm::vec3 pointLightPositions[] = {
 		glm::vec3(0.7f, 0.2f, 2.0f),
 		glm::vec3(2.3f, -3.3f, -4.0f),
@@ -57,12 +57,12 @@ bool OpenglStateModel3D::init(string vertFile, string fragFile)
 
 		setVec3(_shaderProgram, positon.c_str(), pointLightPositions[i]);
 
-		//è®¾ç½®å…‰æºåˆ†é‡çš„ä¸åŒå¼ºåº¦
+		//ÉèÖÃ¹âÔ´·ÖÁ¿µÄ²»Í¬Ç¿¶È
 		setVec3(_shaderProgram, ambient.c_str(), 0.05f, 0.05f, 0.05f);
 		setVec3(_shaderProgram, diffuse.c_str(), 0.8f, 0.8f, 0.8f);
 		setVec3(_shaderProgram, specular.c_str(), 1.0f, 1.0f, 1.0f);
 
-		//è®¾ç½®ç‚¹å…‰æºçš„è¡°å‡å˜é‡
+		//ÉèÖÃµã¹âÔ´µÄË¥¼õ±äÁ¿
 		setFloat(_shaderProgram, constant.c_str(), 1.0f);
 		setFloat(_shaderProgram, linear.c_str(), 0.09);
 		setFloat(_shaderProgram, quadratic.c_str(), 0.032);
@@ -84,9 +84,9 @@ bool OpenglStateModel3D::isRenderModel()
 
 void OpenglStateModel3D::rendeCommand()
 {
-	//glUseProgramè°ƒç”¨ä¹‹å‰è®¾ç½®ä¿æŒæ›´æ–°
+	//glUseProgramµ÷ÓÃÖ®Ç°ÉèÖÃ±£³Ö¸üĞÂ
 	/*
-	ä½†æ˜¯æ›´æ–°ä¸€ä¸ªuniformä¹‹å‰ä½ å¿…é¡»å…ˆä½¿ç”¨ç¨‹åºï¼ˆè°ƒç”¨glUseProgram)ï¼Œå› ä¸ºå®ƒæ˜¯åœ¨å½“å‰æ¿€æ´»çš„ç€è‰²å™¨ç¨‹åºä¸­è®¾ç½®uniformçš„ã€‚
+	µ«ÊÇ¸üĞÂÒ»¸öuniformÖ®Ç°Äã±ØĞëÏÈÊ¹ÓÃ³ÌĞò£¨µ÷ÓÃglUseProgram)£¬ÒòÎªËüÊÇÔÚµ±Ç°¼¤»îµÄ×ÅÉ«Æ÷³ÌĞòÖĞÉèÖÃuniformµÄ¡£
 	*/
 	
 	
@@ -111,7 +111,7 @@ void OpenglStateModel3D::rendeCommand()
 	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 	setMat4(_shaderProgram,"model", &model);
 
-	setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// æ‘„åƒæœºçš„ä½ç½®ï¼ˆè§‚å¯Ÿç©ºé—´çš„åŸç‚¹ï¼‰
+	setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// ÉãÏñ»úµÄÎ»ÖÃ£¨¹Û²ì¿Õ¼äµÄÔ­µã£©
 
 	//glm::vec3 pointLightPositions[] = {
 	//	glm::vec3(0.7f, 0.2f, 2.0f),

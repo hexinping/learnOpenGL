@@ -9,10 +9,10 @@ OpenglStateMultAttr::OpenglStateMultAttr()
 bool OpenglStateMultAttr::init(string vertFile, string fragFile)
 {
 	float vertices[] = {
-		// ä½ç½®              // é¢œè‰²
-		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,   // å³ä¸‹
-		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,   // å·¦ä¸‹
-		0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f    // é¡¶éƒ¨
+		// Î»ÖÃ              // ÑÕÉ«
+		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,   // ÓÒÏÂ
+		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,   // ×óÏÂ
+		0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f    // ¶¥²¿
 	};
 
 	int len = sizeof(vertices) / sizeof(float);
@@ -39,7 +39,7 @@ void OpenglStateMultAttr::rendeCommand()
 
 	if (_isUseEBORender)
 	{
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //ä½¿ç”¨ç´¢å¼•ç»˜åˆ¶
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //Ê¹ÓÃË÷Òı»æÖÆ
 	}
 	else
 	{
@@ -55,10 +55,10 @@ int OpenglStateMultAttr::getShaderIndex()
 void OpenglStateMultAttr::enableVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
-	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
-	glEnableVertexAttribArray(posLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
+	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
+	glEnableVertexAttribArray(posLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
 
 	GLint colorLocation = _glUtils->getAttribLocation(_shaderProgram, "aColor");
-	glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float))); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
-	glEnableVertexAttribArray(colorLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
+	glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float))); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
+	glEnableVertexAttribArray(colorLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
 }

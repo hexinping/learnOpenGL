@@ -4,11 +4,11 @@
 #include "OpenglState.h"
 
 using namespace std;
-//é¡¶ç‚¹æ•°æ®
+//¶¥µãÊı¾İ
 struct Vertex{
-	glm::vec3 Position;  //é¡¶ç‚¹ä½ç½®
-	glm::vec3 Normal;    //é¡¶ç‚¹æ³•çº¿
-	glm::vec2 TexCoords; //æ˜ å°„çº¹ç†åæ ‡
+	glm::vec3 Position;  //¶¥µãÎ»ÖÃ
+	glm::vec3 Normal;    //¶¥µã·¨Ïß
+	glm::vec2 TexCoords; //Ó³ÉäÎÆÀí×ø±ê
 
 	// tangent
 	glm::vec3 Tangent;
@@ -18,19 +18,19 @@ struct Vertex{
 
 struct Texture
 {
-	unsigned int id;  //çº¹ç†ID
-	string type; //çº¹ç†ç±»å‹ ï¼ˆæ¼«åå°„è´´å›¾ é«˜å…‰è´´å›¾ è‡ªå‘å…‰è´´å›¾...ï¼‰
-	string path;  // æˆ‘ä»¬å‚¨å­˜çº¹ç†çš„è·¯å¾„ç”¨äºä¸å…¶å®ƒçº¹ç†è¿›è¡Œæ¯”è¾ƒ
+	unsigned int id;  //ÎÆÀíID
+	string type; //ÎÆÀíÀàĞÍ £¨Âş·´ÉäÌùÍ¼ ¸ß¹âÌùÍ¼ ×Ô·¢¹âÌùÍ¼...£©
+	string path;  // ÎÒÃÇ´¢´æÎÆÀíµÄÂ·¾¶ÓÃÓÚÓëÆäËüÎÆÀí½øĞĞ±È½Ï
 };
 
 class Mesh
 {
 public:
 
-	/* ç½‘æ ¼æ•°æ® */
-	vector<Vertex> _vertices;		//é¡¶ç‚¹æ•°æ®
-	vector<unsigned int> _indices;   //ç´¢å¼•æ•°æ®
-	vector<Texture> _textures;       //çº¹ç†æ•°æ®
+	/* Íø¸ñÊı¾İ */
+	vector<Vertex> _vertices;		//¶¥µãÊı¾İ
+	vector<unsigned int> _indices;   //Ë÷ÒıÊı¾İ
+	vector<Texture> _textures;       //ÎÆÀíÊı¾İ
 
 	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, OpenglState *glSate);
 	void Draw();
@@ -41,9 +41,9 @@ public:
 	OpenglUtils * _glUtils;
 
 private:
-	/*  æ¸²æŸ“æ•°æ®  */
+	/*  äÖÈ¾Êı¾İ  */
 	unsigned int VAO, VBO, EBO;
-	/*  å‡½æ•°  */
+	/*  º¯Êı  */
 	void setupMesh();
 };
 

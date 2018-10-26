@@ -31,17 +31,17 @@ void Mesh::setupMesh()
 		&_indices[0], GL_STATIC_DRAW);
 
 	
-	// é¡¶ç‚¹ä½ç½®
+	// ¶¥µãÎ»ÖÃ
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
 	glEnableVertexAttribArray(posLocation);
 	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 
-	// é¡¶ç‚¹æ³•çº¿
+	// ¶¥µã·¨Ïß
 	GLint normalLocation = _glUtils->getAttribLocation(_shaderProgram, "aNormal");
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
 
-	// é¡¶ç‚¹çº¹ç†åæ ‡
+	// ¶¥µãÎÆÀí×ø±ê
 	GLint aTexCoordLocation = _glUtils->getAttribLocation(_shaderProgram, "aTexCoords");
 	glEnableVertexAttribArray(aTexCoordLocation);
 	glVertexAttribPointer(aTexCoordLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
@@ -68,8 +68,8 @@ void Mesh::Draw()
 	unsigned int heightNr = 1;
 	for (unsigned int i = 0; i < _textures.size(); i++)
 	{
-		glActiveTexture(GL_TEXTURE0 + i); // åœ¨ç»‘å®šä¹‹å‰æ¿€æ´»ç›¸åº”çš„çº¹ç†å•å…ƒ
-		// èŽ·å–çº¹ç†åºå·ï¼ˆdiffuse_textureN ä¸­çš„ Nï¼‰
+		glActiveTexture(GL_TEXTURE0 + i); // ÔÚ°ó¶¨Ö®Ç°¼¤»îÏàÓ¦µÄÎÆÀíµ¥Ôª
+		// »ñÈ¡ÎÆÀíÐòºÅ£¨diffuse_textureN ÖÐµÄ N£©
 		string number;
 		string name = _textures[i].type;
 		if (name == "texture_diffuse")
@@ -86,7 +86,7 @@ void Mesh::Draw()
 	}
 	glActiveTexture(GL_TEXTURE0);
 
-	// ç»˜åˆ¶ç½‘æ ¼
+	// »æÖÆÍø¸ñ
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
