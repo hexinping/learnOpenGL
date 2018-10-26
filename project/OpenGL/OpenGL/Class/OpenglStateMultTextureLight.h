@@ -12,5 +12,10 @@ public:
 	int getShaderIndex();
 	void enableVertexAttribArray();
 	void enableLightVertexAttribArray();
+	bool isLihgtAction();
+	int getPointLights();
+	bool isShowLight();
+
+
 };
 

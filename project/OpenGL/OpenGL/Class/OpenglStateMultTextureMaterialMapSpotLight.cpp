@@ -52,54 +52,11 @@ bool OpenglStateMultTextureMaterialMapSpotLight::init(string vertFile, string fr
 		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
 	};
 
-	float lightVertices[] = {
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,  
-		0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-
-		-0.5f, -0.5f,  0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f, -0.5f,
-
-		-0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
-	};
+	
 
 	int len1 = sizeof(vertices) / sizeof(float);
-	int len2 = sizeof(lightVertices) / sizeof(float);
 	memcpy(_vertices, vertices, sizeof(float) * len1);
-	memcpy(_lightVertices, lightVertices, sizeof(float) * len2);
+
 
 	_vertFile = vertFile;
 	_fragFile = fragFile;
@@ -202,6 +159,21 @@ bool OpenglStateMultTextureMaterialMapSpotLight::isUseEBORender()
 	return false;
 }
 
+bool OpenglStateMultTextureMaterialMapSpotLight::isLihgtAction()
+{
+	return false;
+}
+
+int  OpenglStateMultTextureMaterialMapSpotLight::getPointLights()
+{
+	return 0;
+}
+
+bool OpenglStateMultTextureMaterialMapSpotLight::isShowLight()
+{
+	return false;
+}
+
 void OpenglStateMultTextureMaterialMapSpotLight::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新
@@ -264,22 +236,6 @@ void OpenglStateMultTextureMaterialMapSpotLight::rendeCommand()
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
-		//光源的位置
-		if (_isLight)
-		{	
-			__super::lightRendeCommand();
-			
-
-			glm::mat4 model;
-			//model = glm::translate(model, lightPos);
-			model = glm::scale(model, glm::vec3(0.05f));
-			setMat4(_lightShaderProgram, "model", &model);
-
-			setMat4(_lightShaderProgram, "view", &view);
-			setMat4(_lightShaderProgram, "projection", &projection);
-
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
 	}
 }
 

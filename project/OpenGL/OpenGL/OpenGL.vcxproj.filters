@@ -87,12 +87,6 @@
     <ClCompile Include="Class\OpenglStateMultTextureCube.cpp">
       <Filter>Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureLight.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureMaterial.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMap.cpp">
       <Filter>Class</Filter>
     </ClCompile>
@@ -118,6 +112,15 @@
       <Filter>Class</Filter>
     </ClCompile>
     <ClCompile Include="Class\Model.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglWorld.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureLight.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureMaterial.cpp">
       <Filter>Class</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,12 +182,6 @@
     <ClInclude Include="Class\OpenglStateMultTextureCube.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureLight.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureMaterial.h">
-      <Filter>Class</Filter>
-    </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMap.h">
       <Filter>Class</Filter>
     </ClInclude>
@@ -210,6 +207,15 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\Model.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglWorld.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureLight.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureMaterial.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>

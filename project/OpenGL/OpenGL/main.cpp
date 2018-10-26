@@ -213,7 +213,6 @@ int main(int argc, char* argv[])
 	GLFWwindow* window;
 	createWindow(&window);
 
-	world = new OpenglWorld();
 	camera = new OpenglCamera();
 
 	// ------------------------------------------------------------------
@@ -278,12 +277,22 @@ int main(int argc, char* argv[])
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
-	OpenglState *glState = new OpenglStateModel3D();
+	OpenglState *glState = new OpenglStateMultTextureMaterialMapMultLights();
 	int index = glState->getShaderIndex();
 	string shaderName = OpenglStatesMap[index];
 	string vertFile = "shader/" + shaderName + ".vert";
 	string fragFile = "shader/" + shaderName + ".frag";
 	glState->init(vertFile, fragFile);
+
+
+
+	world = new OpenglWorld();
+	world->setLight(glState->isShowLight());
+	world->init();
+	world->setLightNum(glState->getPointLights());
+	world->setLightAction(glState->isLihgtAction());
+
+
 	world->add(glState);
 
 
@@ -330,6 +339,17 @@ int main(int argc, char* argv[])
 
 		//glUseProgram(shaderProgram); //激活着色器程序对象：已激活着色器程序的着色器将在我们发送渲染调用的时候被使用
 		//glBindVertexArray(VAO);     // 使用VAO后就是每一次渲染的时候直接使用VAO存储好的属性指针
+
+		//渲染大世界里
+		if (world->_isLight)
+		{
+			world->_param1 = mixValue;
+			world->_param2 = camera->Position; //更新观察矩阵
+			world->_param3 = camera->Front; //更新观察矩阵
+			world->_param4 = camera->Zoom;   //更新矩阵投影
+			world->rendeCommand();
+		}
+		
 		
 		for (int i = 0; i < size; i++)
 		{

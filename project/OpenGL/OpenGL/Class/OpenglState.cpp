@@ -64,6 +64,11 @@ bool OpenglState::isUseEBORender()
 	return true;
 }
 
+bool OpenglState::isShowLight()
+{
+	return false;
+}
+
 void OpenglState::enableVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
@@ -88,6 +93,16 @@ void OpenglState::lightRendeCommand()
 {
 	glUseProgram(_lightShaderProgram);
 	glBindVertexArray(_lightVAO);
+}
+
+bool OpenglState::isLihgtAction()
+{
+	return false;
+}
+
+int  OpenglState::getPointLights()
+{
+	return 0;
 }
 
 GLint OpenglState::getUniformLocation(unsigned int program, const char *name)

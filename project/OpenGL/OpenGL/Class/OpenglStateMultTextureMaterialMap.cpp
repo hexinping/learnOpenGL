@@ -52,54 +52,8 @@ bool OpenglStateMultTextureMaterialMap::init(string vertFile, string fragFile)
 		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
 	};
 
-	float lightVertices[] = {
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,  
-		0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-
-		-0.5f, -0.5f,  0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-
-		-0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f, -0.5f,
-		0.5f, -0.5f,  0.5f,
-		0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f, -0.5f,
-
-		-0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f, -0.5f,
-		0.5f,  0.5f,  0.5f,
-		0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
-	};
-
 	int len1 = sizeof(vertices) / sizeof(float);
-	int len2 = sizeof(lightVertices) / sizeof(float);
 	memcpy(_vertices, vertices, sizeof(float) * len1);
-	memcpy(_lightVertices, lightVertices, sizeof(float) * len2);
 
 	_vertFile = vertFile;
 	_fragFile = fragFile;
@@ -109,7 +63,6 @@ bool OpenglStateMultTextureMaterialMap::init(string vertFile, string fragFile)
 	genTexImage2D("resource/container2_specular.png", GL_RGBA, 0, GL_TEXTURE1, GL_REPEAT, GL_LINEAR);
 	genTexImage2D("resource/matrix.jpg", GL_RGB, 0, GL_TEXTURE2, GL_REPEAT, GL_LINEAR);
 
-	setLight(true);
 
 	__super::initRendCommand();
 
@@ -237,22 +190,6 @@ void OpenglStateMultTextureMaterialMap::rendeCommand()
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
-		//光源的位置
-		if (_isLight)
-		{	
-			__super::lightRendeCommand();
-			
-
-			glm::mat4 model;
-			model = glm::translate(model, lightPos);
-			model = glm::scale(model, glm::vec3(0.05f));
-			setMat4(_lightShaderProgram, "model", &model);
-
-			setMat4(_lightShaderProgram, "view", &view);
-			setMat4(_lightShaderProgram, "projection", &projection);
-
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
 	}
 }
 
@@ -260,6 +197,23 @@ int OpenglStateMultTextureMaterialMap::getShaderIndex()
 {
 	return 12;
 }
+
+
+bool OpenglStateMultTextureMaterialMap::isLihgtAction()
+{
+	return true;
+}
+
+int  OpenglStateMultTextureMaterialMap::getPointLights()
+{
+	return 1;
+}
+
+bool OpenglStateMultTextureMaterialMap::isShowLight()
+{
+	return true;
+}
+
 
 void OpenglStateMultTextureMaterialMap::enableVertexAttribArray()
 {

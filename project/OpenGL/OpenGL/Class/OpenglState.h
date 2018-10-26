@@ -16,6 +16,9 @@ public:
 	virtual void enableVertexAttribArray();
 	virtual void enableLightVertexAttribArray();
 	virtual bool isRenderModel();
+	virtual bool isLihgtAction();
+	virtual int  getPointLights();
+	virtual bool  isShowLight();
 	GLint getUniformLocation(unsigned int program, const char *name);
 	GLint getAttribLocation(unsigned int program, const char *name);
 	void useProgram(unsigned int program);

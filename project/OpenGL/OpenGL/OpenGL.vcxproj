@@ -95,6 +95,7 @@
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
     <ClCompile Include="Class\OpenglStateTriangleMove.cpp" />
+    <ClCompile Include="Class\OpenglWorld.cpp" />
     <ClCompile Include="Class\stb_image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="practice\practice_2_1.cpp" />
@@ -127,6 +128,7 @@
     <ClInclude Include="Class\OpenglStateTexture.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
     <ClInclude Include="Class\OpenglStateTriangleMove.h" />
+    <ClInclude Include="Class\OpenglWorld.h" />
     <ClInclude Include="Class\stb_image.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="practice\practice_2_1.h" />
