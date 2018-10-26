@@ -8,11 +8,11 @@ OpenglStateMultTexture::OpenglStateMultTexture()
 bool OpenglStateMultTexture::init(string vertFile, string fragFile)
 {
 	float vertices[] = {
-		//     ---- Î»ÖÃ ----       ---- ÑÕÉ« ----     - ÎÆÀí×ø±ê -
-		0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,   // ÓÒÉÏ
-		0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,   // ÓÒÏÂ
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // ×óÏÂ
-		-0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f    // ×óÉÏ
+		//     ---- ä½ç½® ----       ---- é¢œè‰² ----     - çº¹ç†åæ ‡ -
+		0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,   // å³ä¸Š
+		0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,   // å³ä¸‹
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // å·¦ä¸‹
+		-0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f    // å·¦ä¸Š
 	};
 
 	//float vertices[] = {
@@ -43,18 +43,18 @@ bool OpenglStateMultTexture::init(string vertFile, string fragFile)
 
 
 	/*
-		ÉèÖÃuniform±äÁ¿ÓĞÁ½ÖÖ·½·¨
+		è®¾ç½®uniformå˜é‡æœ‰ä¸¤ç§æ–¹æ³•
 
-		µÚÒ»ÖÖ£ºÔÚinitRendCommandºóÊ¹ÓÃÒ»´ÎglUseProgram(_shaderProgram)£¬Õâ¸öÊ±ºò¸³Öµ¸øuniform±äÁ¿
-		µÚ¶şÖÖ£ºÔÚÖ÷Ñ­»·rendeCommandÀï²»¶ÏÉèÖÃ
+		ç¬¬ä¸€ç§ï¼šåœ¨initRendCommandåä½¿ç”¨ä¸€æ¬¡glUseProgram(_shaderProgram)ï¼Œè¿™ä¸ªæ—¶å€™èµ‹å€¼ç»™uniformå˜é‡
+		ç¬¬äºŒç§ï¼šåœ¨ä¸»å¾ªç¯rendeCommandé‡Œä¸æ–­è®¾ç½®
 	
 	*/
-	//ÉèÖÃÎÆÀíµ¥Ôª
-	_glUtils->useProgram(_shaderProgram);// ÏÈÊ¹ÓÃÕâ¸ö×ÅÉ«Æ÷³ÌĞò¶ÔÏó²ÅÄÜÉèÖÃuniform±äÁ¿
+	//è®¾ç½®çº¹ç†å•å…ƒ
+	_glUtils->useProgram(_shaderProgram);// å…ˆä½¿ç”¨è¿™ä¸ªç€è‰²å™¨ç¨‹åºå¯¹è±¡æ‰èƒ½è®¾ç½®uniformå˜é‡
 
-	//Í¨¹ıÊ¹ÓÃglUniform1iÉèÖÃ²ÉÑùÆ÷£¬ÎÒÃÇ±£Ö¤ÁËÃ¿¸öuniform²ÉÑùÆ÷¶ÔÓ¦×ÅÕıÈ·µÄÎÆÀíµ¥Ôª
-	setInt(_shaderProgram, "texture1", 0); // ÕâÀïµÄ0¾Í¶ÔÓ¦ÁËÇ°ÃæµÄGL_TEXTURE0
-	setInt(_shaderProgram,"texture2", 1); // ÕâÀïµÄ1¾Í¶ÔÓ¦ÁËÇ°ÃæµÄGL_TEXTURE1
+	//é€šè¿‡ä½¿ç”¨glUniform1iè®¾ç½®é‡‡æ ·å™¨ï¼Œæˆ‘ä»¬ä¿è¯äº†æ¯ä¸ªuniformé‡‡æ ·å™¨å¯¹åº”ç€æ­£ç¡®çš„çº¹ç†å•å…ƒ
+	setInt(_shaderProgram, "texture1", 0); // è¿™é‡Œçš„0å°±å¯¹åº”äº†å‰é¢çš„GL_TEXTURE0
+	setInt(_shaderProgram,"texture2", 1); // è¿™é‡Œçš„1å°±å¯¹åº”äº†å‰é¢çš„GL_TEXTURE1
 	
 	return true;
 }
@@ -65,15 +65,15 @@ bool OpenglStateMultTexture::isUseEBORender()
 
 void OpenglStateMultTexture::rendeCommand()
 {
-	//glUseProgramµ÷ÓÃÖ®Ç°ÉèÖÃ±£³Ö¸üĞÂ
+	//glUseProgramè°ƒç”¨ä¹‹å‰è®¾ç½®ä¿æŒæ›´æ–°
 	/*
-	µ«ÊÇ¸üĞÂÒ»¸öuniformÖ®Ç°Äã±ØĞëÏÈÊ¹ÓÃ³ÌĞò£¨µ÷ÓÃglUseProgram)£¬ÒòÎªËüÊÇÔÚµ±Ç°¼¤»îµÄ×ÅÉ«Æ÷³ÌĞòÖĞÉèÖÃuniformµÄ¡£
+	ä½†æ˜¯æ›´æ–°ä¸€ä¸ªuniformä¹‹å‰ä½ å¿…é¡»å…ˆä½¿ç”¨ç¨‹åºï¼ˆè°ƒç”¨glUseProgram)ï¼Œå› ä¸ºå®ƒæ˜¯åœ¨å½“å‰æ¿€æ´»çš„ç€è‰²å™¨ç¨‹åºä¸­è®¾ç½®uniformçš„ã€‚
 	*/
 	__super::rendeCommand();
 	setFloat(_shaderProgram, "textureAlpha", _param1);
 	if (_isUseEBORender)
 	{
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //Ê¹ÓÃË÷Òı»æÖÆ
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //ä½¿ç”¨ç´¢å¼•ç»˜åˆ¶
 	}
 	else
 	{
@@ -89,16 +89,16 @@ int OpenglStateMultTexture::getShaderIndex()
 void OpenglStateMultTexture::enableVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
-	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(posLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(posLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 
 	GLint colorLocation = _glUtils->getAttribLocation(_shaderProgram, "aColor");
-	glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(colorLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(colorLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 
 
 	GLint aTexCoordLocation = _glUtils->getAttribLocation(_shaderProgram, "aTexCoord");
-	glVertexAttribPointer(aTexCoordLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(aTexCoordLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	glVertexAttribPointer(aTexCoordLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(aTexCoordLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 }
 

@@ -71,7 +71,7 @@ bool OpenglState::isShowLight()
 
 void  OpenglState::setModelMat4(glm::vec3 tranVec, glm::vec3 scaleVec, glm::vec3 rorateVec, float angle)
 {
-	//ÏÈ½øĞĞËõ·Å²Ù×÷£¬È»ºóÊÇĞı×ª£¬×îºó²ÅÊÇÎ»ÒÆ
+	//å…ˆè¿›è¡Œç¼©æ”¾æ“ä½œï¼Œç„¶åæ˜¯æ—‹è½¬ï¼Œæœ€åæ‰æ˜¯ä½ç§»
 	_modelMat4 = glm::translate(_modelMat4, tranVec);
 	_modelMat4 = glm::rotate(_modelMat4, glm::radians(angle), rorateVec);
 	_modelMat4 = glm::scale(_modelMat4, scaleVec);
@@ -80,21 +80,21 @@ void  OpenglState::setModelMat4(glm::vec3 tranVec, glm::vec3 scaleVec, glm::vec3
 void OpenglState::enableVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
-	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(posLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(posLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 }
 
 void OpenglState::enableLightVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
-	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(posLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(posLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 }
 
 void OpenglState::rendeCommand()
 {
-	glUseProgram(_shaderProgram); //¼¤»î×ÅÉ«Æ÷³ÌĞò¶ÔÏó£ºÒÑ¼¤»î×ÅÉ«Æ÷³ÌĞòµÄ×ÅÉ«Æ÷½«ÔÚÎÒÃÇ·¢ËÍäÖÈ¾µ÷ÓÃµÄÊ±ºò±»Ê¹ÓÃ
-	glBindVertexArray(_VAO);     // Ê¹ÓÃVAOºó¾ÍÊÇÃ¿Ò»´ÎäÖÈ¾µÄÊ±ºòÖ±½ÓÊ¹ÓÃVAO´æ´¢ºÃµÄÊôĞÔÖ¸Õë
+	glUseProgram(_shaderProgram); //æ¿€æ´»ç€è‰²å™¨ç¨‹åºå¯¹è±¡ï¼šå·²æ¿€æ´»ç€è‰²å™¨ç¨‹åºçš„ç€è‰²å™¨å°†åœ¨æˆ‘ä»¬å‘é€æ¸²æŸ“è°ƒç”¨çš„æ—¶å€™è¢«ä½¿ç”¨
+	glBindVertexArray(_VAO);     // ä½¿ç”¨VAOåå°±æ˜¯æ¯ä¸€æ¬¡æ¸²æŸ“çš„æ—¶å€™ç›´æ¥ä½¿ç”¨VAOå­˜å‚¨å¥½çš„å±æ€§æŒ‡é’ˆ
 }
 
 void OpenglState::lightRendeCommand()

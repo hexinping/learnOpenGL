@@ -64,7 +64,7 @@ public:
 
 	glm::mat4 _modelMat4;
 
-	//单独为光源配置一个vao 与模型的vao分开
+	//鍗曠嫭涓哄厜婧愰厤缃竴涓獀ao 涓庢ā鍨嬬殑vao鍒嗗紑
 	bool _isLight;
 	unsigned int _lightVBO, _lightVAO, _lightEBO;
 
