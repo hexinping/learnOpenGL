@@ -83,6 +83,7 @@
     <ClCompile Include="Class\OpenglStateMultTextureCamera.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureCameraManuel.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureCube.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureDepthCube.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureLight.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMat4.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterial.cpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapMultLights.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapPointLight.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapSpotLight.cpp" />
+    <ClCompile Include="Class\OpenglStatePlane.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
@@ -116,6 +118,7 @@
     <ClInclude Include="Class\OpenglStateMultTextureCamera.h" />
     <ClInclude Include="Class\OpenglStateMultTextureCameraManuel.h" />
     <ClInclude Include="Class\OpenglStateMultTextureCube.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureDepthCube.h" />
     <ClInclude Include="Class\OpenglStateMultTextureLight.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMat4.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterial.h" />
@@ -124,6 +127,7 @@
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapMultLights.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapPointLight.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapSpotLight.h" />
+    <ClInclude Include="Class\OpenglStatePlane.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateTexture.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
@@ -160,6 +164,10 @@
     <None Include="shader\shader16.vert" />
     <None Include="shader\shader17.frag" />
     <None Include="shader\shader17.vert" />
+    <None Include="shader\shader18.frag" />
+    <None Include="shader\shader18.vert" />
+    <None Include="shader\shader19.frag" />
+    <None Include="shader\shader19.vert" />
     <None Include="shader\shader2.frag" />
     <None Include="shader\shader2.vert" />
     <None Include="shader\shader3.frag" />

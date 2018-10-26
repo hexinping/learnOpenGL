@@ -24,6 +24,8 @@
 #include "OpenglStateMultTextureMaterialMapSpotLight.h"
 #include "OpenglStateMultTextureMaterialMapMultLights.h"
 #include "OpenglStateModel3D.h"
+#include "OpenglStateMultTextureDepthCube.h"
+#include "OpenglStatePlane.h"
 
 #include "Model.h"
 #include "OpenglWorld.h"
@@ -197,6 +199,8 @@ void intShaders()
 	OpenglStatesMap[15] = "shader15";
 	OpenglStatesMap[16] = "shader16";
 	OpenglStatesMap[17] = "shader17";
+	OpenglStatesMap[18] = "shader18";
+	OpenglStatesMap[19] = "shader19";
 }
 
 int main(int argc, char* argv[])
@@ -277,14 +281,21 @@ int main(int argc, char* argv[])
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
-	OpenglState *glState = new OpenglStateModel3D();
-	int index = glState->getShaderIndex();
+	//底板
+	OpenglState *glStatePlane = new OpenglStatePlane();
+	int index = glStatePlane->getShaderIndex();
 	string shaderName = OpenglStatesMap[index];
 	string vertFile = "shader/" + shaderName + ".vert";
 	string fragFile = "shader/" + shaderName + ".frag";
+	glStatePlane->init(vertFile, fragFile);
+
+
+	OpenglState *glState = new OpenglStateMultTextureDepthCube();
+	index = glState->getShaderIndex();
+	shaderName = OpenglStatesMap[index];
+	vertFile = "shader/" + shaderName + ".vert";
+	fragFile = "shader/" + shaderName + ".frag";
 	glState->init(vertFile, fragFile);
-
-
 
 	world = new OpenglWorld();
 	world->setLight(glState->isShowLight());
@@ -293,6 +304,7 @@ int main(int argc, char* argv[])
 	world->setLightAction(glState->isLihgtAction());
 
 
+	world->add(glStatePlane);
 	world->add(glState);
 
 	//------------------------------------------------------------------
@@ -303,13 +315,10 @@ int main(int argc, char* argv[])
 	unsigned int lightVBO = 0, lighgtVAO = 0, lightEBO = 0;
 	if (glState->_isLight)
 	{
-		lightVBO = glState->_lightVBO;
-		lighgtVAO = glState->_lightVAO;
-		lightEBO = glState->_lightEBO;
+		lightVBO = world->_lightVBO;
+		lighgtVAO = world->_lightVAO;
+		lightEBO = world->_lightEBO;
 	}
-
-
-	Model *model = new Model("resource/objects/nanosuit/nanosuit.obj", glState);
 
 	/*
 	glfwWindowShouldClose函数在我们每次循环的开始前检查一次GLFW是否被要求退出，如果是的话该函数返回true然后渲染循环便结束了，之后为我们就可以关闭应用程序了。
@@ -318,6 +327,10 @@ int main(int argc, char* argv[])
 	*/
 	
 	bool isRenerModel = glState->isRenderModel();
+	Model *model = nullptr;
+	if (isRenerModel)
+		model = new Model("resource/objects/nanosuit/nanosuit.obj", glState);
+
 
 	// 渲染循环
 	glEnable(GL_DEPTH_TEST); // 开启深度测试
