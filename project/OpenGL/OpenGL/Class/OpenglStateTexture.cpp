@@ -7,11 +7,11 @@ OpenglStateTexture::OpenglStateTexture()
 bool OpenglStateTexture::init(string vertFile, string fragFile)
 {
 	float vertices[] = {
-		//     ---- Î»ÖÃ ----       ---- ÑÕÉ« ----     - ÎÆÀí×ø±ê -
-		0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,   // ÓÒÉÏ
-		0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,   // ÓÒÏÂ
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // ×óÏÂ
-		-0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f    // ×óÉÏ
+		//     ---- ä½ç½® ----       ---- é¢œè‰² ----     - çº¹ç†åæ ‡ -
+		0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,   // å³ä¸Š
+		0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,   // å³ä¸‹
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // å·¦ä¸‹
+		-0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f    // å·¦ä¸Š
 	};
 
 	unsigned int indices[] = {
@@ -42,7 +42,7 @@ void OpenglStateTexture::rendeCommand()
 	__super::rendeCommand();
 	if (_isUseEBORender)
 	{
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //Ê¹ÓÃË÷Òı»æÖÆ
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //ä½¿ç”¨ç´¢å¼•ç»˜åˆ¶
 	}
 	else
 	{
@@ -58,16 +58,16 @@ int OpenglStateTexture::getShaderIndex()
 void OpenglStateTexture::enableVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
-	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(posLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(posLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 
 	GLint colorLocation = _glUtils->getAttribLocation(_shaderProgram, "aColor");
-	glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(colorLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(colorLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 
 
 	GLint aTexCoordLocation = _glUtils->getAttribLocation(_shaderProgram, "aTexCoord");
-	glVertexAttribPointer(aTexCoordLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(aTexCoordLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	glVertexAttribPointer(aTexCoordLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(aTexCoordLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 }
 

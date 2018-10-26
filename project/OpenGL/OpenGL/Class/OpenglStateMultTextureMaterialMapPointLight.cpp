@@ -115,18 +115,18 @@ bool OpenglStateMultTextureMaterialMapPointLight::init(string vertFile, string f
 
 
 	/*
-		ÉèÖÃuniform±äÁ¿ÓĞÁ½ÖÖ·½·¨
+		è®¾ç½®uniformå˜é‡æœ‰ä¸¤ç§æ–¹æ³•
 
-		µÚÒ»ÖÖ£ºÔÚinitRendCommandºóÊ¹ÓÃÒ»´ÎglUseProgram(_shaderProgram)£¬Õâ¸öÊ±ºò¸³Öµ¸øuniform±äÁ¿
-		µÚ¶şÖÖ£ºÔÚÖ÷Ñ­»·rendeCommandÀï²»¶ÏÉèÖÃ
+		ç¬¬ä¸€ç§ï¼šåœ¨initRendCommandåä½¿ç”¨ä¸€æ¬¡glUseProgram(_shaderProgram)ï¼Œè¿™ä¸ªæ—¶å€™èµ‹å€¼ç»™uniformå˜é‡
+		ç¬¬äºŒç§ï¼šåœ¨ä¸»å¾ªç¯rendeCommandé‡Œä¸æ–­è®¾ç½®
 	
 	*/
-	//ÉèÖÃÎÆÀíµ¥Ôª
-	_glUtils->useProgram(_shaderProgram);// ÏÈÊ¹ÓÃÕâ¸ö×ÅÉ«Æ÷³ÌĞò¶ÔÏó²ÅÄÜÉèÖÃuniform±äÁ¿
+	//è®¾ç½®çº¹ç†å•å…ƒ
+	_glUtils->useProgram(_shaderProgram);// å…ˆä½¿ç”¨è¿™ä¸ªç€è‰²å™¨ç¨‹åºå¯¹è±¡æ‰èƒ½è®¾ç½®uniformå˜é‡
 
-	//Í¨¹ıÊ¹ÓÃglUniform1iÉèÖÃ²ÉÑùÆ÷£¬ÎÒÃÇ±£Ö¤ÁËÃ¿¸öuniform²ÉÑùÆ÷¶ÔÓ¦×ÅÕıÈ·µÄÎÆÀíµ¥Ôª
-	setInt(_shaderProgram, "material.diffuse", 0); // ÕâÀïµÄ0¾Í¶ÔÓ¦ÁËÇ°ÃæµÄGL_TEXTURE0
-	setInt(_shaderProgram, "material.specular", 1); // ÕâÀïµÄ1¾Í¶ÔÓ¦ÁËÇ°ÃæµÄGL_TEXTURE1
+	//é€šè¿‡ä½¿ç”¨glUniform1iè®¾ç½®é‡‡æ ·å™¨ï¼Œæˆ‘ä»¬ä¿è¯äº†æ¯ä¸ªuniformé‡‡æ ·å™¨å¯¹åº”ç€æ­£ç¡®çš„çº¹ç†å•å…ƒ
+	setInt(_shaderProgram, "material.diffuse", 0); // è¿™é‡Œçš„0å°±å¯¹åº”äº†å‰é¢çš„GL_TEXTURE0
+	setInt(_shaderProgram, "material.specular", 1); // è¿™é‡Œçš„1å°±å¯¹åº”äº†å‰é¢çš„GL_TEXTURE1
 	setInt(_shaderProgram, "material.emission", 2);
 
 	//glm::mat4 trans;
@@ -137,12 +137,12 @@ bool OpenglStateMultTextureMaterialMapPointLight::init(string vertFile, string f
 	//_mathUtils->setRoateMat4(&trans, angle, &axis);
 	//_mathUtils->setSclaeMat4(&trans, &s);
 
-	////ÏÈËõ·Å ÔÙĞı×ª ==¡·ÓëÉèÖÃË³ĞòÏà·´
+	////å…ˆç¼©æ”¾ å†æ—‹è½¬ ==ã€‹ä¸è®¾ç½®é¡ºåºç›¸å
 	//setMat4(_shaderProgram, "transform", &trans);
 
 	//glm::mat4 model;
-	//glm::vec3 asix(1.0f, 0.0f, 0.0f); //ÈÆXÖáĞı×ª
-	////90.0f ÄæÊ±Õë
+	//glm::vec3 asix(1.0f, 0.0f, 0.0f); //ç»•Xè½´æ—‹è½¬
+	////90.0f é€†æ—¶é’ˆ
 	//_mathUtils->setRotateMat4(&model, -55.0f, &asix);
 
 	
@@ -156,14 +156,14 @@ bool OpenglStateMultTextureMaterialMapPointLight::init(string vertFile, string f
 	//setMat4(_shaderProgram, "view", &view);
 	//setMat4(_shaderProgram, "projection", &projection);
 
-	//ÉèÖÃ¹âÔ´µÄÑÕÉ«
+	//è®¾ç½®å…‰æºçš„é¢œè‰²
 	//setVec3(_shaderProgram, "lightColor", 1.0f, 1.0f, 1.0f);
 	setVec3(_shaderProgram, "objectColor", 1.0f, 1.0f, 1.0f);
 
-	//ambient²ÄÖÊºÍdiffuse²ÄÖÊ¶¼ÉèÖÃ³É¸úÎïÌåµÄÑÕÉ«Ò»Ñù
+	//ambientæè´¨å’Œdiffuseæè´¨éƒ½è®¾ç½®æˆè·Ÿç‰©ä½“çš„é¢œè‰²ä¸€æ ·
 	//setVec3(_shaderProgram, "material.ambient", 1.0f, 0.5f, 0.31f);
-	//setVec3(_shaderProgram, "material.diffuse", 1.0f, 0.5f, 0.31f);  // ÓÃÂş·´ÉäÌùÍ¼´úÌæÁË
-	//setVec3(_shaderProgram, "material.specular", 0.5f, 0.5f, 0.5f);  // ÓÃ¸ß¹âÌùÍ¼´úÌæÁË
+	//setVec3(_shaderProgram, "material.diffuse", 1.0f, 0.5f, 0.31f);  // ç”¨æ¼«åå°„è´´å›¾ä»£æ›¿äº†
+	//setVec3(_shaderProgram, "material.specular", 0.5f, 0.5f, 0.5f);  // ç”¨é«˜å…‰è´´å›¾ä»£æ›¿äº†
 	setFloat(_shaderProgram, "material.shininess", 32.0f);
 
 
@@ -171,20 +171,20 @@ bool OpenglStateMultTextureMaterialMapPointLight::init(string vertFile, string f
 	//setVec3(_shaderProgram, "light.diffuse", 0.5f, 0.5f, 0.5f);
 	//setVec3(_shaderProgram, "light.specular", 1.0f, 1.0f, 1.0f);
 
-	//ÉèÖÃ¹âÔ´µÄÑÕÉ«
+	//è®¾ç½®å…‰æºçš„é¢œè‰²
 	glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
 	setVec3(_shaderProgram, "lightColor", lightColor);
 	
 
-	glm::vec3 diffuseColor = lightColor   * glm::vec3(0.5f); // ½µµÍÓ°Ïì
-	glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); // ºÜµÍµÄÓ°Ïì
+	glm::vec3 diffuseColor = lightColor   * glm::vec3(0.5f); // é™ä½å½±å“
+	glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); // å¾ˆä½çš„å½±å“
 
 	setVec3(_shaderProgram, "light.ambient", ambientColor);
 	setVec3(_shaderProgram, "light.diffuse", diffuseColor);
 	setVec3(_shaderProgram, "light.specular", 1.0f, 1.0f, 1.0f);
-	//setVec3(_shaderProgram, "light.direction", -0.2f, -1.0f, -0.3f); //£¨0.2f, 1.0f, 0.3f) ¿ÉÒÔÀí½â¹âÔ´µÄÎ»ÖÃµã
+	//setVec3(_shaderProgram, "light.direction", -0.2f, -1.0f, -0.3f); //ï¼ˆ0.2f, 1.0f, 0.3f) å¯ä»¥ç†è§£å…‰æºçš„ä½ç½®ç‚¹
 
-	//ÉèÖÃµã¹âÔ´µÄË¥¼õ±äÁ¿
+	//è®¾ç½®ç‚¹å…‰æºçš„è¡°å‡å˜é‡
 	setFloat(_shaderProgram, "light.constant", 1.0f);
 	setFloat(_shaderProgram, "light.linear", 0.09f);
 	setFloat(_shaderProgram, "light.quadratic", 0.032f);
@@ -199,9 +199,9 @@ bool OpenglStateMultTextureMaterialMapPointLight::isUseEBORender()
 
 void OpenglStateMultTextureMaterialMapPointLight::rendeCommand()
 {
-	//glUseProgramµ÷ÓÃÖ®Ç°ÉèÖÃ±£³Ö¸üĞÂ
+	//glUseProgramè°ƒç”¨ä¹‹å‰è®¾ç½®ä¿æŒæ›´æ–°
 	/*
-	µ«ÊÇ¸üĞÂÒ»¸öuniformÖ®Ç°Äã±ØĞëÏÈÊ¹ÓÃ³ÌĞò£¨µ÷ÓÃglUseProgram)£¬ÒòÎªËüÊÇÔÚµ±Ç°¼¤»îµÄ×ÅÉ«Æ÷³ÌĞòÖĞÉèÖÃuniformµÄ¡£
+	ä½†æ˜¯æ›´æ–°ä¸€ä¸ªuniformä¹‹å‰ä½ å¿…é¡»å…ˆä½¿ç”¨ç¨‹åºï¼ˆè°ƒç”¨glUseProgram)ï¼Œå› ä¸ºå®ƒæ˜¯åœ¨å½“å‰æ¿€æ´»çš„ç€è‰²å™¨ç¨‹åºä¸­è®¾ç½®uniformçš„ã€‚
 	*/
 	__super::rendeCommand();
 	setFloat(_shaderProgram, "textureAlpha", _param1);
@@ -221,14 +221,14 @@ void OpenglStateMultTextureMaterialMapPointLight::rendeCommand()
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 	lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
 	lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
-	setVec3(_shaderProgram, "lightPos", lightPos.x, lightPos.y, lightPos.z);		// ¹âÔ´µÄÎ»ÖÃ
-	setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// ÉãÏñ»úµÄÎ»ÖÃ£¨¹Û²ì¿Õ¼äµÄÔ­µã£©
+	setVec3(_shaderProgram, "lightPos", lightPos.x, lightPos.y, lightPos.z);		// å…‰æºçš„ä½ç½®
+	setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// æ‘„åƒæœºçš„ä½ç½®ï¼ˆè§‚å¯Ÿç©ºé—´çš„åŸç‚¹ï¼‰
 
 	setVec3(_shaderProgram, "light.position", lightPos);
 
 	if (_isUseEBORender)
 	{
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //Ê¹ÓÃË÷Òı»æÖÆ
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //ä½¿ç”¨ç´¢å¼•ç»˜åˆ¶
 	}
 	else
 	{
@@ -255,7 +255,7 @@ void OpenglStateMultTextureMaterialMapPointLight::rendeCommand()
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
-		//¹âÔ´µÄÎ»ÖÃ
+		//å…‰æºçš„ä½ç½®
 		if (_isLight)
 		{	
 			__super::lightRendeCommand();
@@ -282,28 +282,28 @@ int OpenglStateMultTextureMaterialMapPointLight::getShaderIndex()
 void OpenglStateMultTextureMaterialMapPointLight::enableVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
-	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(posLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(posLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 
 	//GLint colorLocation = _glUtils->getAttribLocation(_shaderProgram, "aColor");
-	//glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	//glEnableVertexAttribArray(colorLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	//glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	//glEnableVertexAttribArray(colorLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 
 	GLint normalLocation = _glUtils->getAttribLocation(_shaderProgram, "aNormal");
-	glVertexAttribPointer(normalLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(normalLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	glVertexAttribPointer(normalLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(normalLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 
 	GLint aTexCoordLocation = _glUtils->getAttribLocation(_shaderProgram, "aTexCoords");
-	glVertexAttribPointer(aTexCoordLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(aTexCoordLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»¶¥µãÊôĞÔÄ¬ÈÏÊÇ½ûÓÃµÄ
+	glVertexAttribPointer(aTexCoordLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(aTexCoordLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›é¡¶ç‚¹å±æ€§é»˜è®¤æ˜¯ç¦ç”¨çš„
 
 }
 
 void OpenglStateMultTextureMaterialMapPointLight::enableLightVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
-	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //º¯Êı¸æËßOpenGL¸ÃÈçºÎ½âÎö¶¥µãÊı¾İ£¨Ó¦ÓÃµ½Öğ¸ö¶¥µãÊôĞÔÉÏ)
-	glEnableVertexAttribArray(posLocation); //ÒÔ¶¥µãÊôĞÔÎ»ÖÃÖµ×÷Îª²ÎÊı£¬ÆôÓÃ¶¥µãÊôĞÔ£»
+	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //å‡½æ•°å‘Šè¯‰OpenGLè¯¥å¦‚ä½•è§£æé¡¶ç‚¹æ•°æ®ï¼ˆåº”ç”¨åˆ°é€ä¸ªé¡¶ç‚¹å±æ€§ä¸Š)
+	glEnableVertexAttribArray(posLocation); //ä»¥é¡¶ç‚¹å±æ€§ä½ç½®å€¼ä½œä¸ºå‚æ•°ï¼Œå¯ç”¨é¡¶ç‚¹å±æ€§ï¼›
 }
 
 

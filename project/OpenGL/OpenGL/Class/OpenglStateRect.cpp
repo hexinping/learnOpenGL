@@ -9,15 +9,15 @@ OpenglStateRect::OpenglStateRect()
 bool OpenglStateRect::init(string vertFile, string fragFile)
 {
 	float vertices[] = {
-		0.5f, 0.5f, 0.0f,   // ÓÒÉÏ½Ç
-		0.5f, -0.5f, 0.0f,  // ÓÒÏÂ½Ç
-		-0.5f, -0.5f, 0.0f, // ×óÏÂ½Ç
-		-0.5f, 0.5f, 0.0f   // ×óÉÏ½Ç
+		0.5f, 0.5f, 0.0f,   // å³ä¸Šè§’
+		0.5f, -0.5f, 0.0f,  // å³ä¸‹è§’
+		-0.5f, -0.5f, 0.0f, // å·¦ä¸‹è§’
+		-0.5f, 0.5f, 0.0f   // å·¦ä¸Šè§’
 	};
 
-	unsigned int indices[] = { // ×¢ÒâË÷Òı´Ó0¿ªÊ¼! 
-		0, 1, 3, // µÚÒ»¸öÈı½ÇĞÎ
-		1, 2, 3  // µÚ¶ş¸öÈı½ÇĞÎ
+	unsigned int indices[] = { // æ³¨æ„ç´¢å¼•ä»0å¼€å§‹! 
+		0, 1, 3, // ç¬¬ä¸€ä¸ªä¸‰è§’å½¢
+		1, 2, 3  // ç¬¬äºŒä¸ªä¸‰è§’å½¢
 	};
 
 	int len1 = sizeof(vertices) / sizeof(float);
@@ -37,7 +37,7 @@ void OpenglStateRect::rendeCommand()
 	__super::rendeCommand();
 	if (_isUseEBORender)
 	{
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //Ê¹ÓÃË÷Òı»æÖÆ
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //ä½¿ç”¨ç´¢å¼•ç»˜åˆ¶
 	}
 	else
 	{
