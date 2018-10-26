@@ -277,7 +277,7 @@ int main(int argc, char* argv[])
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
-	OpenglState *glState = new OpenglStateMultTextureMaterialMapMultLights();
+	OpenglState *glState = new OpenglStateModel3D();
 	int index = glState->getShaderIndex();
 	string shaderName = OpenglStatesMap[index];
 	string vertFile = "shader/" + shaderName + ".vert";
@@ -294,8 +294,6 @@ int main(int argc, char* argv[])
 
 
 	world->add(glState);
-
-
 
 	//------------------------------------------------------------------
 	
