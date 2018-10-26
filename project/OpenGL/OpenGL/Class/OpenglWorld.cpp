@@ -163,6 +163,16 @@ void OpenglWorld::setLightAction(bool isAction)
 	_islightAction = isAction;
 }
 
+void OpenglWorld::setRenderModel(bool isRenderModel)
+{
+	_isRenderModel = isRenderModel;
+}
+
+void OpenglWorld::setModelOpenglState(OpenglState *glState)
+{
+	_modleState = glState;
+}
+
 OpenglWorld::~OpenglWorld()
 {
 	int size = _openglStateArray.size();

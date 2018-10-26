@@ -69,6 +69,14 @@ bool OpenglState::isShowLight()
 	return false;
 }
 
+void  OpenglState::setModelMat4(glm::vec3 tranVec, glm::vec3 scaleVec, glm::vec3 rorateVec, float angle)
+{
+	//先进行缩放操作，然后是旋转，最后才是位移
+	_modelMat4 = glm::translate(_modelMat4, tranVec);
+	_modelMat4 = glm::rotate(_modelMat4, glm::radians(angle), rorateVec);
+	_modelMat4 = glm::scale(_modelMat4, scaleVec);
+}
+
 void OpenglState::enableVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");

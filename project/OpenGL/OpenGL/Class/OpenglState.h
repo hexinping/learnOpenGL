@@ -26,6 +26,7 @@ public:
 	virtual int getShaderIndex();
 
 
+
 	void setBool(unsigned int program, const char *name, bool value) const;
 	void setInt(unsigned int program, const char *name, int value) const;
 	void setFloat(unsigned int program, const char *name, float value) const;
@@ -48,6 +49,8 @@ public:
 
 	void genTexImage2D(const char *file, int type = GL_RGB, int level = 0, int textureUnit = GL_TEXTURE0, int around = GL_REPEAT, int filter = GL_LINEAR);
 
+	void setModelMat4(glm::vec3 tranVec, glm::vec3 scaleVec, glm::vec3 rorateVec, float angle);
+
 	void setLight(bool light);
 public:
 	OpenglUtils * _glUtils;
@@ -58,6 +61,8 @@ public:
 	unsigned int _fragmentShader;
 	unsigned int _shaderProgram;
 	unsigned int _lightShaderProgram;
+
+	glm::mat4 _modelMat4;
 
 	//单独为光源配置一个vao 与模型的vao分开
 	bool _isLight;

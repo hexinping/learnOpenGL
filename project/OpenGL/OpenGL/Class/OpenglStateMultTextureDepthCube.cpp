@@ -182,11 +182,11 @@ void OpenglStateMultTextureDepthCube::rendeCommand()
 		};
 		for (unsigned int i = 0; i < 1; i++)
 		{
-			glm::mat4 model;
-			model = glm::translate(model, cubePositions[i]);
-			float angle = 20.0f * (i + 1);
-			model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-			setMat4(_shaderProgram, "model", &model);
+			//glm::mat4 model;
+			//model = glm::translate(model, cubePositions[i]);
+			//float angle = 20.0f * (i + 1);
+			//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+			setMat4(_shaderProgram, "model", &_modelMat4);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 

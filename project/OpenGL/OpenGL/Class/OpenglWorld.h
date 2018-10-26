@@ -17,6 +17,8 @@ public:
 	void rendeCommand();
 	void setLightAction(bool isAction);
 	void setLightNum(int num);
+	void setRenderModel(bool isRenderModel);
+	void setModelOpenglState(OpenglState *glState);
 
 public:
 	vector<OpenglState *> _openglStateArray;
@@ -28,6 +30,9 @@ public:
 	int _lightNums;
 	unsigned int _lightVBO, _lightVAO, _lightEBO;
 	unsigned int _lightShaderProgram;
+
+	bool _isRenderModel;
+	OpenglState *_modleState;
 
 	float _lightVertices[1024];
 	unsigned int _lightIndices[1024];

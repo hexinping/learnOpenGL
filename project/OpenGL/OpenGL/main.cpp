@@ -289,31 +289,43 @@ int main(int argc, char* argv[])
 	string fragFile = "shader/" + shaderName + ".frag";
 	glStatePlane->init(vertFile, fragFile);
 
-
-	OpenglState *glState = new OpenglStateMultTextureDepthCube();
-	index = glState->getShaderIndex();
-	shaderName = OpenglStatesMap[index];
-	vertFile = "shader/" + shaderName + ".vert";
-	fragFile = "shader/" + shaderName + ".frag";
-	glState->init(vertFile, fragFile);
-
 	world = new OpenglWorld();
-	world->setLight(glState->isShowLight());
-	world->init();
-	world->setLightNum(glState->getPointLights());
-	world->setLightAction(glState->isLihgtAction());
-
-
 	world->add(glStatePlane);
-	world->add(glState);
 
+	for (int i = 0; i < 2;i++)
+	{
+		OpenglState *glState = new OpenglStateMultTextureDepthCube();
+		index = glState->getShaderIndex();
+		shaderName = OpenglStatesMap[index];
+		float s = i * 1.5;
+		glState->setModelMat4(glm::vec3(s, 0.0f, 0.0f), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0);
+		vertFile = "shader/" + shaderName + ".vert";
+		fragFile = "shader/" + shaderName + ".frag";
+		glState->init(vertFile, fragFile);
+
+		if (!world->_isLight)
+		{
+			world->setLight(glState->isShowLight());
+			world->setLightNum(glState->getPointLights());
+			world->setLightAction(glState->isLihgtAction());
+		}
+
+		if (!world->_isRenderModel)
+		{
+			world->setRenderModel(glState->isRenderModel());
+			world->setModelOpenglState(glState);
+		}
+		world->add(glState);
+	}
+	world->init();
+	
 	//------------------------------------------------------------------
 	
 	auto _openglStateArray = world->_openglStateArray;
 	int size = _openglStateArray.size();
 
 	unsigned int lightVBO = 0, lighgtVAO = 0, lightEBO = 0;
-	if (glState->_isLight)
+	if (world->_isLight)
 	{
 		lightVBO = world->_lightVBO;
 		lighgtVAO = world->_lightVAO;
@@ -326,10 +338,10 @@ int main(int argc, char* argv[])
 	glfwSwapBuffers函数会交换颜色缓冲（它是一个储存着GLFW窗口每一个像素颜色值的大缓冲），它在这一迭代中被用来绘制，并且将会作为输出显示在屏幕上。
 	*/
 	
-	bool isRenerModel = glState->isRenderModel();
+	bool isRenerModel = world->_isRenderModel;
 	Model *model = nullptr;
 	if (isRenerModel)
-		model = new Model("resource/objects/nanosuit/nanosuit.obj", glState);
+		model = new Model("resource/objects/nanosuit/nanosuit.obj", world->_modleState);
 
 
 	// 渲染循环
