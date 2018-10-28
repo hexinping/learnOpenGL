@@ -59,9 +59,9 @@ bool OpenglStateMultTextureDepthCube::init(string vertFile, string fragFile)
 	_fragFile = fragFile;
 
 	//this->genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
-	genTexImage2D("resource/container2.png", GL_RGBA, 0, GL_TEXTURE0,GL_REPEAT, GL_LINEAR);
-	genTexImage2D("resource/container2_specular.png", GL_RGBA, 0, GL_TEXTURE1, GL_REPEAT, GL_LINEAR);
-	genTexImage2D("resource/matrix.jpg", GL_RGB, 0, GL_TEXTURE2, GL_REPEAT, GL_LINEAR);
+	 _texture0 = genTexImage2D("resource/container2.png", GL_RGBA, 0, GL_TEXTURE0,GL_REPEAT, GL_LINEAR);
+	 _texture1 = genTexImage2D("resource/container2_specular.png", GL_RGBA, 0, GL_TEXTURE1, GL_REPEAT, GL_LINEAR);
+	 _texture2 = genTexImage2D("resource/matrix.jpg", GL_RGB, 0, GL_TEXTURE2, GL_REPEAT, GL_LINEAR);
 
 
 	__super::initRendCommand();
@@ -76,7 +76,6 @@ bool OpenglStateMultTextureDepthCube::init(string vertFile, string fragFile)
 	*/
 	//设置纹理单元
 	_glUtils->useProgram(_shaderProgram);// 先使用这个着色器程序对象才能设置uniform变量
-	cout << "_shaderProgram cube=====:" << _shaderProgram << endl;
 
 
 	//通过使用glUniform1i设置采样器，我们保证了每个uniform采样器对应着正确的纹理单元
@@ -158,12 +157,19 @@ void OpenglStateMultTextureDepthCube::rendeCommand()
 	__super::rendeCommand();
 	setFloat(_shaderProgram, "textureAlpha", _param1);
 
-	genTexImage2D("resource/container2.png", GL_RGBA, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
-	genTexImage2D("resource/container2_specular.png", GL_RGBA, 0, GL_TEXTURE1, GL_REPEAT, GL_LINEAR);
-	genTexImage2D("resource/matrix.jpg", GL_RGB, 0, GL_TEXTURE2, GL_REPEAT, GL_LINEAR);
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(_texture0);
 	setInt(_shaderProgram, "material.diffuse", 0); // 这里的0就对应了前面的GL_TEXTURE0
+
+
+	activiteTexture(GL_TEXTURE1);
+	bindTexture(_texture1);
 	setInt(_shaderProgram, "material.specular", 1); // 这里的1就对应了前面的GL_TEXTURE1
+	
+	activiteTexture(GL_TEXTURE2);
+	bindTexture(_texture2);
 	setInt(_shaderProgram, "material.emission", 2);
+
 
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(_param4), 800.0f / 600.0f, 0.1f, 100.0f);
@@ -195,7 +201,7 @@ void OpenglStateMultTextureDepthCube::rendeCommand()
 			glm::vec3(-1.0f, 0.0f, -1.0f),
 			glm::vec3(2.0f, 0.0f, 0.0f)
 		};
-		for (unsigned int i = 0; i < 2; i++)
+		for (unsigned int i = 0; i < 1; i++)
 		{
 			glm::mat4 model;
 			model = glm::translate(model, cubePositions[i]);

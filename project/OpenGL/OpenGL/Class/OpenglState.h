@@ -48,11 +48,14 @@ public:
 	void setVec3(unsigned int program, const char *name, glm::vec3 &value);
 	void setVec4(unsigned int program, const char *name, glm::vec4 &value);
 
-	void genTexImage2D(const char *file, int type = GL_RGB, int level = 0, int textureUnit = GL_TEXTURE0, int around = GL_REPEAT, int filter = GL_LINEAR);
+	unsigned int genTexImage2D(const char *file, int type = GL_RGB, int level = 0, int textureUnit = GL_TEXTURE0, int around = GL_REPEAT, int filter = GL_LINEAR);
 
 	void setModelMat4(glm::vec3 tranVec, glm::vec3 scaleVec, glm::vec3 rorateVec, float angle);
 
 	void setLight(bool light);
+
+	void bindTexture(unsigned int textureId);
+	void activiteTexture(int textureUnit);
 public:
 	OpenglUtils * _glUtils;
 	MathUtils   * _mathUtils;
