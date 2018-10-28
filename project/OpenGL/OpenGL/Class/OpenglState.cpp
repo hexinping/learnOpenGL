@@ -133,6 +133,11 @@ bool OpenglState::isRenderModel()
 	return false;
 }
 
+bool  OpenglState::isUsePlane()
+{
+	return false;
+}
+
 void OpenglState::genTexImage2D(const char *file, int type, int level, int textureUnit, int around, int filter)
 {
 	_glUtils->genTexImage2D(file, type, level, textureUnit, around, filter);

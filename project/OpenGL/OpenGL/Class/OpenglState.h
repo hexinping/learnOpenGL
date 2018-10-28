@@ -19,6 +19,7 @@ public:
 	virtual bool isLihgtAction();
 	virtual int  getPointLights();
 	virtual bool  isShowLight();
+	virtual bool  isUsePlane();
 	GLint getUniformLocation(unsigned int program, const char *name);
 	GLint getAttribLocation(unsigned int program, const char *name);
 	void useProgram(unsigned int program);

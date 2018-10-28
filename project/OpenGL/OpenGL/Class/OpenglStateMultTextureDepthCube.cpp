@@ -59,9 +59,9 @@ bool OpenglStateMultTextureDepthCube::init(string vertFile, string fragFile)
 	_fragFile = fragFile;
 
 	//this->genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
-	genTexImage2D("resource/container2.png", GL_RGBA, 0, GL_TEXTURE1,GL_REPEAT, GL_LINEAR);
-	genTexImage2D("resource/container2_specular.png", GL_RGBA, 0, GL_TEXTURE2, GL_REPEAT, GL_LINEAR);
-	genTexImage2D("resource/matrix.jpg", GL_RGB, 0, GL_TEXTURE3, GL_REPEAT, GL_LINEAR);
+	genTexImage2D("resource/container2.png", GL_RGBA, 0, GL_TEXTURE0,GL_REPEAT, GL_LINEAR);
+	genTexImage2D("resource/container2_specular.png", GL_RGBA, 0, GL_TEXTURE1, GL_REPEAT, GL_LINEAR);
+	genTexImage2D("resource/matrix.jpg", GL_RGB, 0, GL_TEXTURE2, GL_REPEAT, GL_LINEAR);
 
 
 	__super::initRendCommand();
@@ -76,11 +76,13 @@ bool OpenglStateMultTextureDepthCube::init(string vertFile, string fragFile)
 	*/
 	//设置纹理单元
 	_glUtils->useProgram(_shaderProgram);// 先使用这个着色器程序对象才能设置uniform变量
+	cout << "_shaderProgram cube=====:" << _shaderProgram << endl;
+
 
 	//通过使用glUniform1i设置采样器，我们保证了每个uniform采样器对应着正确的纹理单元
-	setInt(_shaderProgram, "material.diffuse", 1); // 这里的0就对应了前面的GL_TEXTURE0
-	setInt(_shaderProgram, "material.specular", 2); // 这里的1就对应了前面的GL_TEXTURE1
-	setInt(_shaderProgram, "material.emission", 3);
+	setInt(_shaderProgram, "material.diffuse", 0); // 这里的0就对应了前面的GL_TEXTURE0
+	setInt(_shaderProgram, "material.specular", 1); // 这里的1就对应了前面的GL_TEXTURE1
+	setInt(_shaderProgram, "material.emission", 2);
 
 	//glm::mat4 trans;
 	//float angle = 90.0f;
@@ -142,6 +144,11 @@ bool OpenglStateMultTextureDepthCube::isUseEBORender()
 	return false;
 }
 
+bool  OpenglStateMultTextureDepthCube::isUsePlane()
+{
+	return true;
+}
+
 void OpenglStateMultTextureDepthCube::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新
@@ -150,6 +157,13 @@ void OpenglStateMultTextureDepthCube::rendeCommand()
 	*/
 	__super::rendeCommand();
 	setFloat(_shaderProgram, "textureAlpha", _param1);
+
+	genTexImage2D("resource/container2.png", GL_RGBA, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
+	genTexImage2D("resource/container2_specular.png", GL_RGBA, 0, GL_TEXTURE1, GL_REPEAT, GL_LINEAR);
+	genTexImage2D("resource/matrix.jpg", GL_RGB, 0, GL_TEXTURE2, GL_REPEAT, GL_LINEAR);
+	setInt(_shaderProgram, "material.diffuse", 0); // 这里的0就对应了前面的GL_TEXTURE0
+	setInt(_shaderProgram, "material.specular", 1); // 这里的1就对应了前面的GL_TEXTURE1
+	setInt(_shaderProgram, "material.emission", 2);
 
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(_param4), 800.0f / 600.0f, 0.1f, 100.0f);
