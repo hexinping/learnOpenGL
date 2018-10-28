@@ -27,7 +27,7 @@ bool OpenglStateMultTextureBlend::init(string vertFile, string fragFile)
 	_fragFile = fragFile;
 
 	//this->genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
-	genTexImage2D("resource/grass.png", GL_RGBA, 0, GL_TEXTURE0,GL_REPEAT, GL_LINEAR);
+	_texture0 = genTexImage2D("resource/grass.png", GL_RGBA, 0, GL_TEXTURE0,GL_REPEAT, GL_LINEAR);
 
 	__super::initRendCommand();
 
@@ -41,7 +41,6 @@ bool OpenglStateMultTextureBlend::init(string vertFile, string fragFile)
 	*/
 	//设置纹理单元
 	_glUtils->useProgram(_shaderProgram);// 先使用这个着色器程序对象才能设置uniform变量
-	cout << "_shaderProgram cube=====:" << _shaderProgram << endl;
 
 
 	//通过使用glUniform1i设置采样器，我们保证了每个uniform采样器对应着正确的纹理单元
@@ -85,10 +84,9 @@ void OpenglStateMultTextureBlend::rendeCommand()
 	但是更新一个uniform之前你必须先使用程序（调用glUseProgram)，因为它是在当前激活的着色器程序中设置uniform的。
 	*/
 	__super::rendeCommand();
-	genTexImage2D("resource/grass.png", GL_RGBA, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
-	//setInt(_shaderProgram, "material.diffuse", 0); // 这里的0就对应了前面的GL_TEXTURE0
-	//setInt(_shaderProgram, "material.specular", 1); // 这里的1就对应了前面的GL_TEXTURE1
-	//setInt(_shaderProgram, "material.emission", 2);
+	
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(_texture0);
 	setInt(_shaderProgram, "texture1", 0);
 
 	glm::mat4 projection;

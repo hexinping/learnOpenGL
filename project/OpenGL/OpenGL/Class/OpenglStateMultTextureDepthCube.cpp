@@ -201,7 +201,7 @@ void OpenglStateMultTextureDepthCube::rendeCommand()
 			glm::vec3(-1.0f, 0.0f, -1.0f),
 			glm::vec3(2.0f, 0.0f, 0.0f)
 		};
-		for (unsigned int i = 0; i < 1; i++)
+		for (unsigned int i = 0; i < 2; i++)
 		{
 			glm::mat4 model;
 			model = glm::translate(model, cubePositions[i]);

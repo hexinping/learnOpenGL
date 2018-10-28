@@ -57,8 +57,8 @@ bool OpenglStateMultTextureCamera::init(string vertFile, string fragFile)
 	_vertFile = vertFile;
 	_fragFile = fragFile;
 
-	this->genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
-	this->genTexImage2D("resource/awesomeface.png", GL_RGBA, 0, GL_TEXTURE1,GL_REPEAT, GL_LINEAR);
+	_texture0 = genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
+	_texture1 = genTexImage2D("resource/awesomeface.png", GL_RGBA, 0, GL_TEXTURE1,GL_REPEAT, GL_LINEAR);
 	__super::initRendCommand();
 
 
@@ -128,6 +128,14 @@ void OpenglStateMultTextureCamera::rendeCommand()
 	//glm::mat4 model;
 	//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 	//setMat4(_shaderProgram, "model", &model);
+
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(_texture0);
+	setInt(_shaderProgram, "texture1", 0); // 这里的0就对应了前面的GL_TEXTURE0
+
+	activiteTexture(GL_TEXTURE1);
+	bindTexture(_texture1);
+	setInt(_shaderProgram, "texture2", 1); // 这里的1就对应了前面的GL_TEXTURE1
 	
 	//绕y轴的一个圆：设置摄像机的位置
 	float radius = 10.0f;

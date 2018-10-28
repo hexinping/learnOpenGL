@@ -57,8 +57,8 @@ bool OpenglStateMultTextureCube::init(string vertFile, string fragFile)
 	_vertFile = vertFile;
 	_fragFile = fragFile;
 
-	this->genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
-	this->genTexImage2D("resource/awesomeface.png", GL_RGBA, 0, GL_TEXTURE1,GL_REPEAT, GL_LINEAR);
+	_texture0 = genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
+	_texture1 = genTexImage2D("resource/awesomeface.png", GL_RGBA, 0, GL_TEXTURE1,GL_REPEAT, GL_LINEAR);
 	__super::initRendCommand();
 
 
@@ -124,6 +124,14 @@ void OpenglStateMultTextureCube::rendeCommand()
 	*/
 	__super::rendeCommand();
 	setFloat(_shaderProgram, "textureAlpha", _param1);
+
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(_texture0);
+	setInt(_shaderProgram, "texture1", 0); // 这里的0就对应了前面的GL_TEXTURE0
+
+	activiteTexture(GL_TEXTURE1);
+	bindTexture(_texture1);
+	setInt(_shaderProgram, "texture2", 1); // 这里的1就对应了前面的GL_TEXTURE1
 
 	//glm::mat4 model;
 	//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));

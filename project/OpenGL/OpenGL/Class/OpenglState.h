@@ -87,4 +87,8 @@ public:
 	glm::vec3 _param3 = glm::vec3(0.0f, 0.0f, 0.0f);
 	float _param4 = 0.0f;
 
+	unsigned int _texture0;
+	unsigned int _texture1;
+	unsigned int _texture2;
+
 };

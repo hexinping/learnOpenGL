@@ -37,8 +37,8 @@ bool OpenglStateMultTexture::init(string vertFile, string fragFile)
 	_vertFile = vertFile;
 	_fragFile = fragFile;
 
-	genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
-	genTexImage2D("resource/awesomeface.png", GL_RGBA, 0, GL_TEXTURE1,GL_REPEAT, GL_LINEAR);
+	_texture0 = genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
+	_texture1 = genTexImage2D("resource/awesomeface.png", GL_RGBA, 0, GL_TEXTURE1,GL_REPEAT, GL_LINEAR);
 	__super::initRendCommand();
 
 
@@ -71,6 +71,14 @@ void OpenglStateMultTexture::rendeCommand()
 	*/
 	__super::rendeCommand();
 	setFloat(_shaderProgram, "textureAlpha", _param1);
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(_texture0);
+	setInt(_shaderProgram, "texture1", 0); // 这里的0就对应了前面的GL_TEXTURE0
+
+	activiteTexture(GL_TEXTURE1);
+	bindTexture(_texture1);
+	setInt(_shaderProgram, "texture2", 1); // 这里的1就对应了前面的GL_TEXTURE1
+
 	if (_isUseEBORender)
 	{
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
