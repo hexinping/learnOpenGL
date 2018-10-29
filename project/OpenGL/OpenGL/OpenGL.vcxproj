@@ -80,10 +80,12 @@
     <ClCompile Include="Class\OpenglStateMultAttr.cpp" />
     <ClCompile Include="Class\OpenglStateMultTexture.cpp" />
     <ClCompile Include="Class\OpenglStateMultTexture3D.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureBlend.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureCamera.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureCameraManuel.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureCube.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureDepthCube.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureFrameBuffer.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureLight.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMat4.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterial.cpp" />
@@ -92,6 +94,7 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapMultLights.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapPointLight.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapSpotLight.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureTransparent.cpp" />
     <ClCompile Include="Class\OpenglStatePlane.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
@@ -115,10 +118,12 @@
     <ClInclude Include="Class\OpenglStateMultAttr.h" />
     <ClInclude Include="Class\OpenglStateMultTexture.h" />
     <ClInclude Include="Class\OpenglStateMultTexture3D.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureBlend.h" />
     <ClInclude Include="Class\OpenglStateMultTextureCamera.h" />
     <ClInclude Include="Class\OpenglStateMultTextureCameraManuel.h" />
     <ClInclude Include="Class\OpenglStateMultTextureCube.h" />
     <ClInclude Include="Class\OpenglStateMultTextureDepthCube.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureFrameBuffer.h" />
     <ClInclude Include="Class\OpenglStateMultTextureLight.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMat4.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterial.h" />
@@ -127,6 +132,7 @@
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapMultLights.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapPointLight.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapSpotLight.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureTransparent.h" />
     <ClInclude Include="Class\OpenglStatePlane.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateTexture.h" />
@@ -170,6 +176,14 @@
     <None Include="shader\shader19.vert" />
     <None Include="shader\shader2.frag" />
     <None Include="shader\shader2.vert" />
+    <None Include="shader\shader20.frag" />
+    <None Include="shader\shader20.vert" />
+    <None Include="shader\shader21.frag" />
+    <None Include="shader\shader21.vert" />
+    <None Include="shader\shader22.frag" />
+    <None Include="shader\shader22.vert" />
+    <None Include="shader\shader23.frag" />
+    <None Include="shader\shader23.vert" />
     <None Include="shader\shader3.frag" />
     <None Include="shader\shader3.vert" />
     <None Include="shader\shader4.frag" />

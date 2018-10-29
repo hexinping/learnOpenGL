@@ -129,6 +129,15 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterial.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureBlend.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureTransparent.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureFrameBuffer.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -228,6 +237,15 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureMaterial.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureBlend.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureTransparent.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureFrameBuffer.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -356,6 +374,30 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader19.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader20.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader20.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader21.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader21.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader22.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader22.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader23.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader23.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

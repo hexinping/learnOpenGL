@@ -20,6 +20,7 @@ public:
 	virtual int  getPointLights();
 	virtual bool  isShowLight();
 	virtual bool  isUsePlane();
+	virtual bool  isUseFrameBuffer();
 	GLint getUniformLocation(unsigned int program, const char *name);
 	GLint getAttribLocation(unsigned int program, const char *name);
 	void useProgram(unsigned int program);
@@ -90,5 +91,9 @@ public:
 	unsigned int _texture0;
 	unsigned int _texture1;
 	unsigned int _texture2;
+
+	//帧缓冲对象
+	unsigned int _framebuffer;
+	unsigned int _textureColorbuffer;
 
 };

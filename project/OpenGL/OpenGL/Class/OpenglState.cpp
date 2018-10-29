@@ -138,6 +138,11 @@ bool  OpenglState::isUsePlane()
 	return false;
 }
 
+bool OpenglState::isUseFrameBuffer()
+{
+	return false;
+}
+
 unsigned int OpenglState::genTexImage2D(const char *file, int type, int level, int textureUnit, int around, int filter)
 {
 	return _glUtils->genTexImage2D(file, type, level, textureUnit, around, filter);
