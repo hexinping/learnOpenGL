@@ -72,7 +72,7 @@ void OpenglStateMultTextureFrameBuffer::rendeCommand()
 
 int OpenglStateMultTextureFrameBuffer::getShaderIndex()
 {
-	return 23;
+	return 22;
 }
 
 void OpenglStateMultTextureFrameBuffer::enableVertexAttribArray()

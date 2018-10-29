@@ -182,8 +182,6 @@
     <None Include="shader\shader21.vert" />
     <None Include="shader\shader22.frag" />
     <None Include="shader\shader22.vert" />
-    <None Include="shader\shader23.frag" />
-    <None Include="shader\shader23.vert" />
     <None Include="shader\shader3.frag" />
     <None Include="shader\shader3.vert" />
     <None Include="shader\shader4.frag" />
