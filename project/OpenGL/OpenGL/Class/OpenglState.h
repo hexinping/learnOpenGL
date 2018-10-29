@@ -50,12 +50,13 @@ public:
 	void setVec4(unsigned int program, const char *name, glm::vec4 &value);
 
 	unsigned int genTexImage2D(const char *file, int type = GL_RGB, int level = 0, int textureUnit = GL_TEXTURE0, int around = GL_REPEAT, int filter = GL_LINEAR);
+	unsigned int loadCubemap(vector<std::string> &faces);
 
 	void setModelMat4(glm::vec3 tranVec, glm::vec3 scaleVec, glm::vec3 rorateVec, float angle);
 
 	void setLight(bool light);
 
-	void bindTexture(unsigned int textureId);
+	void bindTexture(unsigned int textureId, bool isCube = false);
 	void activiteTexture(int textureUnit);
 public:
 	OpenglUtils * _glUtils;
@@ -91,6 +92,9 @@ public:
 	unsigned int _texture0;
 	unsigned int _texture1;
 	unsigned int _texture2;
+
+
+	unsigned int _cubemapTexture;
 
 	//帧缓冲对象
 	unsigned int _framebuffer;

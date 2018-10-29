@@ -138,6 +138,9 @@
     <ClCompile Include="Class\OpenglStateMultTextureFrameBuffer.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateCubeMap.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -246,6 +249,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureFrameBuffer.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateCubeMap.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -392,6 +398,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader22.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader23.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader23.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

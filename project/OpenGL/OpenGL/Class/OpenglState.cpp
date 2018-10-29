@@ -148,9 +148,22 @@ unsigned int OpenglState::genTexImage2D(const char *file, int type, int level, i
 	return _glUtils->genTexImage2D(file, type, level, textureUnit, around, filter);
 }
 
-void OpenglState::bindTexture(unsigned int textureId)
+unsigned int OpenglState::loadCubemap(vector<std::string> &faces)
 {
-	glBindTexture(GL_TEXTURE_2D, textureId);
+	return _glUtils->loadCubemap(faces);
+}
+
+void OpenglState::bindTexture(unsigned int textureId, bool isCube)
+{
+	if (!isCube)
+	{
+		glBindTexture(GL_TEXTURE_2D, textureId);
+	}
+	else
+	{
+		glBindTexture(GL_TEXTURE_CUBE_MAP, textureId);
+	}
+		
 }
 
 void OpenglState::activiteTexture(int textureUnit)
