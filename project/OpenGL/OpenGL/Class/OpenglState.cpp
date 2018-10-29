@@ -143,6 +143,11 @@ bool OpenglState::isUseFrameBuffer()
 	return false;
 }
 
+bool OpenglState::isUseSkyBox()
+{
+	return false;
+}
+
 unsigned int OpenglState::genTexImage2D(const char *file, int type, int level, int textureUnit, int around, int filter)
 {
 	return _glUtils->genTexImage2D(file, type, level, textureUnit, around, filter);

@@ -8,7 +8,7 @@ uniform mat4 projection;
 
 void main()
 {
-    TexCoords = aPos;
+    TexCoords = aPos; //顶点可以直接当做纹理坐标
     vec4 pos = projection * view * vec4(aPos, 1.0);
-    gl_Position = pos.xyww;
+    gl_Position = pos.xyww; //这样的目的是为了在透视除法下/w,顶点z的值保持为1，这样就最远了
 }

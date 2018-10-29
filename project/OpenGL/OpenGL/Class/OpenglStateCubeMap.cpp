@@ -112,15 +112,18 @@ bool OpenglStateCubeMap::isUseEBORender()
 	return false;
 }
 
+bool OpenglStateCubeMap::isUseSkyBox()
+{
+	return true;
+}
+
 void OpenglStateCubeMap::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新
 	/*
 	但是更新一个uniform之前你必须先使用程序（调用glUseProgram)，因为它是在当前激活的着色器程序中设置uniform的。
 	*/
-	glDisable(GL_DEPTH_TEST);
-	//glDepthMask(GL_FALSE);
-	//glDepthFunc(GL_LEQUAL);
+	glDepthFunc(GL_LEQUAL);
 	__super::rendeCommand();
 	
 
@@ -150,8 +153,7 @@ void OpenglStateCubeMap::rendeCommand()
 	else
 	{
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-		//glDepthMask(GL_TRUE);
-		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 	}
 }
 
