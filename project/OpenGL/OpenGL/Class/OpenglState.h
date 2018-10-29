@@ -50,7 +50,7 @@ public:
 	void setVec4(unsigned int program, const char *name, glm::vec4 &value);
 
 	unsigned int genTexImage2D(const char *file, int type = GL_RGB, int level = 0, int textureUnit = GL_TEXTURE0, int around = GL_REPEAT, int filter = GL_LINEAR);
-	unsigned int loadCubemap(vector<std::string> &faces);
+	unsigned int loadCubemap(vector<std::string> &faces, bool isRevert = false);
 
 	void setModelMat4(glm::vec3 tranVec, glm::vec3 scaleVec, glm::vec3 rorateVec, float angle);
 
