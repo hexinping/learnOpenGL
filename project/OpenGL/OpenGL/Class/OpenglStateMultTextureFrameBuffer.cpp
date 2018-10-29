@@ -2,7 +2,7 @@
 
 OpenglStateMultTextureFrameBuffer::OpenglStateMultTextureFrameBuffer()
 {
-	OpenglState::OpenglState();
+	
 }
 
 bool OpenglStateMultTextureFrameBuffer::init(string vertFile, string fragFile)

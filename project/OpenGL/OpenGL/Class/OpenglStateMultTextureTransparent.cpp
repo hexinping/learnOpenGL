@@ -4,7 +4,7 @@
 
 OpenglStateMultTextureTransparent::OpenglStateMultTextureTransparent()
 {
-	OpenglState::OpenglState();
+	
 }
 
 bool OpenglStateMultTextureTransparent::init(string vertFile, string fragFile)

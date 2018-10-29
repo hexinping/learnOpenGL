@@ -2,7 +2,7 @@
 
 OpenglStateModel3D::OpenglStateModel3D()
 {
-	OpenglState::OpenglState();
+	
 }
 
 bool OpenglStateModel3D::init(string vertFile, string fragFile)

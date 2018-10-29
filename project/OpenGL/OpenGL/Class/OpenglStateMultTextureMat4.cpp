@@ -2,7 +2,7 @@
 
 OpenglStateMultTextureMat4::OpenglStateMultTextureMat4()
 {
-	OpenglState::OpenglState();
+	
 }
 
 bool OpenglStateMultTextureMat4::init(string vertFile, string fragFile)

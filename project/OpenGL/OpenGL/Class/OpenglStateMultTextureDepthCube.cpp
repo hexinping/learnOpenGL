@@ -2,7 +2,7 @@
 
 OpenglStateMultTextureDepthCube::OpenglStateMultTextureDepthCube()
 {
-	OpenglState::OpenglState();
+	
 }
 
 bool OpenglStateMultTextureDepthCube::init(string vertFile, string fragFile)

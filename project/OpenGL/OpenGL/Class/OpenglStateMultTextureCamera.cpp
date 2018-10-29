@@ -2,7 +2,7 @@
 
 OpenglStateMultTextureCamera::OpenglStateMultTextureCamera()
 {
-	OpenglState::OpenglState();
+	
 }
 
 bool OpenglStateMultTextureCamera::init(string vertFile, string fragFile)

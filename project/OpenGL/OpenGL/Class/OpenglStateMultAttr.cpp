@@ -3,7 +3,7 @@
 
 OpenglStateMultAttr::OpenglStateMultAttr()
 {
-	OpenglState::OpenglState();
+	
 }
 
 bool OpenglStateMultAttr::init(string vertFile, string fragFile)

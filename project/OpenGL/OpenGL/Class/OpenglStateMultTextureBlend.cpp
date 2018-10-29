@@ -2,7 +2,7 @@
 #include <vector>
 OpenglStateMultTextureBlend::OpenglStateMultTextureBlend()
 {
-	OpenglState::OpenglState();
+	
 }
 
 bool OpenglStateMultTextureBlend::init(string vertFile, string fragFile)

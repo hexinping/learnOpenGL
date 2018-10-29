@@ -2,7 +2,7 @@
 
 OpenglStateMultTexture::OpenglStateMultTexture()
 {
-	OpenglState::OpenglState();
+	
 }
 
 bool OpenglStateMultTexture::init(string vertFile, string fragFile)

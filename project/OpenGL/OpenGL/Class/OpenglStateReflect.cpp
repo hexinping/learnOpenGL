@@ -1,11 +1,11 @@
-#include "OpenglStateCubeMap.h"
+#include "OpenglStateReflect.h"
 
-OpenglStateCubeMap::OpenglStateCubeMap()
+OpenglStateReflect::OpenglStateReflect()
 {
 
 }
 
-bool OpenglStateCubeMap::init(string vertFile, string fragFile)
+bool OpenglStateReflect::init(string vertFile, string fragFile)
 {
 	float vertices[] = {
 		// positions          
@@ -107,17 +107,17 @@ bool OpenglStateCubeMap::init(string vertFile, string fragFile)
 
 	return true;
 }
-bool OpenglStateCubeMap::isUseEBORender()
+bool OpenglStateReflect::isUseEBORender()
 {
 	return false;
 }
 
-bool OpenglStateCubeMap::isUseSkyBox()
+bool OpenglStateReflect::isUseSkyBox()
 {
 	return true;
 }
 
-void OpenglStateCubeMap::rendeCommand()
+void OpenglStateReflect::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新
 	/*
@@ -157,12 +157,12 @@ void OpenglStateCubeMap::rendeCommand()
 	}
 }
 
-int OpenglStateCubeMap::getShaderIndex()
+int OpenglStateReflect::getShaderIndex()
 {
 	return 23;
 }
 
-void OpenglStateCubeMap::enableVertexAttribArray()
+void OpenglStateReflect::enableVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");
 	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //函数告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上)
