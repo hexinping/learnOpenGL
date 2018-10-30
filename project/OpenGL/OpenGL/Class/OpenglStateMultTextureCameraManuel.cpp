@@ -1,10 +1,5 @@
 #include "OpenglStateMultTextureCameraManuel.h"
 
-OpenglStateMultTextureCameraManuel::OpenglStateMultTextureCameraManuel()
-{
-	
-}
-
 bool OpenglStateMultTextureCameraManuel::init(string vertFile, string fragFile)
 {
 	float vertices[] = {

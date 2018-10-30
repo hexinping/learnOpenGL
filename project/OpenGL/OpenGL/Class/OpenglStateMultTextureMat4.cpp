@@ -1,10 +1,5 @@
 #include "OpenglStateMultTextureMat4.h"
 
-OpenglStateMultTextureMat4::OpenglStateMultTextureMat4()
-{
-	
-}
-
 bool OpenglStateMultTextureMat4::init(string vertFile, string fragFile)
 {
 	float vertices[] = {

@@ -1,11 +1,5 @@
 #include "OpenglStateMultAttr.h"
 
-
-OpenglStateMultAttr::OpenglStateMultAttr()
-{
-	
-}
-
 bool OpenglStateMultAttr::init(string vertFile, string fragFile)
 {
 	float vertices[] = {

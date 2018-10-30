@@ -1,10 +1,5 @@
 #include "OpenglStateMultTextureFrameBuffer.h"
 
-OpenglStateMultTextureFrameBuffer::OpenglStateMultTextureFrameBuffer()
-{
-	
-}
-
 bool OpenglStateMultTextureFrameBuffer::init(string vertFile, string fragFile)
 {
 	float vertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.

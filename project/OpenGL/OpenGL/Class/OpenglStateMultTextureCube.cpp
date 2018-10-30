@@ -1,10 +1,5 @@
 #include "OpenglStateMultTextureCube.h"
 
-OpenglStateMultTextureCube::OpenglStateMultTextureCube()
-{
-	
-}
-
 bool OpenglStateMultTextureCube::init(string vertFile, string fragFile)
 {
 	float vertices[] = {

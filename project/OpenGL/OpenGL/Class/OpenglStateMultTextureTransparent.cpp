@@ -2,11 +2,6 @@
 #include <vector>
 #include <map>
 
-OpenglStateMultTextureTransparent::OpenglStateMultTextureTransparent()
-{
-	
-}
-
 bool OpenglStateMultTextureTransparent::init(string vertFile, string fragFile)
 {
 	float vertices[] = {

@@ -1,10 +1,5 @@
 #include "OpenglStateModel3D.h"
 
-OpenglStateModel3D::OpenglStateModel3D()
-{
-	
-}
-
 bool OpenglStateModel3D::init(string vertFile, string fragFile)
 {
 	_vertFile = vertFile;

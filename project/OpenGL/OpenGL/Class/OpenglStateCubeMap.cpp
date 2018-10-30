@@ -1,10 +1,5 @@
 #include "OpenglStateCubeMap.h"
 
-OpenglStateCubeMap::OpenglStateCubeMap()
-{
-
-}
-
 bool OpenglStateCubeMap::init(string vertFile, string fragFile)
 {
 	float vertices[] = {

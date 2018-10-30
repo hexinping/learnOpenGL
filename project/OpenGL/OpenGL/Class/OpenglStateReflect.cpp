@@ -1,10 +1,5 @@
 #include "OpenglStateReflect.h"
 
-OpenglStateReflect::OpenglStateReflect()
-{
-
-}
-
 bool OpenglStateReflect::init(string vertFile, string fragFile)
 {
 	float vertices[] = {
