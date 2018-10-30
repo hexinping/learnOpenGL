@@ -82,6 +82,11 @@ bool OpenglStateModel3D::isUseReflect()
 	return true;
 }
 
+bool OpenglStateModel3D::isUseSkyBox()
+{
+	return true;
+}
+
 void OpenglStateModel3D::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新
