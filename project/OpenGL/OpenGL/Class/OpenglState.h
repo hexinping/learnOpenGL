@@ -2,6 +2,9 @@
 #include <iostream>
 #include "OpenglUtils.h"
 #include "MathUtils.h"
+
+extern int _countId;
+
 using namespace std;
 class OpenglState
 {
@@ -23,6 +26,7 @@ public:
 	virtual bool  isUseFrameBuffer();
 	virtual bool  isUseSkyBox();
 	virtual bool  isUseReflect();
+	virtual string  getModelFile();
 	GLint getUniformLocation(unsigned int program, const char *name);
 	GLint getAttribLocation(unsigned int program, const char *name);
 	void useProgram(unsigned int program);
@@ -71,6 +75,7 @@ public:
 	unsigned int _lightShaderProgram;
 
 	glm::mat4 _modelMat4;
+	bool _useModelMat4;
 
 	//单独为光源配置一个vao 与模型的vao分开
 	bool _isLight;
@@ -101,5 +106,9 @@ public:
 	//帧缓冲对象
 	unsigned int _framebuffer;
 	unsigned int _textureColorbuffer;
+
+	//唯一ID
+	int _ID;
+
 
 };

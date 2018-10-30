@@ -1,5 +1,6 @@
 #include "OpenglState.h"
 
+int _countId = 0;
 
 OpenglState::OpenglState()
 : _glUtils(nullptr)
@@ -19,6 +20,9 @@ OpenglState::OpenglState()
 {
 	_glUtils = OpenglUtils::getInstance();
 	_mathUtils = MathUtils::getInstance();
+
+	_ID = _countId;
+	_countId = _countId + 1;
 
 }
 
@@ -75,6 +79,7 @@ void  OpenglState::setModelMat4(glm::vec3 tranVec, glm::vec3 scaleVec, glm::vec3
 	_modelMat4 = glm::translate(_modelMat4, tranVec);
 	_modelMat4 = glm::rotate(_modelMat4, glm::radians(angle), rorateVec);
 	_modelMat4 = glm::scale(_modelMat4, scaleVec);
+	_useModelMat4 = true;
 }
 
 void OpenglState::enableVertexAttribArray()
@@ -131,6 +136,12 @@ int OpenglState::getShaderIndex()
 bool OpenglState::isRenderModel()
 {
 	return false;
+}
+
+string  OpenglState::getModelFile()
+{
+	string str;
+	return str;
 }
 
 bool  OpenglState::isUsePlane()

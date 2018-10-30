@@ -77,6 +77,12 @@ bool OpenglStateModel3D::isRenderModel()
 	return true;
 }
 
+string OpenglStateModel3D::getModelFile()
+{
+	string str("resource/objects/nanosuit/nanosuit.obj");
+	return str;
+}
+
 bool OpenglStateModel3D::isUseReflect()
 {
 	return true;
@@ -114,11 +120,19 @@ void OpenglStateModel3D::rendeCommand()
 	//cout << "(float)glfwGetTime():" << (float)glfwGetTime() << endl;
 
 	// render the loaded model
-	glm::mat4 model;
-	model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-	model = glm::rotate(model, (float)glfwGetTime() * glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-	setMat4(_shaderProgram,"model", &model);
+	if (!_useModelMat4)
+	{
+		glm::mat4 model;
+		model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+		setMat4(_shaderProgram, "model", &model);
+	}
+	else
+	{
+		setMat4(_shaderProgram, "model", &_modelMat4);
+	}
+	
 
 	setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// 摄像机的位置（观察空间的原点）
 

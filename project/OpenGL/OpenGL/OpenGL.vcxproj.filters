@@ -385,9 +385,6 @@
     <None Include="shader\shader17.frag">
       <Filter>shader</Filter>
     </None>
-    <None Include="shader\shader17.vert">
-      <Filter>shader</Filter>
-    </None>
     <None Include="shader\shader18.frag">
       <Filter>shader</Filter>
     </None>
@@ -440,6 +437,9 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader26.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader17.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
