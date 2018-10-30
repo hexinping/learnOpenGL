@@ -85,7 +85,7 @@ void main()
 	//vec3 R = reflect(-viewDir, norm);
 	//vec3 reflectColor = texture(skybox, R).rgb;
 
-	//FragColor = vec4(result + reflectColor , 1.0);
+	//FragColor = vec4(result * reflectColor , 1.0);
 
 	//’€…‰
 	//float ratio = 1.00 / 1.52; //’€…‰¬ 
