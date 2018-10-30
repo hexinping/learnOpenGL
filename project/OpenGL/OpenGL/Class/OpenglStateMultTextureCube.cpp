@@ -133,6 +133,18 @@ void OpenglStateMultTextureCube::rendeCommand()
 	//setMat4(_shaderProgram, "model", &model);
 
 
+	glm::mat4 projection;
+	projection = glm::perspective(glm::radians(_param4), 800.0f / 600.0f, 0.1f, 100.0f);
+	setMat4(_shaderProgram, "projection", &projection);
+
+	glm::mat4 view;
+	glm::vec3 cameraPos = _param2;
+	glm::vec3 cameraFront = _param3;
+	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	setMat4(_shaderProgram, "view", &view);
+
+
 	if (_isUseEBORender)
 	{
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
@@ -157,7 +169,7 @@ void OpenglStateMultTextureCube::rendeCommand()
 			glm::mat4 model;
 			model = glm::translate(model, cubePositions[i]);
 			float angle = 20.0f * (i+1);
-			model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+			//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 			setMat4(_shaderProgram, "model", &model);
 
 			glDrawArrays(GL_TRIANGLES, 0, 36);
