@@ -11,6 +11,7 @@ class OpenglState
 public:
 
 	OpenglState();
+	~OpenglState(){};
 	virtual bool init(string vertFile, string fragFile);
 	void initRendCommand();
 	virtual bool isUseEBORender();
@@ -109,6 +110,10 @@ public:
 
 	//唯一ID
 	int _ID;
+
+
+	glm::mat4 *modelMatrices;
+	unsigned int _amount = 1;
 
 
 };

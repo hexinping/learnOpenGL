@@ -80,6 +80,8 @@
     <ClCompile Include="Class\OpenglStateInStance.cpp" />
     <ClCompile Include="Class\OpenglStateInstance2.cpp" />
     <ClCompile Include="Class\OpenglStateModel3D.cpp" />
+    <ClCompile Include="Class\OpenglStateModel3DPlanet.cpp" />
+    <ClCompile Include="Class\OpenglStateModel3DRock.cpp" />
     <ClCompile Include="Class\OpenglStateMultAttr.cpp" />
     <ClCompile Include="Class\OpenglStateMultTexture.cpp" />
     <ClCompile Include="Class\OpenglStateMultTexture3D.cpp" />
@@ -122,6 +124,8 @@
     <ClInclude Include="Class\OpenglStateInStance.h" />
     <ClInclude Include="Class\OpenglStateInstance2.h" />
     <ClInclude Include="Class\OpenglStateModel3D.h" />
+    <ClInclude Include="Class\OpenglStateModel3DPlanet.h" />
+    <ClInclude Include="Class\OpenglStateModel3DRock.h" />
     <ClInclude Include="Class\OpenglStateMultAttr.h" />
     <ClInclude Include="Class\OpenglStateMultTexture.h" />
     <ClInclude Include="Class\OpenglStateMultTexture3D.h" />
@@ -198,6 +202,8 @@
     <None Include="shader\shader25.vert" />
     <None Include="shader\shader26.frag" />
     <None Include="shader\shader26.vert" />
+    <None Include="shader\shader27.frag" />
+    <None Include="shader\shader27.vert" />
     <None Include="shader\shader3.frag" />
     <None Include="shader\shader3.vert" />
     <None Include="shader\shader4.frag" />

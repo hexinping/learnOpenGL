@@ -150,6 +150,12 @@
     <ClCompile Include="Class\OpenglStateInstance2.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateModel3DPlanet.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateModel3DRock.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -270,6 +276,12 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateInstance2.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateModel3DPlanet.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateModel3DRock.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -440,6 +452,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader17.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader27.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader27.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
