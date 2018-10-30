@@ -22,6 +22,7 @@ public:
 	virtual bool  isUsePlane();
 	virtual bool  isUseFrameBuffer();
 	virtual bool  isUseSkyBox();
+	virtual bool  isUseReflect();
 	GLint getUniformLocation(unsigned int program, const char *name);
 	GLint getAttribLocation(unsigned int program, const char *name);
 	void useProgram(unsigned int program);
