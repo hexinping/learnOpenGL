@@ -87,6 +87,12 @@ void main()
 
 	//FragColor = vec4(result + reflectColor , 1.0);
 
+	//’€…‰
+	//float ratio = 1.00 / 1.52; //’€…‰¬ 
+    //vec3 I = normalize(Position - cameraPos);
+    //vec3 R = refract(I, normalize(Normal), ratio);
+    //FragColor = vec4(texture(skybox, R).rgb, 1.0);
+
 	vec3 R = reflect(-viewDir, norm);
 	vec3 reflectColor = texture(skybox, R).rgb;
 	FragColor = vec4(reflectColor , 1.0);
