@@ -123,7 +123,7 @@ void OpenglStateModel3DPlanet::rendeCommand()
 	{
 		glm::mat4 model;
 		model = glm::translate(model, glm::vec3(0.0f, -3.0f, 0.0f)); // translate it down so it's at the center of the scene
-		//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f));	// it's a bit too big for our scene, so scale it down
 		setMat4(_shaderProgram, "model", &model);
 	}
