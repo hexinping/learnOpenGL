@@ -35,6 +35,8 @@ struct PointLight {
 #define NR_POINT_LIGHTS 4
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 
+//天空盒纹理
+uniform samplerCube skybox;
 
 //计算点光源输出函数
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
@@ -73,5 +75,12 @@ void main()
         result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);  
 
     result = result * lightColor * objectColor;
+
+
+	//添加反射效果
+	vec3 R = reflect(-viewDir, norm);
+	vec3 reflectColor = texture(skybox, R).rgb;
+	//FragColor = vec4(result + reflectColor, 1.0);
+
     FragColor = vec4(result, 1.0);
 }

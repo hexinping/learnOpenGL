@@ -150,7 +150,7 @@ void OpenglStateReflect::rendeCommand()
 	//setFloat(_shaderProgram, "textureAlpha", _param1);
 
 	activiteTexture(GL_TEXTURE0);
-	bindTexture(_cubemapTexture);
+	bindTexture(_cubemapTexture,true);
 	setInt(_shaderProgram, "skybox", 0);
 
 	activiteTexture(GL_TEXTURE1);

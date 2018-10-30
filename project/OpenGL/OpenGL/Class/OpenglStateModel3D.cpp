@@ -77,6 +77,11 @@ bool OpenglStateModel3D::isRenderModel()
 	return true;
 }
 
+bool OpenglStateModel3D::isUseReflect()
+{
+	return true;
+}
+
 void OpenglStateModel3D::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新
@@ -84,8 +89,12 @@ void OpenglStateModel3D::rendeCommand()
 	但是更新一个uniform之前你必须先使用程序（调用glUseProgram)，因为它是在当前激活的着色器程序中设置uniform的。
 	*/
 	
-	
 	_glUtils->useProgram(_shaderProgram);
+
+	activiteTexture(GL_TEXTURE4);
+	bindTexture(_cubemapTexture, true);
+	setInt(_shaderProgram, "skybox", 4); // 这里的0就对应了前面的GL_TEXTURE0
+
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(_param4), 800.0f / 600.0f, 0.1f, 100.0f);
 	setMat4(_shaderProgram, "projection", &projection);
