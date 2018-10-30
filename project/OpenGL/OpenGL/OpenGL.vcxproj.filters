@@ -144,6 +144,12 @@
     <ClCompile Include="Class\OpenglStateReflect.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateInStance.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateInstance2.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -258,6 +264,12 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateReflect.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateInStance.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateInstance2.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -416,6 +428,18 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader24.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader25.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader25.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader26.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader26.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
