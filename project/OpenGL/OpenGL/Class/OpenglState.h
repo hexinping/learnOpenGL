@@ -25,6 +25,7 @@ public:
 	virtual bool  isShowLight();
 	virtual bool  isUsePlane();
 	virtual bool  isUseFrameBuffer();
+	virtual bool  isRenderFrameBuffer();
 	virtual bool  isUseSkyBox();
 	virtual bool  isUseReflect();
 	virtual string  getModelFile();
@@ -107,6 +108,7 @@ public:
 	//帧缓冲对象
 	unsigned int _framebuffer;
 	unsigned int _textureColorbuffer;
+	unsigned int _multFrambuffer;
 
 	//唯一ID
 	int _ID;
