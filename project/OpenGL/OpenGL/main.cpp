@@ -222,7 +222,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateMultTextureMultSample();
+	OpenglState *glState = new OpenglStateModel3D();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -345,7 +345,7 @@ int main(int argc, char* argv[])
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-	glfwWindowHint(GLFW_SAMPLES, 4); //每个像素点使用4个采样点 ，为了多级采样用
+	//glfwWindowHint(GLFW_SAMPLES, 4); //每个像素点使用4个采样点 ，为了多级采样用
 	GLFWwindow* window;
 	createWindow(&window);
 
@@ -442,9 +442,12 @@ int main(int argc, char* argv[])
 
 	// 渲染循环
 	glEnable(GL_DEPTH_TEST); // 开启深度测试
-	glEnable(GL_MULTISAMPLE); //开启多级采样
 
-
+	if (world->_isUseFrameBuffer)
+	{
+		glfwWindowHint(GLFW_SAMPLES, 4); //每个像素点使用4个采样点 ，为了多级采样用
+		glEnable(GL_MULTISAMPLE); //开启多级采样
+	}
 
 	/*
 
@@ -456,7 +459,7 @@ int main(int argc, char* argv[])
 	
 	*/
 
-	unsigned int framebuffer; //使用多重采样的帧缓冲
+	unsigned int framebuffer = 0; //使用多重采样的帧缓冲
 	unsigned int texColorBuffer; //使用多重采样的纹理附件
 
 	unsigned int intermediateFBO; //多重采样帧缓冲的还原的正常帧缓冲
