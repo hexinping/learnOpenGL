@@ -248,6 +248,25 @@ void OpenglWorld::createFrameBufferByMultSample(int screenWidth, int screenHeigh
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void OpenglWorld::useFrameBuffer(unsigned int framebuffer)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+	glEnable(GL_DEPTH_TEST); // enable depth testing (is disabled for rendering screen-space quad)
+}
+
+void OpenglWorld::deleteBuffers(unsigned int framebuffer)
+{
+	glDeleteBuffers(1, &_lightEBO);
+	glDeleteVertexArrays(1, &_lightVAO);
+	glDeleteBuffers(1, &_lightVBO);
+
+	if (_isUseFrameBuffer)
+	{
+		//删除帧缓冲对象
+		glDeleteFramebuffers(1, &framebuffer);
+	}
+}
+
 void OpenglWorld::setCubemapTexture(unsigned int cubemapTexture)
 {
 	_cubemapTexture = cubemapTexture;

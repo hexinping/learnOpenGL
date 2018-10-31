@@ -162,10 +162,10 @@
     <ClInclude Include="Utils\OpenglUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\base.frag" />
-    <None Include="shader\base.vert" />
     <None Include="shader\lamp.frag" />
     <None Include="shader\lamp.vert" />
+    <None Include="shader\shader0.frag" />
+    <None Include="shader\shader0.vert" />
     <None Include="shader\shader1.frag" />
     <None Include="shader\shader1.vert" />
     <None Include="shader\shader10.frag" />

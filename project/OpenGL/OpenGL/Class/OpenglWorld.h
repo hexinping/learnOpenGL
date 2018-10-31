@@ -21,6 +21,9 @@ public:
 	void setLightNum(int num);
 	void addModelOpenglState(OpenglState *glState, int id);
 	void addRenderModel(Model *model, int id);
+	void useFrameBuffer(unsigned int framebuffer);
+
+	void deleteBuffers(unsigned int framebuffer);
 
 
 	void createFrameBuffer(int screenWidth,int screenHeight,unsigned int *framebuffer, unsigned int *texColorBuffer);

@@ -35,6 +35,8 @@ public:
 
 	virtual int getShaderIndex();
 
+	void deleteBuffers();
+
 
 
 	void setBool(unsigned int program, const char *name, bool value) const;

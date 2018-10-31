@@ -27,9 +27,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\glad\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -48,10 +45,73 @@
     <ClCompile Include="Utils\MathUtils.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Mesh.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
     <ClCompile Include="Class\Model.cpp">
       <Filter>Class</Filter>
     </ClCompile>
     <ClCompile Include="Class\OpenglCamera.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglState.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateCubeMap.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateInStance.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateInstance2.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateModel3D.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateModel3DPlanet.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateModel3DRock.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultAttr.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTexture.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTexture3D.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureBlend.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureCamera.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureCameraManuel.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureCube.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureDepthCube.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureFrameBuffer.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureLight.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureMat4.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureMaterial.cpp">
       <Filter>Class</Filter>
     </ClCompile>
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMap.cpp">
@@ -69,7 +129,19 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapSpotLight.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureMultSample.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureTransparent.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStatePlane.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
     <ClCompile Include="Class\OpenglStateRect.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateReflect.cpp">
       <Filter>Class</Filter>
     </ClCompile>
     <ClCompile Include="Class\OpenglStateTexture.cpp">
@@ -85,78 +157,6 @@
       <Filter>Class</Filter>
     </ClCompile>
     <ClCompile Include="Class\stb_image.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStatePlane.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\Mesh.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglState.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateModel3D.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultAttr.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTexture.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTexture3D.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureCamera.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureCameraManuel.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureCube.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureDepthCube.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureLight.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureMat4.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureMaterial.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureBlend.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureTransparent.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureFrameBuffer.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateCubeMap.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateReflect.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateInStance.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateInstance2.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateModel3DPlanet.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateModel3DRock.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\OpenglStateMultTextureMultSample.cpp">
       <Filter>Class</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,10 +179,70 @@
     <ClInclude Include="Utils\MathUtils.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Class\Mesh.h">
+      <Filter>Class</Filter>
+    </ClInclude>
     <ClInclude Include="Class\Model.h">
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglCamera.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglState.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateCubeMap.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateInStance.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateInstance2.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateModel3D.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateModel3DPlanet.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateModel3DRock.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultAttr.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTexture.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTexture3D.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureBlend.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureCamera.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureCameraManuel.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureCube.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureDepthCube.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureFrameBuffer.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureLight.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureMat4.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureMaterial.h">
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMap.h">
@@ -200,7 +260,19 @@
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapSpotLight.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureMultSample.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureTransparent.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStatePlane.h">
+      <Filter>Class</Filter>
+    </ClInclude>
     <ClInclude Include="Class\OpenglStateRect.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateReflect.h">
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateTexture.h">
@@ -218,86 +290,8 @@
     <ClInclude Include="Class\stb_image.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="Class\OpenglStatePlane.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\Mesh.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglState.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateModel3D.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultAttr.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTexture.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTexture3D.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureCamera.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureCameraManuel.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureCube.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureDepthCube.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureLight.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureMat4.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureMaterial.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureBlend.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureTransparent.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureFrameBuffer.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateCubeMap.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateReflect.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateInStance.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateInstance2.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateModel3DPlanet.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateModel3DRock.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglStateMultTextureMultSample.h">
-      <Filter>Class</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\base.frag">
-      <Filter>shader</Filter>
-    </None>
-    <None Include="shader\base.vert">
-      <Filter>shader</Filter>
-    </None>
     <None Include="shader\lamp.frag">
       <Filter>shader</Filter>
     </None>
@@ -470,6 +464,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader28.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader0.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader0.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

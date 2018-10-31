@@ -201,35 +201,12 @@ int createWindow(GLFWwindow** pWindow)
 map<int, string> OpenglStatesMap;
 void initShaders()
 {
-	OpenglStatesMap[0] = "base";
-	OpenglStatesMap[1] = "shader1";
-	OpenglStatesMap[2] = "shader2";
-	OpenglStatesMap[3] = "shader3";
-	OpenglStatesMap[4] = "shader4";
-	OpenglStatesMap[5] = "shader5";
-	OpenglStatesMap[6] = "shader6";
-	OpenglStatesMap[7] = "shader7";
-	OpenglStatesMap[8] = "shader8";
-	OpenglStatesMap[9] = "shader9";
-	OpenglStatesMap[10] = "shader10";
-	OpenglStatesMap[11] = "shader11";
-	OpenglStatesMap[12] = "shader12";
-	OpenglStatesMap[13] = "shader13";
-	OpenglStatesMap[14] = "shader14";
-	OpenglStatesMap[15] = "shader15";
-	OpenglStatesMap[16] = "shader16";
-	OpenglStatesMap[17] = "shader17";
-	OpenglStatesMap[18] = "shader18";
-	OpenglStatesMap[19] = "shader19";
-	OpenglStatesMap[20] = "shader20";
-	OpenglStatesMap[21] = "shader21";
-	OpenglStatesMap[22] = "shader22";
-	OpenglStatesMap[23] = "shader23";
-	OpenglStatesMap[24] = "shader24";
-	OpenglStatesMap[25] = "shader25";
-	OpenglStatesMap[26] = "shader26";
-	OpenglStatesMap[27] = "shader27";
-	OpenglStatesMap[28] = "shader28";
+	int count = 28;
+	for (int i = 0; i <= count;i++)
+	{
+		string shaderName = "shader" + to_string(i);
+		OpenglStatesMap.insert(pair<int, string >(i, shaderName));
+	}
 }
 
 
@@ -443,14 +420,6 @@ int main(int argc, char* argv[])
 	//创建测试对象
 	createTestObjects();
 
-	unsigned int lightVBO = 0, lighgtVAO = 0, lightEBO = 0;
-	if (world->_isLight)
-	{
-		lightVBO = world->_lightVBO;
-		lighgtVAO = world->_lightVAO;
-		lightEBO = world->_lightEBO;
-	}
-
 	/*
 	glfwWindowShouldClose函数在我们每次循环的开始前检查一次GLFW是否被要求退出，如果是的话该函数返回true然后渲染循环便结束了，之后为我们就可以关闭应用程序了。
 	glfwPollEvents函数检查有没有触发什么事件（比如键盘输入、鼠标移动等）、更新窗口状态，并调用对应的回调函数（可以通过回调方法手动设置）。
@@ -477,35 +446,31 @@ int main(int argc, char* argv[])
 
 
 
-	unsigned int framebuffer;
-	unsigned int texColorBuffer;
-	unsigned int intermediateFBO;
-	unsigned int screenTexture;
+	/*
+
+	渲染到多重采样帧缓冲对象的过程都是自动的。只要我们在帧缓冲绑定时绘制任何东西，光栅器就会负责所有的多重采样运算。
+	我们最终会得到一个多重采样颜色缓冲以及/或深度和模板缓冲。因为多重采样缓冲有一点特别，我们不能直接将它们的缓冲图像用于其他运算，比如在着色器中对它们进行采样。
+
+	一个多重采样的图像包含比普通图像更多的信息，我们所要做的是缩小或者还原(Resolve)图像。
+	多重采样帧缓冲的还原通常是通过glBlitFramebuffer来完成，它能够将一个帧缓冲中的某个区域复制到另一个帧缓冲中，并且将多重采样缓冲还原。
+	
+	*/
+
+	unsigned int framebuffer; //使用多重采样的帧缓冲
+	unsigned int texColorBuffer; //使用多重采样的纹理附件
+
+	unsigned int intermediateFBO; //多重采样帧缓冲的还原的正常帧缓冲
+	unsigned int screenTexture;  //正常帧缓冲的纹理附件
 	bool isUseFrameBuffer = world->_isUseFrameBuffer;
 	if (isUseFrameBuffer)
 	{
 		world->createFrameBufferByMultSample(width, height, &framebuffer, &texColorBuffer);
 
+		//多重采样的帧缓冲不能进行采样，需要创建一个临时的正常帧缓冲然后把数据复制到正常帧缓冲中
 
-		glGenFramebuffers(1, &intermediateFBO);
-		glBindFramebuffer(GL_FRAMEBUFFER, intermediateFBO);
-		// create a color attachment texture
-
-		glGenTextures(1, &screenTexture);
-		glBindTexture(GL_TEXTURE_2D, screenTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, screenTexture, 0);	// we only need a color buffer
-
-		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-			cout << "ERROR::FRAMEBUFFER:: Intermediate framebuffer is not complete!" << endl;
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		//创建一个临时的帧缓冲
+		world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture);
 	}
-
-
-
-
 
 	auto _openglStateArray = world->_openglStateArray;
 	int size = _openglStateArray.size();
@@ -526,8 +491,7 @@ int main(int argc, char* argv[])
 		//绑定创建的帧缓冲对象，下面的绘制命令都会填充到帧缓冲里面
 		if (isUseFrameBuffer)
 		{
-			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-			glEnable(GL_DEPTH_TEST); // enable depth testing (is disabled for rendering screen-space quad)
+			world->useFrameBuffer(framebuffer);
 		}
 
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -603,25 +567,10 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < size; i++)
 	{
 		OpenglState *state = _openglStateArray[i];
-		unsigned int sVBO, sVAO, sEBO;
-		sVBO = state->_VBO;
-		sVAO = state->_VAO;
-		sEBO = state->_EBO;
-		glDeleteBuffers(1, &sEBO);
-		glDeleteVertexArrays(1, &sVAO);
-		glDeleteBuffers(1, &sVBO);
+		state->deleteBuffers();
 	}
 
-
-	glDeleteBuffers(1, &lightEBO);
-	glDeleteVertexArrays(1, &lighgtVAO);
-	glDeleteBuffers(1, &lightVBO);
-
-	if (world->_isUseFrameBuffer)
-	{
-		//删除帧缓冲对象
-		glDeleteFramebuffers(1, &framebuffer);
-	}
+	world->deleteBuffers(framebuffer);
 
 	delete world;
 	delete camera;

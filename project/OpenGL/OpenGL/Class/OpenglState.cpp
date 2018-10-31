@@ -169,6 +169,14 @@ bool OpenglState::isUseReflect()
 	return false;
 }
 
+
+void OpenglState::deleteBuffers()
+{
+	glDeleteBuffers(1, &_EBO);
+	glDeleteVertexArrays(1, &_VAO);
+	glDeleteBuffers(1, &_VBO);
+}
+
 unsigned int OpenglState::genTexImage2D(const char *file, int type, int level, int textureUnit, int around, int filter)
 {
 	return _glUtils->genTexImage2D(file, type, level, textureUnit, around, filter);
