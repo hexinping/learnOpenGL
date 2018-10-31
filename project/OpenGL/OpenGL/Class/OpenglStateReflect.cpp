@@ -53,9 +53,9 @@ bool OpenglStateReflect::init(string vertFile, string fragFile)
 	_fragFile = fragFile;
 
 
-	_texture0 = genTexImage2D("resource/container2.png", GL_RGBA, 0, GL_TEXTURE1, GL_REPEAT, GL_LINEAR);
-	_texture1 = genTexImage2D("resource/container2_specular.png", GL_RGBA, 0, GL_TEXTURE2, GL_REPEAT, GL_LINEAR);
-	_texture2 = genTexImage2D("resource/matrix.jpg", GL_RGB, 0, GL_TEXTURE3, GL_REPEAT, GL_LINEAR);
+	_texture0 = loadTexture("resource/container2.png", GL_TEXTURE1);
+	_texture1 = loadTexture("resource/container2_specular.png",GL_TEXTURE2);
+	_texture2 = loadTexture("resource/matrix.jpg", GL_TEXTURE3);
 
 
 	__super::initRendCommand();

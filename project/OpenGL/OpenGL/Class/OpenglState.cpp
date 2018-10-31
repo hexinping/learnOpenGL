@@ -177,9 +177,9 @@ void OpenglState::deleteBuffers()
 	glDeleteBuffers(1, &_VBO);
 }
 
-unsigned int OpenglState::genTexImage2D(const char *file, int type, int level, int textureUnit, int around, int filter)
+unsigned int OpenglState::loadTexture(const char *file, int textureUnit)
 {
-	return _glUtils->genTexImage2D(file, type, level, textureUnit, around, filter);
+	return _glUtils->loadTexture(file, textureUnit);
 }
 
 unsigned int OpenglState::loadCubemap(vector<std::string> &faces, bool isRevert)

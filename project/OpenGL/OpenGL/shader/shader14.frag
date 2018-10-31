@@ -58,7 +58,7 @@ void main()
 	vec3 ambient = light.ambient * diffuseMapColor; //环境光光照
 
 	vec3 norm = normalize(Normal);
-	vec3 lightDir = normalize(-light.direction); 
+	vec3 lightDir = normalize(-light.direction);  //定义的光源方向时从光源位置到顶点位置，而计算漫反射需要从顶点到光源的向量，所以用-light.direction来计算漫反射
 
 	//计算漫反射光照
 	float diff = max(dot(norm, lightDir), 0.0);

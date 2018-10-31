@@ -39,6 +39,8 @@
 #include "OpenglStateModel3DPlanet.h"
 #include "OpenglStateModel3DRock.h"
 #include "OpenglStateMultTextureMultSample.h"
+#include "OpenglStateMultTextureMaterialMapMultLightsAdvance.h"
+#include "OpenglStateMultTextureMaterialMapPointLightAdvance.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
@@ -190,7 +192,7 @@ int createWindow(GLFWwindow** pWindow)
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
@@ -201,7 +203,7 @@ int createWindow(GLFWwindow** pWindow)
 map<int, string> OpenglStatesMap;
 void initShaders()
 {
-	int count = 28;
+	int count = 30;
 	for (int i = 0; i <= count;i++)
 	{
 		string shaderName = "shader" + to_string(i);
@@ -222,7 +224,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateModel3D();
+	OpenglState *glState = new OpenglStateMultTextureMaterialMapPointLightAdvance();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);

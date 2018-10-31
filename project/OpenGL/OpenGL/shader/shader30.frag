@@ -60,7 +60,7 @@ void main()
 	//vec3 specularMapColor = vec3(texture(material.specular, TexCoords)); //高光贴图纹理颜色
 	//vec3 emissionMapColor = vec3(texture(material.emission, TexCoords)); //自发光贴图纹理颜色
 
-	vec3 ambient = light.ambient * diffuseMapColor; //环境光光照
+	vec3 ambient = diffuseMapColor; //环境光光照
 
 	//计算点光源的衰减值
 	float distance    = length(light.position - FragPos);
@@ -77,20 +77,21 @@ void main()
 
 	//float specularStrength = 0.5; // 高光强度
 	vec3 viewDir = normalize(viewPos - FragPos);
-	
 
 	//计算高光光照
+
 	//1 冯氏光照
 	//vec3 reflectDir = reflect(-lightDir, norm); //reflect函数要求第一个向量是从光源指向片段位置的向量，但是lightDir当前正好相反，
 	//float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);//反光度
 
 	//2 Blinn-Phong（冯氏光照的优化版）：用半程向量和法线向量的点积表示镜面反光
-	vec3 halfwayDir = normalize(lightDir + viewDir);  
-    float spec  = pow(max(dot(normal, halfwayDir), 0.0), 32.0);
-
+	vec3 halfwayDir = normalize(lightDir + viewDir);
+	float spec = pow(max(dot(halfwayDir, norm), 0.0), material.shininess);
+	
+	
 	vec3 specular = spec * light.specular;
 
-
+	
 	//vec3 result = (ambient + diffuse + specular + emissionMapColor) * lightColor * objectColor;//使用自发光贴图
 	vec3 result = (ambient + diffuse + specular) * attenuation * lightColor * objectColor;
 	FragColor = vec4(result, 1.0);

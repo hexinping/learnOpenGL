@@ -23,8 +23,7 @@ bool OpenglStateMultTextureTransparent::init(string vertFile, string fragFile)
 	_vertFile = vertFile;
 	_fragFile = fragFile;
 
-	//this->genTexImage2D("resource/container.jpg", GL_RGB, 0, GL_TEXTURE0, GL_REPEAT, GL_LINEAR);
-	_texture0 = genTexImage2D("resource/window.png", GL_RGBA, 0, GL_TEXTURE0, GL_CLAMP_TO_EDGE, GL_LINEAR);
+	_texture0 = loadTexture("resource/window.png", GL_TEXTURE0);
 
 	__super::initRendCommand();
 

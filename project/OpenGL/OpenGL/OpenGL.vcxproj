@@ -97,7 +97,9 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMap.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapDirLight.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapMultLights.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapMultLightsAdvance.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapPointLight.cpp" />
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapPointLightAdvance.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapSpotLight.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMultSample.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureTransparent.cpp" />
@@ -142,7 +144,9 @@
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMap.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapDirLight.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapMultLights.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapMultLightsAdvance.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapPointLight.h" />
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapPointLightAdvance.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapSpotLight.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMultSample.h" />
     <ClInclude Include="Class\OpenglStateMultTextureTransparent.h" />
@@ -208,8 +212,12 @@
     <None Include="shader\shader27.vert" />
     <None Include="shader\shader28.frag" />
     <None Include="shader\shader28.vert" />
+    <None Include="shader\shader29.frag" />
+    <None Include="shader\shader29.vert" />
     <None Include="shader\shader3.frag" />
     <None Include="shader\shader3.vert" />
+    <None Include="shader\shader30.frag" />
+    <None Include="shader\shader30.vert" />
     <None Include="shader\shader4.frag" />
     <None Include="shader\shader4.vert" />
     <None Include="shader\shader5.frag" />

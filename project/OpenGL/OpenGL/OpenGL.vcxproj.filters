@@ -159,6 +159,12 @@
     <ClCompile Include="Class\stb_image.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapMultLightsAdvance.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureMaterialMapPointLightAdvance.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -288,6 +294,12 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\stb_image.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapMultLightsAdvance.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureMaterialMapPointLightAdvance.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -470,6 +482,18 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader0.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader29.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader29.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader30.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader30.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
