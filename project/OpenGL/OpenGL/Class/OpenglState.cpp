@@ -154,11 +154,6 @@ bool OpenglState::isUseFrameBuffer()
 	return false;
 }
 
- bool OpenglState::isRenderFrameBuffer()
-{
-	 return false;
-}
-
 bool OpenglState::isUseSkyBox()
 {
 	return false;
