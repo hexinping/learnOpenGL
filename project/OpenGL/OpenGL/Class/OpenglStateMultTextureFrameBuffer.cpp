@@ -29,11 +29,11 @@ bool OpenglStateMultTextureFrameBuffer::isUseEBORender()
 	return false;
 }
 
-bool  OpenglStateMultTextureFrameBuffer::isUseFrameBuffer()
+
+bool OpenglStateMultTextureFrameBuffer::isRenderFrameBuffer()
 {
 	return true;
 }
-
 
 void OpenglStateMultTextureFrameBuffer::rendeCommand()
 {
@@ -42,12 +42,26 @@ void OpenglStateMultTextureFrameBuffer::rendeCommand()
 	但是更新一个uniform之前你必须先使用程序（调用glUseProgram)，因为它是在当前激活的着色器程序中设置uniform的。
 	*/
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);  // 返回默认,//把创建的帧缓冲对象输出到屏幕，必须要有这句
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);  // 返回默认,//把创建的帧缓冲对象输出到屏幕，必须要有这句
 
-	glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
-	// clear all relevant buffers
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
+	//glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
+	//// clear all relevant buffers
+	//glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
+	//glClear(GL_COLOR_BUFFER_BIT);
+
+
+	// 2. now blit multisampled buffer(s) to normal colorbuffer of intermediate FBO. Image is stored in screenTexture
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, _multFrambuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _framebuffer);
+	glBlitFramebuffer(0, 0, 800, 600, 0, 0, 800, 600, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+	// 3. now render quad with scene's visuals as its texture image
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+
+
 
 	__super::rendeCommand();
 
