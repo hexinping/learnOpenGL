@@ -165,6 +165,9 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapPointLightAdvance.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateNormalMap.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -300,6 +303,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapPointLightAdvance.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateNormalMap.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -494,6 +500,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader30.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader31.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader31.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
