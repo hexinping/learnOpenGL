@@ -61,9 +61,9 @@ void main()
 	//vec3 specularMapColor = vec3(texture(material.specular, TexCoords)); //高光贴图纹理颜色
 	//vec3 emissionMapColor = vec3(texture(material.emission, TexCoords)); //自发光贴图纹理颜色
 
-	// obtain normal from normal map in range [0,1]
+	 // 从法线贴图范围[0,1]获取法线
     vec3 normal = texture(material.normal, TexCoords).rgb;
-    // transform normal vector to range [-1,1]
+    // 将法线向量转换为范围[-1,1]，因为存到纹理里坐标范围被转换成[0,1],但是使用时法线向量的范围为[-1,1]，所以需要转换
     normal = normalize(normal * 2.0 - 1.0);  // this normal is in tangent space
 
 
