@@ -43,6 +43,7 @@
 #include "OpenglStateMultTextureMaterialMapPointLightAdvance.h"
 #include "OpenglStateNormalMap.h"
 #include "OpenglStateNormalMap1.h"
+#include "OpenglStateModel3DNormalMap.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
@@ -205,7 +206,7 @@ int createWindow(GLFWwindow** pWindow)
 map<int, string> OpenglStatesMap;
 void initShaders()
 {
-	int count = 32;
+	int count = 33;
 	for (int i = 0; i <= count;i++)
 	{
 		string shaderName = "shader" + to_string(i);
@@ -226,7 +227,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateNormalMap1();
+	OpenglState *glState = new OpenglStateModel3DNormalMap();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
