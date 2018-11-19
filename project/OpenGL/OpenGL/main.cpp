@@ -227,7 +227,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateModel3DNormalMap();
+	OpenglState *glState = new OpenglStateNormalMap1();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -472,7 +472,7 @@ int main(int argc, char* argv[])
 	bool isUseFrameBuffer = world->_isUseFrameBuffer;
 	if (isUseFrameBuffer)
 	{
-		world->createFrameBufferByMultSample(width, height, &framebuffer, &texColorBuffer);
+		world->createFrameBufferByMultSample(width, height, &framebuffer);
 
 		//多重采样的帧缓冲不能进行采样，需要创建一个临时的正常帧缓冲然后把数据复制到正常帧缓冲中
 

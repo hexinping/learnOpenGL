@@ -220,7 +220,7 @@ void OpenglWorld::createFrameBuffer(int screenWidth, int screenHeight, unsigned 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0); //把创建的帧缓冲对象输出到屏幕，必须要有这句
 }
 
-void OpenglWorld::createFrameBufferByMultSample(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer)
+void OpenglWorld::createFrameBufferByMultSample(int screenWidth, int screenHeight, unsigned int *framebuffer)
 {
 	
 	glGenFramebuffers(1, framebuffer);

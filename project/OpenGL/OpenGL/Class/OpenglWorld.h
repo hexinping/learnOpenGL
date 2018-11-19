@@ -27,7 +27,7 @@ public:
 
 
 	void createFrameBuffer(int screenWidth,int screenHeight,unsigned int *framebuffer, unsigned int *texColorBuffer);
-	void createFrameBufferByMultSample(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer);
+	void createFrameBufferByMultSample(int screenWidth, int screenHeight, unsigned int *framebuffer);
 
 	void setCubemapTexture(unsigned int cubemapTexture);
 

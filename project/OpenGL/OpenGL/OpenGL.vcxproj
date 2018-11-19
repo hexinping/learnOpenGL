@@ -80,6 +80,7 @@
     <ClCompile Include="Class\OpenglStateInStance.cpp" />
     <ClCompile Include="Class\OpenglStateInstance2.cpp" />
     <ClCompile Include="Class\OpenglStateModel3D.cpp" />
+    <ClCompile Include="Class\OpenglStateModel3DNormalMap.cpp" />
     <ClCompile Include="Class\OpenglStateModel3DPlanet.cpp" />
     <ClCompile Include="Class\OpenglStateModel3DRock.cpp" />
     <ClCompile Include="Class\OpenglStateMultAttr.cpp" />
@@ -103,6 +104,8 @@
     <ClCompile Include="Class\OpenglStateMultTextureMaterialMapSpotLight.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureMultSample.cpp" />
     <ClCompile Include="Class\OpenglStateMultTextureTransparent.cpp" />
+    <ClCompile Include="Class\OpenglStateNormalMap.cpp" />
+    <ClCompile Include="Class\OpenglStateNormalMap1.cpp" />
     <ClCompile Include="Class\OpenglStatePlane.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateReflect.cpp" />
@@ -127,6 +130,7 @@
     <ClInclude Include="Class\OpenglStateInStance.h" />
     <ClInclude Include="Class\OpenglStateInstance2.h" />
     <ClInclude Include="Class\OpenglStateModel3D.h" />
+    <ClInclude Include="Class\OpenglStateModel3DNormalMap.h" />
     <ClInclude Include="Class\OpenglStateModel3DPlanet.h" />
     <ClInclude Include="Class\OpenglStateModel3DRock.h" />
     <ClInclude Include="Class\OpenglStateMultAttr.h" />
@@ -150,6 +154,8 @@
     <ClInclude Include="Class\OpenglStateMultTextureMaterialMapSpotLight.h" />
     <ClInclude Include="Class\OpenglStateMultTextureMultSample.h" />
     <ClInclude Include="Class\OpenglStateMultTextureTransparent.h" />
+    <ClInclude Include="Class\OpenglStateNormalMap.h" />
+    <ClInclude Include="Class\OpenglStateNormalMap1.h" />
     <ClInclude Include="Class\OpenglStatePlane.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateReflect.h" />
@@ -218,6 +224,12 @@
     <None Include="shader\shader3.vert" />
     <None Include="shader\shader30.frag" />
     <None Include="shader\shader30.vert" />
+    <None Include="shader\shader31.frag" />
+    <None Include="shader\shader31.vert" />
+    <None Include="shader\shader32.frag" />
+    <None Include="shader\shader32.vert" />
+    <None Include="shader\shader33.frag" />
+    <None Include="shader\shader33.vert" />
     <None Include="shader\shader4.frag" />
     <None Include="shader\shader4.vert" />
     <None Include="shader\shader5.frag" />
