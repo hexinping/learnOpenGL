@@ -44,6 +44,7 @@
 #include "OpenglStateNormalMap.h"
 #include "OpenglStateNormalMap1.h"
 #include "OpenglStateModel3DNormalMap.h"
+#include "OpenglStateHDR.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
@@ -206,7 +207,7 @@ int createWindow(GLFWwindow** pWindow)
 map<int, string> OpenglStatesMap;
 void initShaders()
 {
-	int count = 33;
+	int count = 34;
 	for (int i = 0; i <= count;i++)
 	{
 		string shaderName = "shader" + to_string(i);
@@ -227,7 +228,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateNormalMap1();
+	OpenglState *glState = new OpenglStateMultTextureLight();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -442,6 +443,12 @@ int main(int argc, char* argv[])
 
 		//加入渲染map里
 		world->addRenderModel(model, id);
+	}
+
+	//渲染光源模型
+	if (world->_isLight)
+	{
+		world->init();
 	}
 
 
