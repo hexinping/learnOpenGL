@@ -184,7 +184,7 @@ void OpenglWorld::addRenderModel(Model *model, int id)
 	_renderModelMap.insert(pair<int, Model*>(id, model));
 }
 
-void OpenglWorld::createFrameBuffer(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer)
+void OpenglWorld::createFrameBuffer(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer, GLenum format1, GLenum format2)
 {
 	//自定义一个帧缓冲对象
 	
@@ -197,7 +197,7 @@ void OpenglWorld::createFrameBuffer(int screenWidth, int screenHeight, unsigned 
 
 	// 这里把纹理大小设置为屏幕大小，
 	//data用null表示仅仅分配了内存但没有填充纹理，填充纹理放到渲染帧缓冲对象之后
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screenWidth, screenHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, format1, screenWidth, screenHeight, 0, format2, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -220,7 +220,7 @@ void OpenglWorld::createFrameBuffer(int screenWidth, int screenHeight, unsigned 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0); //把创建的帧缓冲对象输出到屏幕，必须要有这句
 }
 
-void OpenglWorld::createFrameBufferByMultSample(int screenWidth, int screenHeight, unsigned int *framebuffer)
+void OpenglWorld::createFrameBufferByMultSample(int screenWidth, int screenHeight, unsigned int *framebuffer, GLenum format)
 {
 	
 	glGenFramebuffers(1, framebuffer);
@@ -229,7 +229,7 @@ void OpenglWorld::createFrameBufferByMultSample(int screenWidth, int screenHeigh
 	unsigned int textureColorBufferMultiSampled;
 	glGenTextures(1, &textureColorBufferMultiSampled);
 	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, textureColorBufferMultiSampled); //绑定多重采样GL_TEXTURE_2D_MULTISAMPLE
-	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB, screenWidth, screenHeight, GL_TRUE);//生成多重采样纹理
+	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, format, screenWidth, screenHeight, GL_TRUE);//生成多重采样纹理
 	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
 
 	//将多重采样纹理附加到帧缓冲上 类型是GL_TEXTURE_2D_MULTISAMPLE
@@ -271,6 +271,13 @@ void OpenglWorld::setCubemapTexture(unsigned int cubemapTexture)
 {
 	_cubemapTexture = cubemapTexture;
 }
+
+void OpenglWorld::setUseHDR(bool useHDR)
+{
+	_isUseHDR = useHDR;
+}
+
+
 OpenglWorld::~OpenglWorld()
 {
 	int size = _openglStateArray.size();

@@ -61,6 +61,9 @@ void OpenglStateMultTextureFrameBuffer::rendeCommand()
 	bindTexture(_textureColorbuffer); //所有的渲染都保存在这个纹理附件对象里_textureColorbuffer，相当于用一张纹理存取了很多绘制信息
 	setInt(_shaderProgram, "screenTexture", 0);
 
+	setInt(_shaderProgram, "useHDR", _isUseHDR);
+	setFloat(_shaderProgram, "exposure", 0.2f);
+
 	if (_isUseEBORender)
 	{
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制

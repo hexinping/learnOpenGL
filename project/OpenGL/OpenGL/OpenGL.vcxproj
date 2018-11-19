@@ -77,6 +77,7 @@
     <ClCompile Include="Class\OpenglCamera.cpp" />
     <ClCompile Include="Class\OpenglState.cpp" />
     <ClCompile Include="Class\OpenglStateCubeMap.cpp" />
+    <ClCompile Include="Class\OpenglStateHDR.cpp" />
     <ClCompile Include="Class\OpenglStateInStance.cpp" />
     <ClCompile Include="Class\OpenglStateInstance2.cpp" />
     <ClCompile Include="Class\OpenglStateModel3D.cpp" />
@@ -127,6 +128,7 @@
     <ClInclude Include="Class\OpenglCamera.h" />
     <ClInclude Include="Class\OpenglState.h" />
     <ClInclude Include="Class\OpenglStateCubeMap.h" />
+    <ClInclude Include="Class\OpenglStateHDR.h" />
     <ClInclude Include="Class\OpenglStateInStance.h" />
     <ClInclude Include="Class\OpenglStateInstance2.h" />
     <ClInclude Include="Class\OpenglStateModel3D.h" />
@@ -230,6 +232,8 @@
     <None Include="shader\shader32.vert" />
     <None Include="shader\shader33.frag" />
     <None Include="shader\shader33.vert" />
+    <None Include="shader\shader34.frag" />
+    <None Include="shader\shader34.vert" />
     <None Include="shader\shader4.frag" />
     <None Include="shader\shader4.vert" />
     <None Include="shader\shader5.frag" />

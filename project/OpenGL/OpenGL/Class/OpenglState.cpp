@@ -169,6 +169,11 @@ bool OpenglState::isUseReflect()
 	return false;
 }
 
+bool OpenglState::isUseHDR()
+{
+	return false;
+}
+
 
 void OpenglState::deleteBuffers()
 {

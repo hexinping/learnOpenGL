@@ -28,6 +28,8 @@ public:
 	virtual bool  isRenderFrameBuffer();
 	virtual bool  isUseSkyBox();
 	virtual bool  isUseReflect();
+
+	virtual bool  isUseHDR();
 	virtual string  getModelFile();
 	GLint getUniformLocation(unsigned int program, const char *name);
 	GLint getAttribLocation(unsigned int program, const char *name);
@@ -119,5 +121,6 @@ public:
 	glm::mat4 *modelMatrices;
 	unsigned int _amount = 1;
 
+	bool _isUseHDR = false;
 
 };

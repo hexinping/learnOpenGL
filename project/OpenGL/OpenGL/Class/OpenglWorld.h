@@ -26,10 +26,12 @@ public:
 	void deleteBuffers(unsigned int framebuffer);
 
 
-	void createFrameBuffer(int screenWidth,int screenHeight,unsigned int *framebuffer, unsigned int *texColorBuffer);
-	void createFrameBufferByMultSample(int screenWidth, int screenHeight, unsigned int *framebuffer);
+	void createFrameBuffer(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer, GLenum format1 = GL_RGB, GLenum format2 = GL_RGB);
+	void createFrameBufferByMultSample(int screenWidth, int screenHeight, unsigned int *framebuffer, GLenum format = GL_RGB);
 
 	void setCubemapTexture(unsigned int cubemapTexture);
+
+	void setUseHDR(bool useHDR);
 
 public:
 	vector<OpenglState *> _openglStateArray;
@@ -59,6 +61,9 @@ public:
 	//模型存储容器
 	map<int, OpenglState *> _creaetModelMap;
 	map<int, Model *> _renderModelMap;
+
+	//是否使用高动态范围
+	bool _isUseHDR = false;
 
 
 };

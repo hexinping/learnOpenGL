@@ -228,7 +228,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateMultTextureLight();
+	OpenglState *glState = new OpenglStateHDR();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -323,6 +323,12 @@ void createTestObjects()
 			world->setCubemapTexture(glStateSkyBox->_cubemapTexture);
 		}
 
+		//是否使用高动态范围
+		if (!world->_isUseHDR)
+		{
+			world->setUseHDR(glState->isUseHDR());
+		}
+
 
 	}
 
@@ -335,6 +341,9 @@ void createTestObjects()
 	if (world->_isUseFrameBuffer)
 	{
 		world->add(glStateFrameBuffer);
+
+		//标记下是否使用hdr
+		glStateFrameBuffer->_isUseHDR = world->_isUseHDR;
 	}
 
 }
@@ -484,7 +493,16 @@ int main(int argc, char* argv[])
 		//多重采样的帧缓冲不能进行采样，需要创建一个临时的正常帧缓冲然后把数据复制到正常帧缓冲中
 
 		//创建一个临时的帧缓冲
-		world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture);
+		if (!world->_isUseHDR)
+		{
+			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture);
+		}
+		else
+		{
+			//高动态范围要使用浮点帧缓冲
+			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
+		}
+		
 	}
 
 	auto _openglStateArray = world->_openglStateArray;
