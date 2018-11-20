@@ -62,7 +62,7 @@ void OpenglStateMultTextureFrameBuffer::rendeCommand()
 	setInt(_shaderProgram, "screenTexture", 0);
 
 	setInt(_shaderProgram, "useHDR", _isUseHDR);
-	setFloat(_shaderProgram, "exposure", 0.2f);
+	setFloat(_shaderProgram, "exposure", _exposure);
 
 	if (_isUseEBORender)
 	{

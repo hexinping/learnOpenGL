@@ -29,9 +29,13 @@ public:
 	void createFrameBuffer(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer, GLenum format1 = GL_RGB, GLenum format2 = GL_RGB);
 	void createFrameBufferByMultSample(int screenWidth, int screenHeight, unsigned int *framebuffer, GLenum format = GL_RGB);
 
+	//添加多个纹理附件的帧缓冲
+	void createFrameBufferByColorBuffers(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer, GLenum format1 = GL_RGB, GLenum format2 = GL_RGB);
+
 	void setCubemapTexture(unsigned int cubemapTexture);
 
 	void setUseHDR(bool useHDR);
+	void setExposure(float exposure);
 
 public:
 	vector<OpenglState *> _openglStateArray;
@@ -64,6 +68,22 @@ public:
 
 	//是否使用高动态范围
 	bool _isUseHDR = false;
+
+	//曝光色调映射的曝光值
+	float _exposure = 0.0f;
+
+	//默认渲染关照模型的shader
+	string _vertFile = "shader/lamp.vert";
+	string _fragFile = "shader/lamp.frag";
+
+	bool _isUseCustomLightPos;//是否使用自定义的光源位置
+
+
+	std::vector<glm::vec3> _lightPositions;			//位置
+	std::vector<glm::vec3> _lightScale;				//缩放
+	std::vector<float> _lightRotateAngle;			//旋转角度
+	std::vector<glm::vec3> _lightRotateAxis;       //旋转轴
+	std::vector<glm::vec3> _lightColors;            //颜色
 
 
 };

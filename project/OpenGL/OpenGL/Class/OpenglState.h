@@ -21,7 +21,9 @@ public:
 	virtual void enableLightVertexAttribArray();
 	virtual bool isRenderModel();
 	virtual bool isLihgtAction();
+	virtual bool isUseCustomLightPos(); //是否使用自定义的光源位置
 	virtual int  getPointLights();
+	virtual float  getExposure();
 	virtual bool  isShowLight();
 	virtual bool  isUsePlane();
 	virtual bool  isUseFrameBuffer();
@@ -30,6 +32,10 @@ public:
 	virtual bool  isUseReflect();
 
 	virtual bool  isUseHDR();
+	//帧缓冲是否使用多个纹理附件
+	virtual bool  isUseMultipleTextureId();
+
+
 	virtual string  getModelFile();
 	GLint getUniformLocation(unsigned int program, const char *name);
 	GLint getAttribLocation(unsigned int program, const char *name);
@@ -122,5 +128,16 @@ public:
 	unsigned int _amount = 1;
 
 	bool _isUseHDR = false;
+
+	//曝光色调映射的曝光值
+	float _exposure = 0.0f;
+
+
+	//光源模型信息
+	std::vector<glm::vec3> _lightPositions;			//位置
+	std::vector<glm::vec3> _lightScale;				//缩放
+	std::vector<float> _lightRotateAngle;			//旋转角度
+	std::vector<glm::vec3> _lightRotateAxis;       //旋转轴
+	std::vector<glm::vec3> _lightColors;            //颜色
 
 };

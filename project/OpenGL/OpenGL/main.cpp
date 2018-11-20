@@ -45,6 +45,7 @@
 #include "OpenglStateNormalMap1.h"
 #include "OpenglStateModel3DNormalMap.h"
 #include "OpenglStateHDR.h"
+#include "OpenglStateHDRBloom.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
@@ -207,7 +208,7 @@ int createWindow(GLFWwindow** pWindow)
 map<int, string> OpenglStatesMap;
 void initShaders()
 {
-	int count = 34;
+	int count = 35;
 	for (int i = 0; i <= count;i++)
 	{
 		string shaderName = "shader" + to_string(i);
@@ -228,7 +229,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateHDR();
+	OpenglState *glState = new OpenglStateHDRBloom();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -295,6 +296,13 @@ void createTestObjects()
 			world->setLight(glState->isShowLight());
 			world->setLightNum(glState->getPointLights());
 			world->setLightAction(glState->isLihgtAction());
+			world->_isUseCustomLightPos = glState->isUseCustomLightPos();
+			if (world->_isUseCustomLightPos)
+			{
+				world->_lightPositions = glState->_lightPositions;
+				world->_lightColors = glState->_lightColors;
+				world->_lightScale = glState->_lightScale;
+			}
 		}
 
 		//是否渲染3d模型
@@ -327,6 +335,7 @@ void createTestObjects()
 		if (!world->_isUseHDR)
 		{
 			world->setUseHDR(glState->isUseHDR());
+			world->setExposure(glState->getExposure());
 		}
 
 
@@ -344,6 +353,7 @@ void createTestObjects()
 
 		//标记下是否使用hdr
 		glStateFrameBuffer->_isUseHDR = world->_isUseHDR;
+		glStateFrameBuffer->_exposure = world->_exposure;
 	}
 
 }
@@ -457,7 +467,13 @@ int main(int argc, char* argv[])
 	//渲染光源模型
 	if (world->_isLight)
 	{
+		if (world->_isUseHDR)
+		{
+			world->_vertFile = "shader/lamp1.vert";
+			world->_fragFile = "shader/lamp1.frag";
+		}
 		world->init();
+		
 	}
 
 
@@ -500,7 +516,10 @@ int main(int argc, char* argv[])
 		else
 		{
 			//高动态范围要使用浮点帧缓冲
-			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
+			//world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
+
+			//使用多个纹理
+			world->createFrameBufferByColorBuffers(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
 		}
 		
 	}

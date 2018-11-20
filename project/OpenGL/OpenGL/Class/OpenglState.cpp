@@ -113,9 +113,21 @@ bool OpenglState::isLihgtAction()
 	return false;
 }
 
+bool OpenglState::isUseCustomLightPos()
+{
+	return false;
+}
+
+
 int  OpenglState::getPointLights()
 {
 	return 0;
+}
+
+
+float OpenglState::getExposure()
+{
+	return 0.0f;
 }
 
 GLint OpenglState::getUniformLocation(unsigned int program, const char *name)
@@ -170,6 +182,11 @@ bool OpenglState::isUseReflect()
 }
 
 bool OpenglState::isUseHDR()
+{
+	return false;
+}
+
+bool OpenglState:: isUseMultipleTextureId()
 {
 	return false;
 }

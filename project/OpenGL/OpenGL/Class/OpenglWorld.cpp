@@ -72,14 +72,46 @@ void  OpenglWorld::init()
 
 		unsigned int _lightVertexShader;
 		unsigned int _lightFragmentShader;
-		_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_lightVertexShader, "shader/lamp.vert");
-		_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_lightFragmentShader, "shader/lamp.frag");
+		_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_lightVertexShader, _vertFile);
+		_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_lightFragmentShader, _fragFile);
 		_glUtils->linkShader(&_lightShaderProgram, _lightVertexShader, _lightFragmentShader);
 
 		_glUtils->bindVBOAndVAO(&_lightVBO, &_lightVAO, _lightVertices, sizeof(_lightVertices), false, &_lightEBO, _lightIndices, sizeof(_lightIndices));
 		GLint posLocation = _glUtils->getAttribLocation(_lightShaderProgram, "aPos");
 		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //函数告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上)
 		glEnableVertexAttribArray(posLocation); //以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的
+
+
+		if (_lightScale.size() == 0)
+		{
+
+			_lightScale.push_back(glm::vec3(0.5));
+			_lightScale.push_back(glm::vec3(0.5));
+			_lightScale.push_back(glm::vec3(0.5));
+			_lightScale.push_back(glm::vec3(0.5));
+		}
+
+		if (_lightPositions.size() == 0)
+		{
+
+			_lightPositions.push_back(glm::vec3(0.7f, 0.2f, 2.0f));
+			_lightPositions.push_back(glm::vec3(-4.0f, 0.5f, -3.0f));
+			_lightPositions.push_back(glm::vec3(-4.0f, 2.0f, -12.0f));
+			_lightPositions.push_back(glm::vec3(0.0f, 0.0f, -3.0f));
+		}
+
+
+		if (_lightColors.size() == 0)
+		{
+
+			_lightColors.push_back(glm::vec3(1.0));
+			_lightColors.push_back(glm::vec3(1.0));
+			_lightColors.push_back(glm::vec3(1.0));
+			_lightColors.push_back(glm::vec3(1.0));
+		}
+
+		
+		
 	}
 }
 
@@ -140,33 +172,60 @@ void OpenglWorld::rendeCommand()
 	if (_isLight)
 	{
 
-		glm::vec3 pointLightPositions[] = {
-			glm::vec3(0.7f, 0.2f, 2.0f),
-			glm::vec3(2.3f, -3.3f, -4.0f),
-			glm::vec3(-4.0f, 2.0f, -12.0f),
-			glm::vec3(0.0f, 0.0f, -3.0f)
-		};
+		//if (!_isUseCustomLightPos)
+		//{
+		//	_lightPositions.push_back(glm::vec3(0.7f, 0.2f, 2.0f));
+		//	_lightPositions.push_back(glm::vec3(-4.0f, 0.5f, -3.0f));
+		//	_lightPositions.push_back(glm::vec3(-4.0f, 2.0f, -12.0f));
+		//	_lightPositions.push_back(glm::vec3(0.0f, 0.0f, -3.0f));
+
+		//	
+
+		//}
+	
+
+
+		//std::vector<glm::vec3> lightColors;
+		//lightColors.push_back(glm::vec3(2.0f, 2.0f, 2.0f));
+		//lightColors.push_back(glm::vec3(1.5f, 0.0f, 0.0f));
+		//lightColors.push_back(glm::vec3(0.0f, 0.0f, 1.5f));
+		//lightColors.push_back(glm::vec3(0.0f, 1.5f, 0.0f));
+
+
+		//glm::vec3 pointLightPositions[] = {
+		//	glm::vec3(0.7f, 0.2f, 2.0f),
+		//	glm::vec3(2.3f, -3.3f, -4.0f),
+		//	glm::vec3(-4.0f, 2.0f, -12.0f),
+		//	glm::vec3(0.0f, 0.0f, -3.0f)
+		//};
 
 		for (unsigned int i = 0; i < _lightNums; i++)
 		{
 			glm::mat4 model;
 			if (!_islightAction)
 			{
-				model = glm::translate(model, pointLightPositions[i]);
+				model = glm::translate(model, _lightPositions[i]);
 			}
 			else
 			{
 				model = glm::translate(model, lightPos);
 			}
-			model = glm::scale(model, glm::vec3(0.5f));
+
+			model = glm::scale(model, _lightScale[i]);
 			_glUtils->setMat4(_lightShaderProgram, "model", &model);
 			_glUtils->setMat4(_lightShaderProgram, "view", &view);
 			_glUtils->setMat4(_lightShaderProgram, "projection", &projection);
 
+			if (_isUseCustomLightPos)
+			{
+				_glUtils->setVec3(_lightShaderProgram, "lightColor", _lightColors[i]);
+			}
+		
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 		
 	}
+
 }
 
 void OpenglWorld::setLightAction(bool isAction)
@@ -248,6 +307,50 @@ void OpenglWorld::createFrameBufferByMultSample(int screenWidth, int screenHeigh
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+//一个帧缓冲添加多个纹理附件:暂时用2个
+void OpenglWorld::createFrameBufferByColorBuffers(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer, GLenum format1, GLenum format2)
+{
+
+	const int num = 2;
+	// configure (floating point) framebuffers
+	// ---------------------------------------
+	glGenFramebuffers(1, framebuffer);					//创建一个帧缓冲对象
+	glBindFramebuffer(GL_FRAMEBUFFER, *framebuffer);     //把创建的帧缓冲对象绑定到GL_FRAMEBUFFER上
+	// create 2 floating point color buffers (1 for normal rendering, other for brightness treshold values)
+	unsigned int colorBuffers[num] = {0,0};
+	glGenTextures(num, colorBuffers);
+	for (unsigned int i = 0; i < num; i++)
+	{
+		//给一个帧缓冲 创建多个纹理附件
+		glBindTexture(GL_TEXTURE_2D, colorBuffers[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, format1, screenWidth, screenHeight, 0, format2, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);  // we clamp to the edge as the blur filter would otherwise sample repeated texture values!
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		// attach texture to framebuffer
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, colorBuffers[i], 0);
+	}
+
+	//暂时这么写
+	*texColorBuffer = colorBuffers[0];
+
+	// create and attach depth buffer (renderbuffer) 渲染缓冲对象
+	unsigned int rboDepth;
+	glGenRenderbuffers(1, &rboDepth);
+	glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, screenWidth, screenHeight);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
+
+	// tell OpenGL which color attachments we'll use (of this framebuffer) for rendering 
+	// ***************显式告知OpenGL我们正在通过glDrawBuffers渲染到多个颜色缓冲，否则OpenGL只会渲染到帧缓冲的第一个颜色附件，而忽略所有其他的
+	unsigned int attachments[num] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+	glDrawBuffers(num, attachments);
+	// finally check if framebuffer is complete
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cout << "Framebuffer not complete!" << std::endl;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
 void OpenglWorld::useFrameBuffer(unsigned int framebuffer)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -275,6 +378,11 @@ void OpenglWorld::setCubemapTexture(unsigned int cubemapTexture)
 void OpenglWorld::setUseHDR(bool useHDR)
 {
 	_isUseHDR = useHDR;
+}
+
+void OpenglWorld::setExposure(float exposure)
+{
+	_exposure = exposure;
 }
 
 

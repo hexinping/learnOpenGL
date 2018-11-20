@@ -177,6 +177,9 @@
     <ClCompile Include="Class\OpenglStateHDR.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateHDRBloom.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -324,6 +327,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateHDR.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateHDRBloom.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -542,6 +548,18 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader34.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader35.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader35.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\lamp1.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\lamp1.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
