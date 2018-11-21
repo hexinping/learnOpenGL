@@ -81,6 +81,7 @@ using namespace std;
 
 OpenglCamera *camera = nullptr;
 OpenglWorld  *world = nullptr;
+OpenglState *glStateFrameBuffer = nullptr;
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -263,7 +264,7 @@ void createTestObjects()
 
 
 	//使用自定义帧缓冲对象绘制
-	OpenglState *glStateFrameBuffer = new OpenglStateMultTextureFrameBuffer();
+	glStateFrameBuffer = new OpenglStateMultTextureFrameBuffer();
 	index = glStateFrameBuffer->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	vertFile = "shader/" + shaderName + ".vert";
@@ -338,6 +339,12 @@ void createTestObjects()
 			world->setExposure(glState->getExposure());
 		}
 
+		//是否使用bloom效果
+		if (!world->_isUseBloom)
+		{
+			world->_isUseBloom = glState->isUseBloom();
+		}
+
 
 	}
 
@@ -354,6 +361,10 @@ void createTestObjects()
 		//标记下是否使用hdr
 		glStateFrameBuffer->_isUseHDR = world->_isUseHDR;
 		glStateFrameBuffer->_exposure = world->_exposure;
+		if (world->_isUseBloom)
+		{
+			glStateFrameBuffer->_isUseBloom = true;
+		}
 	}
 
 }
@@ -501,6 +512,7 @@ int main(int argc, char* argv[])
 
 	unsigned int intermediateFBO; //多重采样帧缓冲的还原的正常帧缓冲
 	unsigned int screenTexture;  //正常帧缓冲的纹理附件
+	unsigned int screenBrightTexture;  //屏幕明亮区域纹理
 	bool isUseFrameBuffer = world->_isUseFrameBuffer;
 	if (isUseFrameBuffer)
 	{
@@ -516,10 +528,16 @@ int main(int argc, char* argv[])
 		else
 		{
 			//高动态范围要使用浮点帧缓冲
-			//world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
-
-			//使用多个纹理
-			world->createFrameBufferByColorBuffers(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
+			if (!world->_isUseBloom)
+			{	
+				world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
+			}
+			else
+			{
+				//使用多个纹理
+				world->createFrameBufferByColorBuffers(width, height, &intermediateFBO, &screenTexture, &screenBrightTexture, GL_RGBA16F, GL_RGBA);
+			}
+			
 		}
 		
 	}
@@ -584,7 +602,17 @@ int main(int argc, char* argv[])
 				state->_cubemapTexture = world->_cubemapTexture;
 			}
 
+			if (state->isUseBloom())
+			{
+				state->_brightTexture = screenBrightTexture;
+			}
 			state->rendeCommand();
+
+			if (!glStateFrameBuffer->_blurTexture && state->isUseBloom())
+			{
+				//把模糊过的亮度区域纹理保存到帧缓冲渲染里下
+				glStateFrameBuffer->_blurTexture = state->_blurTexture;
+			}
 			if (state->isRenderModel())
 			{
 				int id = state->_ID;

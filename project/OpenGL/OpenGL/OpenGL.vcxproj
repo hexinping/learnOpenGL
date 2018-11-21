@@ -176,6 +176,8 @@
     <ClInclude Include="Utils\OpenglUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shader\blur.frag" />
+    <None Include="shader\blur.vert" />
     <None Include="shader\lamp.frag" />
     <None Include="shader\lamp.vert" />
     <None Include="shader\lamp1.frag" />

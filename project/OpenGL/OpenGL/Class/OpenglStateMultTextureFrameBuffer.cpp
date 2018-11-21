@@ -61,8 +61,19 @@ void OpenglStateMultTextureFrameBuffer::rendeCommand()
 	bindTexture(_textureColorbuffer); //所有的渲染都保存在这个纹理附件对象里_textureColorbuffer，相当于用一张纹理存取了很多绘制信息
 	setInt(_shaderProgram, "screenTexture", 0);
 
+
+
+	activiteTexture(GL_TEXTURE1);
+	bindTexture(_blurTexture); //所有的渲染都保存在这个纹理附件对象里_textureColorbuffer，相当于用一张纹理存取了很多绘制信息
+	setInt(_shaderProgram, "bloomBlur", 1);
+
+
+
 	setInt(_shaderProgram, "useHDR", _isUseHDR);
 	setFloat(_shaderProgram, "exposure", _exposure);
+
+
+	setInt(_shaderProgram, "useBloom", _isUseBloom);
 
 	if (_isUseEBORender)
 	{
@@ -72,6 +83,17 @@ void OpenglStateMultTextureFrameBuffer::rendeCommand()
 	{
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
+
+
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//shaderBloomFinal.use();
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, colorBuffers[0]);
+	//glActiveTexture(GL_TEXTURE1);
+	//glBindTexture(GL_TEXTURE_2D, pingpongColorbuffers[!horizontal]);
+	//shaderBloomFinal.setInt("bloom", bloom);
+	//shaderBloomFinal.setFloat("exposure", exposure);
+	//renderQuad();
 }
 
 int OpenglStateMultTextureFrameBuffer::getShaderIndex()

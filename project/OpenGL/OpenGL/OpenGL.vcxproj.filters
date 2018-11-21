@@ -562,5 +562,11 @@
     <None Include="shader\lamp1.vert">
       <Filter>shader</Filter>
     </None>
+    <None Include="shader\blur.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\blur.vert">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

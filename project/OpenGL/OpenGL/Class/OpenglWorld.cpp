@@ -172,33 +172,6 @@ void OpenglWorld::rendeCommand()
 	if (_isLight)
 	{
 
-		//if (!_isUseCustomLightPos)
-		//{
-		//	_lightPositions.push_back(glm::vec3(0.7f, 0.2f, 2.0f));
-		//	_lightPositions.push_back(glm::vec3(-4.0f, 0.5f, -3.0f));
-		//	_lightPositions.push_back(glm::vec3(-4.0f, 2.0f, -12.0f));
-		//	_lightPositions.push_back(glm::vec3(0.0f, 0.0f, -3.0f));
-
-		//	
-
-		//}
-	
-
-
-		//std::vector<glm::vec3> lightColors;
-		//lightColors.push_back(glm::vec3(2.0f, 2.0f, 2.0f));
-		//lightColors.push_back(glm::vec3(1.5f, 0.0f, 0.0f));
-		//lightColors.push_back(glm::vec3(0.0f, 0.0f, 1.5f));
-		//lightColors.push_back(glm::vec3(0.0f, 1.5f, 0.0f));
-
-
-		//glm::vec3 pointLightPositions[] = {
-		//	glm::vec3(0.7f, 0.2f, 2.0f),
-		//	glm::vec3(2.3f, -3.3f, -4.0f),
-		//	glm::vec3(-4.0f, 2.0f, -12.0f),
-		//	glm::vec3(0.0f, 0.0f, -3.0f)
-		//};
-
 		for (unsigned int i = 0; i < _lightNums; i++)
 		{
 			glm::mat4 model;
@@ -308,7 +281,7 @@ void OpenglWorld::createFrameBufferByMultSample(int screenWidth, int screenHeigh
 }
 
 //一个帧缓冲添加多个纹理附件:暂时用2个
-void OpenglWorld::createFrameBufferByColorBuffers(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer, GLenum format1, GLenum format2)
+void OpenglWorld::createFrameBufferByColorBuffers(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer, unsigned int *texBrightColorBuffer, GLenum format1, GLenum format2)
 {
 
 	const int num = 2;
@@ -334,7 +307,7 @@ void OpenglWorld::createFrameBufferByColorBuffers(int screenWidth, int screenHei
 
 	//暂时这么写
 	*texColorBuffer = colorBuffers[0];
-
+	*texBrightColorBuffer = colorBuffers[1];
 	// create and attach depth buffer (renderbuffer) 渲染缓冲对象
 	unsigned int rboDepth;
 	glGenRenderbuffers(1, &rboDepth);

@@ -30,6 +30,7 @@ public:
 	virtual bool  isRenderFrameBuffer();
 	virtual bool  isUseSkyBox();
 	virtual bool  isUseReflect();
+	virtual bool  isUseBloom();
 
 	virtual bool  isUseHDR();
 	//帧缓冲是否使用多个纹理附件
@@ -128,6 +129,7 @@ public:
 	unsigned int _amount = 1;
 
 	bool _isUseHDR = false;
+	bool _isUseBloom = false;
 
 	//曝光色调映射的曝光值
 	float _exposure = 0.0f;
@@ -139,5 +141,9 @@ public:
 	std::vector<float> _lightRotateAngle;			//旋转角度
 	std::vector<glm::vec3> _lightRotateAxis;       //旋转轴
 	std::vector<glm::vec3> _lightColors;            //颜色
+
+
+	unsigned int _brightTexture; //明亮区域的纹理
+	unsigned int _blurTexture;
 
 };

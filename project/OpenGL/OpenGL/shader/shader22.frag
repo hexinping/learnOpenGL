@@ -8,6 +8,8 @@ uniform sampler2D screenTexture;
 uniform bool useHDR;
 uniform float exposure;
 
+uniform bool useBloom;
+uniform sampler2D bloomBlur;
 
 const float offset = 1.0 / 300.0;  
 
@@ -147,6 +149,13 @@ void main()
         // vec3 result = hdrColor / (hdrColor + vec3(1.0));
 
 
+		//bloom效果
+		if(useBloom)
+		{
+			vec3 bloomColor = texture(bloomBlur, TexCoords).rgb;
+			hdrColor += bloomColor; // additive blending
+		}
+			
         // exposure
         vec3 result = vec3(1.0) - exp(-hdrColor * exposure);
         // also gamma correct while we're at it        暂时不使用gamma校正

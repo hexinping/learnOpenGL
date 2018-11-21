@@ -181,6 +181,11 @@ bool OpenglState::isUseReflect()
 	return false;
 }
 
+bool  OpenglState::isUseBloom()
+{
+	return false;
+}
+
 bool OpenglState::isUseHDR()
 {
 	return false;

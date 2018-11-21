@@ -30,7 +30,7 @@ public:
 	void createFrameBufferByMultSample(int screenWidth, int screenHeight, unsigned int *framebuffer, GLenum format = GL_RGB);
 
 	//添加多个纹理附件的帧缓冲
-	void createFrameBufferByColorBuffers(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer, GLenum format1 = GL_RGB, GLenum format2 = GL_RGB);
+	void createFrameBufferByColorBuffers(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer, unsigned int *texBrightColorBuffer, GLenum format1 = GL_RGB, GLenum format2 = GL_RGB);
 
 	void setCubemapTexture(unsigned int cubemapTexture);
 
@@ -68,6 +68,10 @@ public:
 
 	//是否使用高动态范围
 	bool _isUseHDR = false;
+
+	//是否使用泛光效果
+	bool _isUseBloom = false;
+	unsigned int _blurTexture;
 
 	//曝光色调映射的曝光值
 	float _exposure = 0.0f;
