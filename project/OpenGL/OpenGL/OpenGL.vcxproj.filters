@@ -180,6 +180,12 @@
     <ClCompile Include="Class\OpenglStateHDRBloom.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateDelayRenderLights.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateDelayRenderLightsFrameBuffer.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -330,6 +336,12 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateHDRBloom.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateDelayRenderLights.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateDelayRenderLightsFrameBuffer.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -566,6 +578,18 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\blur.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader36.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader36.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader37.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader37.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

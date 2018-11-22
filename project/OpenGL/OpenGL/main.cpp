@@ -46,6 +46,8 @@
 #include "OpenglStateModel3DNormalMap.h"
 #include "OpenglStateHDR.h"
 #include "OpenglStateHDRBloom.h"
+#include "OpenglStateDelayRenderLights.h"
+#include "OpenglStateDelayRenderLightsFrameBuffer.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
@@ -82,7 +84,7 @@ using namespace std;
 OpenglCamera *camera = nullptr;
 OpenglWorld  *world = nullptr;
 OpenglState *glStateFrameBuffer = nullptr;
-
+OpenglState *glStateDelayRenderLightsFrameBuffer = nullptr;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -209,7 +211,7 @@ int createWindow(GLFWwindow** pWindow)
 map<int, string> OpenglStatesMap;
 void initShaders()
 {
-	int count = 35;
+	int count = 37;
 	for (int i = 0; i <= count;i++)
 	{
 		string shaderName = "shader" + to_string(i);
@@ -230,7 +232,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateHDRBloom();
+	OpenglState *glState = new OpenglStateDelayRenderLights();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -270,6 +272,15 @@ void createTestObjects()
 	vertFile = "shader/" + shaderName + ".vert";
 	fragFile = "shader/" + shaderName + ".frag";
 	glStateFrameBuffer->init(vertFile, fragFile);
+
+
+	//延迟光照渲染的帧缓冲
+	glStateDelayRenderLightsFrameBuffer = new OpenglStateDelayRenderLightsFrameBuffer();
+	index = glStateDelayRenderLightsFrameBuffer->getShaderIndex();
+	shaderName = OpenglStatesMap[index];
+	vertFile = "shader/" + shaderName + ".vert";
+	fragFile = "shader/" + shaderName + ".frag";
+	glStateDelayRenderLightsFrameBuffer->init(vertFile, fragFile);
 
 
 	//天空盒子
@@ -345,6 +356,10 @@ void createTestObjects()
 			world->_isUseBloom = glState->isUseBloom();
 		}
 
+		if (!world->_isDelayRenderLights)
+		{
+			world->_isDelayRenderLights = glState->isDelayRenderLights();
+		}
 
 	}
 
@@ -356,14 +371,30 @@ void createTestObjects()
 
 	if (world->_isUseFrameBuffer)
 	{
-		world->add(glStateFrameBuffer);
-
-		//标记下是否使用hdr
-		glStateFrameBuffer->_isUseHDR = world->_isUseHDR;
-		glStateFrameBuffer->_exposure = world->_exposure;
-		if (world->_isUseBloom)
+		if (!world->_isDelayRenderLights)
 		{
-			glStateFrameBuffer->_isUseBloom = true;
+			//正向渲染光照
+			world->add(glStateFrameBuffer);
+
+			//标记下是否使用hdr
+			glStateFrameBuffer->_isUseHDR = world->_isUseHDR;
+			glStateFrameBuffer->_exposure = world->_exposure;
+			if (world->_isUseBloom)
+			{
+				glStateFrameBuffer->_isUseBloom = true;
+			}
+		}
+		else
+		{
+			//延迟渲染光照
+			world->add(glStateDelayRenderLightsFrameBuffer);
+			//标记下是否使用hdr
+			glStateDelayRenderLightsFrameBuffer->_isUseHDR = world->_isUseHDR;
+			glStateDelayRenderLightsFrameBuffer->_exposure = world->_exposure;
+			if (world->_isUseBloom)
+			{
+				glStateDelayRenderLightsFrameBuffer->_isUseBloom = true;
+			}
 		}
 	}
 
@@ -511,8 +542,14 @@ int main(int argc, char* argv[])
 	unsigned int texColorBuffer; //使用多重采样的纹理附件
 
 	unsigned int intermediateFBO; //多重采样帧缓冲的还原的正常帧缓冲
-	unsigned int screenTexture;  //正常帧缓冲的纹理附件
-	unsigned int screenBrightTexture;  //屏幕明亮区域纹理
+	unsigned int screenTexture = 0;  //正常帧缓冲的纹理附件
+	unsigned int screenBrightTexture = 0;  //屏幕明亮区域纹理
+
+	//延迟光照计算保存的信息
+	unsigned int postionTexture = 0;		//顶点位置信息
+	unsigned int normalTexture = 0;			//法线贴图信息
+	unsigned int albedoSpecTexture = 0;		//漫反射贴图信息和高光贴图信息
+
 	bool isUseFrameBuffer = world->_isUseFrameBuffer;
 	if (isUseFrameBuffer)
 	{
@@ -520,24 +557,28 @@ int main(int argc, char* argv[])
 
 		//多重采样的帧缓冲不能进行采样，需要创建一个临时的正常帧缓冲然后把数据复制到正常帧缓冲中
 
-		//创建一个临时的帧缓冲
-		if (!world->_isUseHDR)
+
+		//world->_isDelayRenderLights
+
+		if (world->_isUseHDR)
 		{
-			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture);
+			//使用HDR
+			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
+		}
+		else if (world->_isUseBloom)
+		{
+			//使用bloom 需要多个纹理
+			world->createFrameBufferByColorBuffers(width, height, &intermediateFBO, &screenTexture, &screenBrightTexture, GL_RGBA16F, GL_RGBA);
+		}
+		else if (world->_isDelayRenderLights)
+		{
+			//使用延迟光照 todo
+			world->createFrameBufferByDelayRenderLights(width, height, &intermediateFBO, &postionTexture, &normalTexture, &albedoSpecTexture);
 		}
 		else
 		{
-			//高动态范围要使用浮点帧缓冲
-			if (!world->_isUseBloom)
-			{	
-				world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
-			}
-			else
-			{
-				//使用多个纹理
-				world->createFrameBufferByColorBuffers(width, height, &intermediateFBO, &screenTexture, &screenBrightTexture, GL_RGBA16F, GL_RGBA);
-			}
-			
+			//默认帧缓冲
+			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture);
 		}
 		
 	}
@@ -608,11 +649,6 @@ int main(int argc, char* argv[])
 			}
 			state->rendeCommand();
 
-			if (!glStateFrameBuffer->_blurTexture && state->isUseBloom())
-			{
-				//把模糊过的亮度区域纹理保存到帧缓冲渲染里下
-				glStateFrameBuffer->_blurTexture = state->_blurTexture;
-			}
 			if (state->isRenderModel())
 			{
 				int id = state->_ID;
@@ -628,6 +664,7 @@ int main(int argc, char* argv[])
 						state->setMat4(state->_shaderProgram, "model", &modelMat4);
 						model->Draw();
 					}
+
 				}
 				else
 				{
@@ -635,6 +672,21 @@ int main(int argc, char* argv[])
 				}
 
 
+			}
+
+
+			if (!glStateFrameBuffer->_blurTexture && state->isUseBloom())
+			{
+				//把模糊过的亮度区域纹理保存到帧缓冲渲染里下
+				glStateFrameBuffer->_blurTexture = state->_blurTexture;
+			}
+
+			if (!glStateDelayRenderLightsFrameBuffer->_delayeRenderLightPosTexture && state->isDelayRenderLights())
+			{
+				//延迟光照渲染
+				glStateDelayRenderLightsFrameBuffer->_delayeRenderLightPosTexture = postionTexture;
+				glStateDelayRenderLightsFrameBuffer->_delayeRenderLightNormalTexture = normalTexture;
+				glStateDelayRenderLightsFrameBuffer->_delayeRenderLightAlbedoSpecTexture = albedoSpecTexture;
 			}
 		}
 

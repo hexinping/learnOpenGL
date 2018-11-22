@@ -191,6 +191,11 @@ bool OpenglState::isUseHDR()
 	return false;
 }
 
+bool OpenglState::isDelayRenderLights()
+{
+	return false;
+}
+
 bool OpenglState:: isUseMultipleTextureId()
 {
 	return false;

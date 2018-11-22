@@ -31,6 +31,7 @@ public:
 	virtual bool  isUseSkyBox();
 	virtual bool  isUseReflect();
 	virtual bool  isUseBloom();
+	virtual bool  isDelayRenderLights(); //是否延迟光照渲染计算
 
 	virtual bool  isUseHDR();
 	//帧缓冲是否使用多个纹理附件
@@ -145,5 +146,11 @@ public:
 
 	unsigned int _brightTexture; //明亮区域的纹理
 	unsigned int _blurTexture;
+
+
+	//延迟光照
+	unsigned int _delayeRenderLightPosTexture;             
+	unsigned int _delayeRenderLightNormalTexture;
+	unsigned int _delayeRenderLightAlbedoSpecTexture;
 
 };

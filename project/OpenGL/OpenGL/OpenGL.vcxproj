@@ -77,6 +77,8 @@
     <ClCompile Include="Class\OpenglCamera.cpp" />
     <ClCompile Include="Class\OpenglState.cpp" />
     <ClCompile Include="Class\OpenglStateCubeMap.cpp" />
+    <ClCompile Include="Class\OpenglStateDelayRenderLights.cpp" />
+    <ClCompile Include="Class\OpenglStateDelayRenderLightsFrameBuffer.cpp" />
     <ClCompile Include="Class\OpenglStateHDR.cpp" />
     <ClCompile Include="Class\OpenglStateHDRBloom.cpp" />
     <ClCompile Include="Class\OpenglStateInStance.cpp" />
@@ -129,6 +131,8 @@
     <ClInclude Include="Class\OpenglCamera.h" />
     <ClInclude Include="Class\OpenglState.h" />
     <ClInclude Include="Class\OpenglStateCubeMap.h" />
+    <ClInclude Include="Class\OpenglStateDelayRenderLights.h" />
+    <ClInclude Include="Class\OpenglStateDelayRenderLightsFrameBuffer.h" />
     <ClInclude Include="Class\OpenglStateHDR.h" />
     <ClInclude Include="Class\OpenglStateHDRBloom.h" />
     <ClInclude Include="Class\OpenglStateInStance.h" />
@@ -242,6 +246,10 @@
     <None Include="shader\shader34.vert" />
     <None Include="shader\shader35.frag" />
     <None Include="shader\shader35.vert" />
+    <None Include="shader\shader36.frag" />
+    <None Include="shader\shader36.vert" />
+    <None Include="shader\shader37.frag" />
+    <None Include="shader\shader37.vert" />
     <None Include="shader\shader4.frag" />
     <None Include="shader\shader4.vert" />
     <None Include="shader\shader5.frag" />

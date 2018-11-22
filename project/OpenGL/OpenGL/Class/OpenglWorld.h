@@ -32,6 +32,11 @@ public:
 	//添加多个纹理附件的帧缓冲
 	void createFrameBufferByColorBuffers(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *texColorBuffer, unsigned int *texBrightColorBuffer, GLenum format1 = GL_RGB, GLenum format2 = GL_RGB);
 
+
+	//延迟光照渲染计算 保存G缓冲
+	void createFrameBufferByDelayRenderLights(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *pos, unsigned int *normal, unsigned int *albedoSpec);
+
+
 	void setCubemapTexture(unsigned int cubemapTexture);
 
 	void setUseHDR(bool useHDR);
@@ -88,6 +93,9 @@ public:
 	std::vector<float> _lightRotateAngle;			//旋转角度
 	std::vector<glm::vec3> _lightRotateAxis;       //旋转轴
 	std::vector<glm::vec3> _lightColors;            //颜色
+
+
+	bool _isDelayRenderLights = false;
 
 
 };
