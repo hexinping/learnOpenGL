@@ -186,6 +186,9 @@
     <ClCompile Include="Class\OpenglStateDelayRenderLightsFrameBuffer.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateShadow.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -342,6 +345,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateDelayRenderLightsFrameBuffer.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateShadow.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -590,6 +596,24 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader37.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader38.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader38.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\depthDebug.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\depthDebug.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\depthMap.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\depthMap.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

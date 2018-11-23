@@ -48,11 +48,12 @@
 #include "OpenglStateHDRBloom.h"
 #include "OpenglStateDelayRenderLights.h"
 #include "OpenglStateDelayRenderLightsFrameBuffer.h"
+#include "OpenglStateShadow.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
-
+#define MAX_SHADERCOUNT 38
 
 #include "Model.h"
 #include "OpenglWorld.h"
@@ -211,7 +212,7 @@ int createWindow(GLFWwindow** pWindow)
 map<int, string> OpenglStatesMap;
 void initShaders()
 {
-	int count = 37;
+	int count = MAX_SHADERCOUNT;
 	for (int i = 0; i <= count;i++)
 	{
 		string shaderName = "shader" + to_string(i);
@@ -232,7 +233,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateDelayRenderLights();
+	OpenglState *glState = new OpenglStateShadow();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
