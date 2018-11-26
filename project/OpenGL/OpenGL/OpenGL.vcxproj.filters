@@ -189,6 +189,9 @@
     <ClCompile Include="Class\OpenglStateShadow.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateLabel.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -348,6 +351,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateShadow.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateLabel.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -614,6 +620,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\depthMap.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader39.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader39.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

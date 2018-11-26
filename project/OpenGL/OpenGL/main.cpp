@@ -49,11 +49,12 @@
 #include "OpenglStateDelayRenderLights.h"
 #include "OpenglStateDelayRenderLightsFrameBuffer.h"
 #include "OpenglStateShadow.h"
+#include "OpenglStateLabel.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
-#define MAX_SHADERCOUNT 38
+#define MAX_SHADERCOUNT 39
 
 #include "Model.h"
 #include "OpenglWorld.h"
@@ -201,7 +202,7 @@ int createWindow(GLFWwindow** pWindow)
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
@@ -233,7 +234,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateShadow();
+	OpenglState *glState = new OpenglStateLabel();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -244,7 +245,7 @@ void createTestObjects()
 	glState->init(vertFile, fragFile);
 	world->add(glState);
 
-	//OpenglState *glState1 = new OpenglStateModel3DRock();
+	//OpenglState *glState1 = new OpenglStateMultTextureBlend();
 	//index = glState1->getShaderIndex();
 	//shaderName = OpenglStatesMap[index];
 	////float s = i * random(1, 2);
@@ -257,13 +258,13 @@ void createTestObjects()
 
 
 	// 使用混合渲染半透明物体
-	//OpenglState *glState1 = new OpenglStateMultTextureTransparent();
-	//index = glState1->getShaderIndex();
+	//OpenglState *glState2 = new OpenglStateMultTextureTransparent();
+	//index = glState2->getShaderIndex();
 	//shaderName = OpenglStatesMap[index];
 	//vertFile = "shader/" + shaderName + ".vert";
 	//fragFile = "shader/" + shaderName + ".frag";
-	//glState1->init(vertFile, fragFile);
-	//world->add(glState1);
+	//glState2->init(vertFile, fragFile);
+	//world->add(glState2);
 
 
 	//使用自定义帧缓冲对象绘制

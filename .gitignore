@@ -7,3 +7,5 @@ project/OpenGL/OpenGL/OpenGL.ilk
 project/OpenGL/OpenGL/OpenGL.pdb
 project/OpenGL/OpenGL.VC.VC.opendb
 project/OpenGL/OpenGL.VC.db
+project/OpenGL/OpenGL/OpenGL.exp
+project/OpenGL/OpenGL/OpenGL.lib

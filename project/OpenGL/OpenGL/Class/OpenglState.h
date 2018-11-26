@@ -96,8 +96,8 @@ public:
 	unsigned int _lightVBO, _lightVAO, _lightEBO;
 
 
-	float _vertices[1024];
-	unsigned int _indices[1024];
+	float _vertices[2048];
+	unsigned int _indices[2048];
 
 	float _lightVertices[1024];
 	unsigned int _lightIndices[1024];

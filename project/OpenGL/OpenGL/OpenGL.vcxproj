@@ -83,6 +83,7 @@
     <ClCompile Include="Class\OpenglStateHDRBloom.cpp" />
     <ClCompile Include="Class\OpenglStateInStance.cpp" />
     <ClCompile Include="Class\OpenglStateInstance2.cpp" />
+    <ClCompile Include="Class\OpenglStateLabel.cpp" />
     <ClCompile Include="Class\OpenglStateModel3D.cpp" />
     <ClCompile Include="Class\OpenglStateModel3DNormalMap.cpp" />
     <ClCompile Include="Class\OpenglStateModel3DPlanet.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="Class\OpenglStateHDRBloom.h" />
     <ClInclude Include="Class\OpenglStateInStance.h" />
     <ClInclude Include="Class\OpenglStateInstance2.h" />
+    <ClInclude Include="Class\OpenglStateLabel.h" />
     <ClInclude Include="Class\OpenglStateModel3D.h" />
     <ClInclude Include="Class\OpenglStateModel3DNormalMap.h" />
     <ClInclude Include="Class\OpenglStateModel3DPlanet.h" />
@@ -258,6 +260,8 @@
     <None Include="shader\shader37.vert" />
     <None Include="shader\shader38.frag" />
     <None Include="shader\shader38.vert" />
+    <None Include="shader\shader39.frag" />
+    <None Include="shader\shader39.vert" />
     <None Include="shader\shader4.frag" />
     <None Include="shader\shader4.vert" />
     <None Include="shader\shader5.frag" />
