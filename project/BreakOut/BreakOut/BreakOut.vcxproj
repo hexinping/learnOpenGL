@@ -82,8 +82,15 @@
     <ClInclude Include="Class\OpenglCamera.h" />
     <ClInclude Include="Class\stb_image.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Utils\MathUtils.h" />
     <ClInclude Include="Utils\OpenglUtils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\bitbug_favicon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
