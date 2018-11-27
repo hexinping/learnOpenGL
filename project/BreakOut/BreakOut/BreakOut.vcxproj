@@ -76,6 +76,7 @@
     <ClCompile Include="Class\OpenglCamera.cpp" />
     <ClCompile Include="Class\ResourceManager.cpp" />
     <ClCompile Include="Class\Shader.cpp" />
+    <ClCompile Include="Class\SpriteRenderer.cpp" />
     <ClCompile Include="Class\stb_image.cpp" />
     <ClCompile Include="Class\Texture.cpp" />
     <ClCompile Include="main.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="Class\OpenglCamera.h" />
     <ClInclude Include="Class\ResourceManager.h" />
     <ClInclude Include="Class\Shader.h" />
+    <ClInclude Include="Class\SpriteRenderer.h" />
     <ClInclude Include="Class\stb_image.h" />
     <ClInclude Include="Class\Texture.h" />
     <ClInclude Include="main.h" />
@@ -99,6 +101,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\bitbug_favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\sprite.frag" />
+    <None Include="shader\sprite.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
