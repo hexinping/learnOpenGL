@@ -7,6 +7,10 @@
 #include "OpenglUtils.h"
 #include "OpenglCamera.h"
 
+#include "Game.h"
+#include "ResourceManager.h"
+
+
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
@@ -36,44 +40,11 @@ using namespace std;
 
 OpenglCamera *camera = nullptr;
 
+Game *breakOut = nullptr;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
-}
-
-void processInput(GLFWwindow *window)
-{
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-	{
-		mixValue += 0.0001f; // change this value accordingly (might be too slow or too fast based on system hardware)
-		if (mixValue >= 1.0f)
-			mixValue = 1.0f;
-	}
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-	{
-		mixValue -= 0.0001f; // change this value accordingly (might be too slow or too fast based on system hardware)
-		if (mixValue <= 0.0f)
-			mixValue = 0.0f;
-	}
-
-	float cameraSpeed = 2.5f * deltaTime; // adjust accordingly
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		//cameraPos += cameraSpeed * cameraFront;
-		camera->ProcessKeyboard(Camera_Movement::FORWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		//cameraPos -= cameraSpeed * cameraFront;
-		camera->ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		//cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-		camera->ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		//cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-		camera->ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
-
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
@@ -153,11 +124,22 @@ int createWindow(GLFWwindow** pWindow)
 
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
+	//glfwSetScrollCallback(window, scroll_callback);
 
 	*pWindow = window;
 	return 0;
 }
+
+void initOpenglConfig()
+{
+
+	// OpenGL configuration
+	glViewport(0, 0, width, height);
+	glEnable(GL_CULL_FACE); //开启面剔除
+	glEnable(GL_BLEND);    //开启混合
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
 
 map<int, string> OpenglStatesMap;
 void initShaders()
@@ -189,7 +171,16 @@ int main(int argc, char* argv[])
 	GLFWwindow* window;
 	createWindow(&window);
 
+	initOpenglConfig();
+
+	breakOut = new Game(width, height);
+	breakOut->Init();
+	
+	
 	camera = new OpenglCamera();
+
+	// Start Game within Menu State
+	breakOut->State = GAME_ACTIVE;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -199,15 +190,29 @@ int main(int argc, char* argv[])
 		lastFrame = currentFrame;
 
 		// 输入
-		processInput(window);
+		//processInput(window);
 
+		// Manage user input
+		breakOut->ProcessInput(window, deltaTime);
 
+		// Update Game state
+		breakOut->Update(deltaTime);
+
+		// Render
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		breakOut->Render();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
 	delete camera;
+	delete breakOut;
+
+	// Delete all resources as loaded using the resource manager
+	ResourceManager::Clear();
+	
 
 	glfwTerminate(); //当渲染循环结束后我们需要正确释放/删除之前的分配的所有资源
 	return 0;
