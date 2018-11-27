@@ -22,21 +22,21 @@ void Texture2D::Generate(GLuint width, GLuint height, unsigned char* data)
     Width = width;
     Height = height;
 
-	glActiveTexture(TextureUnit); // ÔÚ°ó¶¨ÎÆÀíÖ®Ç°ÏÈ¼¤»îÎÆÀíµ¥Ôª
+	glActiveTexture(TextureUnit); // åœ¨ç»‘å®šçº¹ç†ä¹‹å‰å…ˆæ¿€æ´»çº¹ç†å•å…ƒ
 	glBindTexture(GL_TEXTURE_2D, ID);
 
 	/*
-	0 ==¡·ÎÆÀí¼¶±ğ£¬Ä¬ÈÏÊ¹ÓÃ0¼¶
-	ÎÆÀí¸ñÊ½ format
+	0 ==ã€‹çº¹ç†çº§åˆ«ï¼Œé»˜è®¤ä½¿ç”¨0çº§
+	çº¹ç†æ ¼å¼ format
 	*/
 	glTexImage2D(GL_TEXTURE_2D, 0, Internal_Format, width, height, 0, Image_Format, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	// ÎÆÀí»·ÈÆ·½Ê½
+	// çº¹ç†ç¯ç»•æ–¹å¼
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, Internal_Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT); // for this tutorial: use GL_CLAMP_TO_EDGE to prevent semi-transparent borders. Due to interpolation it takes texels from next repeat 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, Internal_Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 
-	//ÎÆÀí¹ıÂË·½Ê½
+	//çº¹ç†è¿‡æ»¤æ–¹å¼
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 

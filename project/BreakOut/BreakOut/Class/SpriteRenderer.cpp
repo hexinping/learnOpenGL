@@ -14,10 +14,10 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::initRenderData()
 {
-	// ÅäÖÃ VAO/VBO
+	// é…ç½® VAO/VBO
 	GLuint VBO;
 	GLfloat vertices[] = {
-		// Î»ÖÃ     // ÎÆÀí
+		// ä½ç½®     // çº¹ç†
 		0.0f, 1.0f, 0.0f, 1.0f,
 		1.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 0.0f,
@@ -43,7 +43,7 @@ void SpriteRenderer::initRenderData()
 void SpriteRenderer::DrawSprite(Texture2D &texture, glm::vec2 position,
 	glm::vec2 size, GLfloat rotate, glm::vec3 color)
 {
-	// ×¼±¸±ä»»
+	// å‡†å¤‡å˜æ¢
 	this->shader.Use();
 	glm::mat4 model;
 	model = glm::translate(model, glm::vec3(position, 0.0f));

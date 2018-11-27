@@ -18,7 +18,7 @@ public:
     // Holds the ID of the texture object, used for all texture operations to reference to this particlar texture
     GLuint ID;
 
-	GLuint TextureUnit; //ÎÆÀí¼¶±ğ
+    GLuint TextureUnit; //çº¹ç†çº§åˆ«
     // Texture image dimensions
     GLuint Width, Height; // Width and height of loaded image in pixels
     // Texture Format

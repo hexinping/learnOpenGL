@@ -26,20 +26,20 @@ Game::~Game()
 void Game::Init()
 {
 	string name = "sprite";
-	// 加载着色器
+	// 鍔犺浇鐫�鑹插櫒
 	Shader shader = ResourceManager::LoadShader("shader/sprite.vert", "shader/sprite.frag", nullptr, name);
-	// 配置着色器
+	// 閰嶇疆鐫�鑹插櫒
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->Width),
 		static_cast<GLfloat>(this->Height), 0.0f, -1.0f, 1.0f);
 
 	shader.Use();
 	shader.SetInteger("image", 0);
 	shader.SetMatrix4("projection", projection);
-	// 设置专用于渲染的控制
+	// 璁剧疆涓撶敤浜庢覆鏌撶殑鎺у埗
 	Renderer = new SpriteRenderer(shader);
 
 	
-	// 加载纹理
+	// 鍔犺浇绾圭悊
 	ResourceManager::LoadTexture("resource/awesomeface.png" , "face");
 }
 
