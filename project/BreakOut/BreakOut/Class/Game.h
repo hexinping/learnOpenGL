@@ -11,7 +11,7 @@
 
 //#include <GL/glew.h>
 #include "GLFW/glfw3.h"
-
+#include "GameLevel.h"
 
 // Represents the current state of the game
 enum GameState {
@@ -39,6 +39,11 @@ public:
 	void ProcessInput(GLFWwindow *window, GLfloat deltaTime);
     void Update(GLfloat dt);
     void Render();
+
+
+	std::vector<GameLevel> Levels;
+	GLuint                 Level;
+	GLuint                 LevelIndex;
 };
 
 #endif

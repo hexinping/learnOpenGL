@@ -36,25 +36,31 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Class\OpenglCamera.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\stb_image.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
     <ClCompile Include="Class\Game.cpp">
       <Filter>Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\Shader.cpp">
+    <ClCompile Include="Class\OpenglCamera.cpp">
       <Filter>Class</Filter>
     </ClCompile>
     <ClCompile Include="Class\ResourceManager.cpp">
       <Filter>Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\Texture.cpp">
+    <ClCompile Include="Class\Shader.cpp">
       <Filter>Class</Filter>
     </ClCompile>
     <ClCompile Include="Class\SpriteRenderer.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\stb_image.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Texture.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\GameObject.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\GameLevel.cpp">
       <Filter>Class</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,28 +74,34 @@
     <ClInclude Include="Utils\MathUtils.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Class\OpenglCamera.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\stb_image.h">
-      <Filter>Class</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Class\Game.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="Class\Shader.h">
+    <ClInclude Include="Class\OpenglCamera.h">
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\ResourceManager.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="Class\Texture.h">
+    <ClInclude Include="Class\Shader.h">
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\SpriteRenderer.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\stb_image.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Texture.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\GameObject.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\GameLevel.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
