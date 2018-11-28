@@ -11,7 +11,10 @@
 #include "SpriteRenderer.h"
 #include "ParticleGenerator.h"
 #include "PostProcessor.h"
+#include "TextRenderer.h"
+
 #include <algorithm>
+#include <sstream>
 
 SpriteRenderer  *Renderer;
 
@@ -35,10 +38,12 @@ ParticleGenerator *Particles;
 PostProcessor     *Effects;
 GLfloat            ShakeTime = 0.0f;
 
-Game::Game(GLuint width, GLuint height) 
-	: State(GAME_ACTIVE), Keys(), Width(width), Height(height) 
-{ 
+TextRenderer      *Text;
 
+Game::Game(GLuint width, GLuint height) 
+	: State(GAME_MENU), Keys(), Width(width), Height(height), Level(0), Lives(3)
+{ 
+	
 }
 
 Game::~Game()
@@ -48,6 +53,7 @@ Game::~Game()
 	delete Ball;
 	delete Particles;
 	delete Effects;
+	delete Text;
 }
 
 void Game::Init()
@@ -106,6 +112,8 @@ void Game::Init()
 
 	Particles = new ParticleGenerator(particleShader, ResourceManager::GetTexture("particle"),500);
 	Effects = new PostProcessor(postProcessing, this->Width, this->Height);
+	Text = new TextRenderer(this->Width, this->Height);
+	Text->Load("resource/OCRAEXT.TTF", 24);
 
 	//Effects->Shake = GL_TRUE;
 	//Effects->Confuse = GL_TRUE;
@@ -288,6 +296,8 @@ void Game::ResetLevel()
 		this->Levels[2].Load("levels/three.lvl", this->Width, this->Height * 0.5f);
 	else if (this->Level == 3)
 		this->Levels[3].Load("levels/four.lvl", this->Width, this->Height * 0.5f);
+
+	this->Lives = 3;
 }
 
 void Game::ResetPlayer()
@@ -317,10 +327,25 @@ void Game::Update(GLfloat dt)
 			Effects->Shake = GL_FALSE;
 	}
 	// Check loss condition
-	if (Ball->Position.y >= this->Height) // Did ball reach bottom edge?
+	if (Ball->Position.y >= this->Height) // 球是否接触到底部边界?
+	{
+		--this->Lives;
+		// 玩家是否已失去所有生命值? : 游戏结束
+		if (this->Lives == 0)
+		{
+			this->ResetLevel();
+			this->State = GAME_MENU;
+		}
+		this->ResetPlayer();
+	}
+
+	// Check win condition
+	if (this->State == GAME_ACTIVE && this->Levels[this->Level].IsCompleted())
 	{
 		this->ResetLevel();
 		this->ResetPlayer();
+		Effects->Chaos = GL_TRUE;
+		this->State = GAME_WIN;
 	}
 }
 
@@ -329,6 +354,35 @@ void Game::ProcessInput(GLFWwindow *window, GLfloat dt)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	if (this->State == GAME_MENU)
+	{
+		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS && !this->KeysProcessed[GLFW_KEY_ENTER])
+		{
+			this->KeysProcessed[GLFW_KEY_ENTER] = GL_TRUE;
+			this->State = GAME_ACTIVE;
+		}
+			
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			this->Level = (this->Level + 1) % 4;
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			if (this->Level > 0)
+				--this->Level;
+			else
+				this->Level = 3;
+		}
+	}
+
+	if (this->State == GAME_WIN)
+	{
+		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+		{
+			this->KeysProcessed[GLFW_KEY_ENTER] = GL_TRUE;
+			Effects->Chaos = GL_FALSE;
+			this->State = GAME_MENU;
+		}
+	}
 
 	if (this->State == GAME_ACTIVE)
 	{
@@ -367,7 +421,7 @@ void Game::ProcessInput(GLFWwindow *window, GLfloat dt)
 
 void Game::Render()
 {
-	if (this->State == GAME_ACTIVE)
+	if (this->State == GAME_ACTIVE || this->State == GAME_MENU)
 	{
 		// Begin rendering to postprocessing quad
 		Effects->BeginRender();
@@ -392,9 +446,27 @@ void Game::Render()
 		//绘制小球
 		Ball->Draw(*Renderer);
 
+
 		Effects->EndRender();
 		// Render postprocessing quad
 		Effects->Render(glfwGetTime());
+
+		// Render text (don't include in postprocessing)
+		std::stringstream ss; ss << this->Lives;
+		Text->RenderText("Lives:" + ss.str(), 5.0f, 5.0f, 1.0f);
+	}
+
+
+	if (this->State == GAME_MENU)
+	{
+		Text->RenderText("Press ENTER to start", 250.0f, Height / 2, 1.0f);
+		Text->RenderText("Press W or S to select level", 245.0f, Height / 2 + 20.0f, 0.75f);
+	}
+
+	if (this->State == GAME_WIN)
+	{
+		Text->RenderText("You WON!!!", 320.0f, this->Height / 2 - 20.0f, 1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		Text->RenderText("Press ENTER to retry or ESC to quit", 130.0f, this->Height / 2, 1.0f, glm::vec3(1.0f, 1.0f, 0.0f));
 	}
 }
 

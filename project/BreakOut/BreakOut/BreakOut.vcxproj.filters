@@ -69,6 +69,9 @@
     <ClCompile Include="Class\PostProcessor.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\TextRenderer.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -119,6 +122,9 @@
     <ClInclude Include="Class\PowerUp.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="Class\TextRenderer.h">
+      <Filter>Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
@@ -147,6 +153,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\post_processing.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\text.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\text.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

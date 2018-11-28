@@ -37,10 +37,7 @@ typedef std::tuple<GLboolean, Direction, glm::vec2> Collision;
 class Game
 {
 public:
-    // Game state
-    GameState              State;	
-    GLboolean              Keys[1024];
-    GLuint                 Width, Height;
+
     // Constructor/Destructor
     Game(GLuint width, GLuint height);
     ~Game();
@@ -61,10 +58,6 @@ public:
 
 	Direction VectorDirection(glm::vec2 target);
 
-	std::vector<GameLevel> Levels;
-	GLuint                 Level;
-
-
 	std::vector<PowerUp>  PowerUps;
 	void SpawnPowerUps(GameObject &block);
 	void UpdatePowerUps(GLfloat dt);
@@ -72,7 +65,15 @@ public:
 	void ActivatePowerUp(PowerUp &powerUp);
 	GLboolean isOtherPowerUpActive(std::vector<PowerUp> &powerUps, std::string type);
 
-
+public:
+	GLuint Lives;
+	std::vector<GameLevel> Levels;
+	GLuint                 Level;
+	// Game state
+	GameState              State;
+	GLboolean              Keys[1024];
+	GLboolean			   KeysProcessed[1024];
+	GLuint                 Width, Height;
 };
 
 #endif

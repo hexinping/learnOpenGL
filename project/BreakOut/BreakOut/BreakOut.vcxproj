@@ -82,6 +82,7 @@
     <ClCompile Include="Class\Shader.cpp" />
     <ClCompile Include="Class\SpriteRenderer.cpp" />
     <ClCompile Include="Class\stb_image.cpp" />
+    <ClCompile Include="Class\TextRenderer.cpp" />
     <ClCompile Include="Class\Texture.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utils\MathUtils.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="Class\Shader.h" />
     <ClInclude Include="Class\SpriteRenderer.h" />
     <ClInclude Include="Class\stb_image.h" />
+    <ClInclude Include="Class\TextRenderer.h" />
     <ClInclude Include="Class\Texture.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
@@ -118,6 +120,8 @@
     <None Include="shader\post_processing.vert" />
     <None Include="shader\sprite.frag" />
     <None Include="shader\sprite.vert" />
+    <None Include="shader\text.frag" />
+    <None Include="shader\text.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -122,9 +122,6 @@ int main(int argc, char* argv[])
 	breakOut = new Game(width, height);
 	breakOut->Init();
 
-	// Start Game within Menu State
-	breakOut->State = GAME_ACTIVE;
-
 	while (!glfwWindowShouldClose(window))
 	{
 		//记录上一帧所使用的时间
