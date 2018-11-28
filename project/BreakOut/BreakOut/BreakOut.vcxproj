@@ -94,6 +94,7 @@
     <ClInclude Include="Class\GameObject.h" />
     <ClInclude Include="Class\ParticleGenerator.h" />
     <ClInclude Include="Class\PostProcessor.h" />
+    <ClInclude Include="Class\PowerUp.h" />
     <ClInclude Include="Class\ResourceManager.h" />
     <ClInclude Include="Class\Shader.h" />
     <ClInclude Include="Class\SpriteRenderer.h" />

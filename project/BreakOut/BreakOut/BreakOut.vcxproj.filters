@@ -116,6 +116,9 @@
     <ClInclude Include="Class\PostProcessor.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="Class\PowerUp.h">
+      <Filter>Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">

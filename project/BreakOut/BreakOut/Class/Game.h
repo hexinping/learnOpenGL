@@ -13,6 +13,7 @@
 #include "GLFW/glfw3.h"
 #include "GameLevel.h"
 #include "BallObject.h"
+#include "PowerUp.h"
 
 // Represents the current state of the game
 enum GameState {
@@ -56,11 +57,20 @@ public:
 	void ResetPlayer();
 
 	Collision  CheckCollision(BallObject &one, GameObject &two); // AABB - AABB collision
+	GLboolean CheckCollision(GameObject &one, GameObject &two);
 
 	Direction VectorDirection(glm::vec2 target);
 
 	std::vector<GameLevel> Levels;
 	GLuint                 Level;
+
+
+	std::vector<PowerUp>  PowerUps;
+	void SpawnPowerUps(GameObject &block);
+	void UpdatePowerUps(GLfloat dt);
+	GLboolean ShouldSpawn(GLuint chance);
+	void ActivatePowerUp(PowerUp &powerUp);
+	GLboolean isOtherPowerUpActive(std::vector<PowerUp> &powerUps, std::string type);
 
 
 };
