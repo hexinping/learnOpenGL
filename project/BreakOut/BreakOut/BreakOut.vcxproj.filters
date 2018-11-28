@@ -66,10 +66,10 @@
     <ClCompile Include="Class\ParticleGenerator.cpp">
       <Filter>Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\PostProcessor.cpp">
+    <ClCompile Include="Class\TextRenderer.cpp">
       <Filter>Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\TextRenderer.cpp">
+    <ClCompile Include="Class\PostProcessor.cpp">
       <Filter>Class</Filter>
     </ClCompile>
   </ItemGroup>

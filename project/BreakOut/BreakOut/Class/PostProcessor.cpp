@@ -13,22 +13,22 @@
 PostProcessor::PostProcessor(Shader shader, GLuint width, GLuint height) 
     : PostProcessingShader(shader), Texture(), Width(width), Height(height), Confuse(GL_FALSE), Chaos(GL_FALSE), Shake(GL_FALSE)
 {
-	////¶àÖØ²ÉÑùµÄÖ¡»º³å²»ÄÜ½øÐÐ²ÉÑù£¬ÐèÒª´´½¨Ò»¸öÁÙÊ±µÄÕý³£Ö¡»º³åÈ»ºó°ÑÊý¾Ý¸´ÖÆµ½Õý³£Ö¡»º³åÖÐ
+	////å¤šé‡é‡‡æ ·çš„å¸§ç¼“å†²ä¸èƒ½è¿›è¡Œé‡‡æ ·ï¼Œéœ€è¦åˆ›å»ºä¸€ä¸ªä¸´æ—¶çš„æ­£å¸¸å¸§ç¼“å†²ç„¶åŽæŠŠæ•°æ®å¤åˆ¶åˆ°æ­£å¸¸å¸§ç¼“å†²ä¸­
 
 
-	//Éú³É¶à¼¶²ÉÑù
+	//ç”Ÿæˆå¤šçº§é‡‡æ ·
     glGenFramebuffers(1, &this->MSFBO);
     glBindFramebuffer(GL_FRAMEBUFFER, this->MSFBO);
 
 	unsigned int textureColorBufferMultiSampled;
 	glGenTextures(1, &textureColorBufferMultiSampled);
-	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, textureColorBufferMultiSampled); //°ó¶¨¶àÖØ²ÉÑùGL_TEXTURE_2D_MULTISAMPLE
-	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB, width, height, GL_TRUE);//Éú³É¶àÖØ²ÉÑùÎÆÀí
+	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, textureColorBufferMultiSampled); //ç»‘å®šå¤šé‡é‡‡æ ·GL_TEXTURE_2D_MULTISAMPLE
+	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGB, width, height, GL_TRUE);//ç”Ÿæˆå¤šé‡é‡‡æ ·çº¹ç†
 	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
-	//½«¶àÖØ²ÉÑùÎÆÀí¸½¼Óµ½Ö¡»º³åÉÏ ÀàÐÍÊÇGL_TEXTURE_2D_MULTISAMPLE
+	//å°†å¤šé‡é‡‡æ ·çº¹ç†é™„åŠ åˆ°å¸§ç¼“å†²ä¸Š ç±»åž‹æ˜¯GL_TEXTURE_2D_MULTISAMPLE
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, textureColorBufferMultiSampled, 0);
 
-	//äÖÈ¾»º³å¶ÔÏó
+	//æ¸²æŸ“ç¼“å†²å¯¹è±¡
 	glGenRenderbuffers(1, &this->RBO);
     glBindRenderbuffer(GL_RENDERBUFFER, this->RBO);
     glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_RGB, width, height); // Allocate storage for render buffer object 
@@ -37,7 +37,7 @@ PostProcessor::PostProcessor(Shader shader, GLuint width, GLuint height)
         std::cout << "ERROR::POSTPROCESSOR: Failed to initialize MSFBO" << std::endl;
        
 
-	//×Ô¶¨ÒåÒ»¸öÖ¡»º³å¶ÔÏó
+	//è‡ªå®šä¹‰ä¸€ä¸ªå¸§ç¼“å†²å¯¹è±¡
 	glGenFramebuffers(1, &this->FBO);
     // Also initialize the FBO/texture to blit multisampled color-buffer to; used for shader operations (for postprocessing effects)
     glBindFramebuffer(GL_FRAMEBUFFER, this->FBO);
