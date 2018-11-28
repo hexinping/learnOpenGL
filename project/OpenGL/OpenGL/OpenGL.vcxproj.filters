@@ -356,6 +356,9 @@
     <ClInclude Include="Class\OpenglStateLabel.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\lamp.frag">
@@ -628,5 +631,15 @@
     <None Include="shader\shader39.vert">
       <Filter>shader</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="OpenGL.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\opengl.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
