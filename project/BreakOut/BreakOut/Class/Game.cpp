@@ -9,7 +9,8 @@
 #include "Game.h"
 #include "ResourceManager.h"
 #include "SpriteRenderer.h"
-
+#include "ParticleGenerator.h"
+#include "PostProcessor.h"
 
 SpriteRenderer  *Renderer;
 
@@ -29,6 +30,10 @@ const GLfloat BALL_RADIUS = 12.5f;
 BallObject     *Ball;
 
 
+ParticleGenerator *Particles;
+PostProcessor     *Effects;
+GLfloat            ShakeTime = 0.0f;
+
 Game::Game(GLuint width, GLuint height) 
 	: State(GAME_ACTIVE), Keys(), Width(width), Height(height) 
 { 
@@ -39,13 +44,19 @@ Game::~Game()
 {
 	delete Renderer;
 	delete Player;
+	delete Ball;
+	delete Particles;
+	delete Effects;
 }
 
 void Game::Init()
 {
-	string name = "sprite";
+
 	// 加载着色器
-	Shader shader = ResourceManager::LoadShader("shader/sprite.vert", "shader/sprite.frag", nullptr, name);
+	Shader shader = ResourceManager::LoadShader("shader/sprite.vert", "shader/sprite.frag", nullptr, "sprite");
+	Shader particleShader = ResourceManager::LoadShader("shader/particle.vert", "shader/particle.frag", nullptr, "particle");
+	Shader postProcessing  = ResourceManager::LoadShader("shader/post_processing.vert", "shader/post_processing.frag", nullptr, "postprocessing");
+
 	// 配置着色器
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->Width),
 		static_cast<GLfloat>(this->Height), 0.0f, -1.0f, 1.0f);
@@ -53,6 +64,13 @@ void Game::Init()
 	shader.Use();
 	shader.SetInteger("image", 0);
 	shader.SetMatrix4("projection", projection);
+
+	particleShader.Use();
+	particleShader.SetInteger("sprite", 0);
+	particleShader.SetMatrix4("projection", projection);
+
+	postProcessing.Use();
+
 
 	// 设置专用于渲染的控制
 	Renderer = new SpriteRenderer(shader);
@@ -64,6 +82,9 @@ void Game::Init()
 	ResourceManager::LoadTexture("resource/block.png", "block");
 	ResourceManager::LoadTexture("resource/block_solid.png", "block_solid");
 	ResourceManager::LoadTexture("resource/paddle.png", "paddle");
+	ResourceManager::LoadTexture("resource/particle.png", "particle");
+
+
 	// 加载关卡
 	GameLevel one; one.Load("levels/one.lvl", this->Width, this->Height * 0.5);
 	GameLevel two; two.Load("levels/two.lvl", this->Width, this->Height * 0.5);
@@ -73,9 +94,15 @@ void Game::Init()
 	this->Levels.push_back(two);
 	this->Levels.push_back(three);
 	this->Levels.push_back(four);
-	this->Level = 1;
-	this->LevelIndex = 0;
+	this->Level = 0;
 
+
+	Particles = new ParticleGenerator(particleShader, ResourceManager::GetTexture("particle"),500);
+	Effects = new PostProcessor(postProcessing, this->Width, this->Height);
+
+	//Effects->Shake = GL_TRUE;
+	//Effects->Confuse = GL_TRUE;
+	//Effects->Chaos = GL_TRUE;
 
 	initObjects();
 
@@ -147,7 +174,7 @@ Collision Game::CheckCollision(BallObject &one, GameObject &two) // AABB - AABB 
 void Game::DoCollisions()
 {
 	//球和砖块碰撞
-	for (GameObject &box : this->Levels[this->LevelIndex].Bricks)
+	for (GameObject &box : this->Levels[this->Level].Bricks)
 	{
 		if (!box.Destroyed)
 		{
@@ -156,7 +183,16 @@ void Game::DoCollisions()
 			{
 				// 如果砖块不是实心就销毁砖块
 				if (!box.IsSolid)
+				{
 					box.Destroyed = GL_TRUE;
+				}
+				else
+				{
+					// if block is solid, enable shake effect
+					ShakeTime = 0.05f;
+					Effects->Shake = GL_TRUE;
+				}
+					
 				// 碰撞处理
 				Direction dir = std::get<1>(collision);
 				glm::vec2 diff_vector = std::get<2>(collision);
@@ -202,12 +238,47 @@ void Game::DoCollisions()
 
 }
 
+void Game::ResetLevel()
+{
+	if (this->Level == 0)this->Levels[0].Load("levels/one.lvl", this->Width, this->Height * 0.5f);
+	else if (this->Level == 1)
+		this->Levels[1].Load("levels/two.lvl", this->Width, this->Height * 0.5f);
+	else if (this->Level == 2)
+		this->Levels[2].Load("levels/three.lvl", this->Width, this->Height * 0.5f);
+	else if (this->Level == 3)
+		this->Levels[3].Load("levels/four.lvl", this->Width, this->Height * 0.5f);
+}
+
+void Game::ResetPlayer()
+{
+	// Reset player/ball stats
+	Player->Size = PLAYER_SIZE;
+	Player->Position = glm::vec2(this->Width / 2 - PLAYER_SIZE.x / 2, this->Height - PLAYER_SIZE.y);
+	Ball->Reset(Player->Position + glm::vec2(PLAYER_SIZE.x / 2 - BALL_RADIUS, -(BALL_RADIUS * 2)), INITIAL_BALL_VELOCITY);
+}
+
 void Game::Update(GLfloat dt)
 {
 	Ball->Move(dt, this->Width);
 
+	Particles->Update(dt, *Ball, 2, glm::vec2(Ball->Radius / 2));
+
 	// 检测碰撞
 	this->DoCollisions();
+
+	// Reduce shake time
+	if (ShakeTime > 0.0f)
+	{
+		ShakeTime -= dt;
+		if (ShakeTime <= 0.0f)
+			Effects->Shake = GL_FALSE;
+	}
+	// Check loss condition
+	if (Ball->Position.y >= this->Height) // Did ball reach bottom edge?
+	{
+		this->ResetLevel();
+		this->ResetPlayer();
+	}
 }
 
 
@@ -255,16 +326,25 @@ void Game::Render()
 {
 	if (this->State == GAME_ACTIVE)
 	{
+		// Begin rendering to postprocessing quad
+		Effects->BeginRender();
+
 		// 绘制背景
 		Renderer->DrawSprite(ResourceManager::GetTexture("background"),glm::vec2(0, 0), glm::vec2(this->Width, this->Height), 0.0f);
 
 		// 绘制关卡
-		this->Levels[this->LevelIndex].Draw(*Renderer);
+		this->Levels[this->Level].Draw(*Renderer);
 
 		//绘制挡板
 		Player->Draw(*Renderer);
 
+		Particles->Draw();
+
 		//绘制小球
 		Ball->Draw(*Renderer);
+
+		Effects->EndRender();
+		// Render postprocessing quad
+		Effects->Render(glfwGetTime());
 	}
 }

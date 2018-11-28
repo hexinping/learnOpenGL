@@ -63,6 +63,12 @@
     <ClCompile Include="Class\BallObject.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\ParticleGenerator.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\PostProcessor.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -104,6 +110,12 @@
     <ClInclude Include="Class\BallObject.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="Class\ParticleGenerator.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\PostProcessor.h">
+      <Filter>Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
@@ -120,6 +132,18 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\sprite.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\particle.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\particle.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\post_processing.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\post_processing.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

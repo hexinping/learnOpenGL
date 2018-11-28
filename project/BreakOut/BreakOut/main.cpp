@@ -81,6 +81,9 @@ void initOpenglConfig()
 	glEnable(GL_CULL_FACE); //开启面剔除
 	glEnable(GL_BLEND);    //开启混合
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glfwWindowHint(GLFW_SAMPLES, 4); //每个像素点使用4个采样点 ，为了多级采样用
+	glEnable(GL_MULTISAMPLE); //开启多级采样
 }
 
 

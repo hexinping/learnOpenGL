@@ -52,6 +52,8 @@ public:
 
 	void initObjects();
 	void DoCollisions();
+	void ResetLevel();
+	void ResetPlayer();
 
 	Collision  CheckCollision(BallObject &one, GameObject &two); // AABB - AABB collision
 
@@ -59,7 +61,7 @@ public:
 
 	std::vector<GameLevel> Levels;
 	GLuint                 Level;
-	GLuint                 LevelIndex;
+
 
 };
 
