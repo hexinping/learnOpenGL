@@ -124,6 +124,7 @@ Texture2D ResourceManager::loadTextureFromFile(char const * path, int textureUni
 		texture.Generate(width, height, data);
 
 		stbi_set_flip_vertically_on_load(true);
+		
 		stbi_image_free(data);
 	}
 	else

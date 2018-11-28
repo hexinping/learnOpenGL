@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "ResourceManager.h"
 #include "SpriteRenderer.h"
+#include "BallObject.h"
 
 SpriteRenderer  *Renderer;
 
@@ -19,6 +20,13 @@ const GLfloat PLAYER_VELOCITY(500.0f);
 
 GameObject      *Player;
 
+
+// 初始化球的速度
+const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
+// 球的半径
+const GLfloat BALL_RADIUS = 12.5f;
+
+BallObject     *Ball;
 
 Game::Game(GLuint width, GLuint height) 
 	: State(GAME_ACTIVE), Keys(), Width(width), Height(height) 
@@ -68,17 +76,28 @@ void Game::Init()
 	this->LevelIndex = 0;
 
 
+	initObjects();
+
+}
+
+void Game::initObjects()
+{
+	//初始化玩家挡板
 	glm::vec2 playerPos = glm::vec2(
 		this->Width / 2 - PLAYER_SIZE.x / 2,
 		this->Height - PLAYER_SIZE.y
 		);
 	Player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("paddle"));
 
-}
+	//初始化小球
+	glm::vec2 ballPos = playerPos + glm::vec2(PLAYER_SIZE.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2);
+	Ball = new BallObject(ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY,
+		ResourceManager::GetTexture("face"));
 
+}
 void Game::Update(GLfloat dt)
 {
-
+	Ball->Move(dt, this->Width);
 }
 
 
@@ -95,14 +114,29 @@ void Game::ProcessInput(GLFWwindow *window, GLfloat dt)
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
 			if (Player->Position.x >= 0)
+			{
 				Player->Position.x -= velocity;
+				if (Ball->Stuck)
+					Ball->Position.x -= velocity;
+			}
+				
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
 			if (Player->Position.x <= this->Width - Player->Size.x)
+			{
 				Player->Position.x += velocity;
+				if (Ball->Stuck)
+					Ball->Position.x += velocity;
+			}
+				
 		}
+
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		{
+			Ball->Stuck = false;
+		}	
 
 	}
 }
@@ -119,5 +153,8 @@ void Game::Render()
 
 		//绘制挡板
 		Player->Draw(*Renderer);
+
+		//绘制小球
+		Ball->Draw(*Renderer);
 	}
 }

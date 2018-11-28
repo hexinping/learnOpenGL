@@ -40,10 +40,12 @@ public:
     void Update(GLfloat dt);
     void Render();
 
+	void initObjects();
 
 	std::vector<GameLevel> Levels;
 	GLuint                 Level;
 	GLuint                 LevelIndex;
+
 };
 
 #endif

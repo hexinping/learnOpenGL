@@ -72,6 +72,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\glad\glad.c" />
+    <ClCompile Include="Class\BallObject.cpp" />
     <ClCompile Include="Class\Game.cpp" />
     <ClCompile Include="Class\GameLevel.cpp" />
     <ClCompile Include="Class\GameObject.cpp" />
@@ -86,6 +87,7 @@
     <ClCompile Include="Utils\OpenglUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Class\BallObject.h" />
     <ClInclude Include="Class\Game.h" />
     <ClInclude Include="Class\GameLevel.h" />
     <ClInclude Include="Class\GameObject.h" />
