@@ -12,6 +12,14 @@
 
 SpriteRenderer  *Renderer;
 
+// 初始化挡板的大小
+const glm::vec2 PLAYER_SIZE(100, 20);
+// 初始化当班的速率
+const GLfloat PLAYER_VELOCITY(500.0f);
+
+GameObject      *Player;
+
+
 Game::Game(GLuint width, GLuint height) 
 	: State(GAME_ACTIVE), Keys(), Width(width), Height(height) 
 { 
@@ -20,7 +28,8 @@ Game::Game(GLuint width, GLuint height)
 
 Game::~Game()
 {
-
+	delete Renderer;
+	delete Player;
 }
 
 void Game::Init()
@@ -45,6 +54,7 @@ void Game::Init()
 	ResourceManager::LoadTexture("resource/awesomeface.png",  "face");
 	ResourceManager::LoadTexture("resource/block.png", "block");
 	ResourceManager::LoadTexture("resource/block_solid.png", "block_solid");
+	ResourceManager::LoadTexture("resource/paddle.png", "paddle");
 	// 加载关卡
 	GameLevel one; one.Load("levels/one.lvl", this->Width, this->Height * 0.5);
 	GameLevel two; two.Load("levels/two.lvl", this->Width, this->Height * 0.5);
@@ -57,6 +67,13 @@ void Game::Init()
 	this->Level = 1;
 	this->LevelIndex = 0;
 
+
+	glm::vec2 playerPos = glm::vec2(
+		this->Width / 2 - PLAYER_SIZE.x / 2,
+		this->Height - PLAYER_SIZE.y
+		);
+	Player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("paddle"));
+
 }
 
 void Game::Update(GLfloat dt)
@@ -65,10 +82,29 @@ void Game::Update(GLfloat dt)
 }
 
 
-void Game::ProcessInput(GLFWwindow *window, GLfloat deltaTime)
+void Game::ProcessInput(GLFWwindow *window, GLfloat dt)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	if (this->State == GAME_ACTIVE)
+	{
+		GLfloat velocity = PLAYER_VELOCITY * dt;
+		// 移动挡板
+
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			if (Player->Position.x >= 0)
+				Player->Position.x -= velocity;
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			if (Player->Position.x <= this->Width - Player->Size.x)
+				Player->Position.x += velocity;
+		}
+
+	}
 }
 
 void Game::Render()
@@ -76,10 +112,12 @@ void Game::Render()
 	if (this->State == GAME_ACTIVE)
 	{
 		// 绘制背景
-		Renderer->DrawSprite(ResourceManager::GetTexture("background"),
-			glm::vec2(0, 0), glm::vec2(this->Width, this->Height), 0.0f
-			);
+		Renderer->DrawSprite(ResourceManager::GetTexture("background"),glm::vec2(0, 0), glm::vec2(this->Width, this->Height), 0.0f);
+
 		// 绘制关卡
 		this->Levels[this->LevelIndex].Draw(*Renderer);
+
+		//绘制挡板
+		Player->Draw(*Renderer);
 	}
 }
