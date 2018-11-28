@@ -5,7 +5,6 @@
 #include <ctime>
 #include <cstdlib>
 #include "OpenglUtils.h"
-#include "OpenglCamera.h"
 
 #include "Game.h"
 #include "ResourceManager.h"
@@ -38,66 +37,12 @@ glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 using namespace std;
 
-OpenglCamera *camera = nullptr;
 
 Game *breakOut = nullptr;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
-}
-
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-
-	if (firstMouse)
-	{
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
-	}
-	//计算当前帧和上一帧鼠标位置的偏移量
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // 注意这里是相反的，因为y坐标是从底部往顶部依次增大的
-	lastX = xpos;
-	lastY = ypos;
-	camera->ProcessMouseMovement(xoffset, yoffset);
-
-	//float sensitivity = 0.05f;
-	//xoffset *= sensitivity;
-	//yoffset *= sensitivity;
-
-	//yaw += xoffset;
-	//pitch += yoffset;
-
-
-	/*
-	对于俯仰角，要让用户不能看向高于89度的地方（在90度时视角会发生逆转，所以我们把89度作为极限），
-	同样也不允许小于-89度。这样能够保证用户只能看到天空或脚下，但是不能超越这个限制
-	*/
-	//if (pitch > 89.0f)
-	//	pitch = 89.0f;
-	//if (pitch < -89.0f)
-	//	pitch = -89.0f;
-
-	////通过俯仰角和偏航角来计算以得到真正的方向向量
-	//glm::vec3 front;
-	//front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-	//front.y = sin(glm::radians(pitch));
-	//front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-	//cameraFront = glm::normalize(front);
-}
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-	//if (fov >= 1.0f && fov <= 45.0f)
-	//	fov -= yoffset;
-	//if (fov <= 1.0f)
-	//	fov = 1.0f;
-	//if (fov >= 45.0f)
-	//	fov = 45.0f;
-
-	camera->ProcessMouseScroll(yoffset);
 }
 
 int createWindow(GLFWwindow** pWindow)
@@ -123,8 +68,6 @@ int createWindow(GLFWwindow** pWindow)
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	//glfwSetScrollCallback(window, scroll_callback);
 
 	*pWindow = window;
 	return 0;
@@ -175,9 +118,6 @@ int main(int argc, char* argv[])
 
 	breakOut = new Game(width, height);
 	breakOut->Init();
-	
-	
-	camera = new OpenglCamera();
 
 	// Start Game within Menu State
 	breakOut->State = GAME_ACTIVE;
@@ -207,7 +147,6 @@ int main(int argc, char* argv[])
 		glfwPollEvents();
 	}
 
-	delete camera;
 	delete breakOut;
 
 	// Delete all resources as loaded using the resource manager

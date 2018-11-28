@@ -39,9 +39,6 @@
     <ClCompile Include="Class\Game.cpp">
       <Filter>Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\OpenglCamera.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
     <ClCompile Include="Class\ResourceManager.cpp">
       <Filter>Class</Filter>
     </ClCompile>
@@ -81,9 +78,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Class\Game.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\OpenglCamera.h">
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\ResourceManager.h">
