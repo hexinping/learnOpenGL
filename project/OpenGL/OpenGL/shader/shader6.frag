@@ -38,15 +38,7 @@ void main()
 	//FragColor = color * vec4(ourColor,1.0);
 
 	//使用一个uniform变量作为mix函数的第三个参数来改变两个纹理可见度
-	//vec4 color = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), textureAlpha);
-	//FragColor = color * vec4(ourColor,1.0);
-
-
-
-
-	float r = sqrt(TexCoord.x*TexCoord.x + TexCoord.y*TexCoord.y);
-    float x = cos(1.0*r + Time * 1.0) /80;
-	float y = sin(15.0*r + Time * 3.0) /60;
-    FragColor = texture(texture1, TexCoord+ vec2(x,y));
+	vec4 color = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), textureAlpha);
+	FragColor = color * vec4(ourColor,1.0);
 
 }
