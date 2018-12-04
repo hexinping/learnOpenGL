@@ -8,11 +8,13 @@ out vec2 TexCoord;
 
 out vec3 FragPos;
 
+uniform mat4 model;
+
 void main()
 {
 	gl_Position = vec4(aPos, 1.0);
     ourColor = aColor; // 将ourColor设置为我们从顶点数据那里得到的输入颜色
     TexCoord = aTexCoord;
 
-	FragPos = gl_Position.xyz;
+	FragPos = vec3(model * vec4(aPos, 1.0f)); //乘以模型矩阵把顶点坐标转到世界空间里
 }

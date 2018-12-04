@@ -83,6 +83,8 @@ void OpenglStateMultTextureWave::rendeCommand()
 	bindTexture(_texture1);
 	setInt(_shaderProgram, "texture_normal", 1); // 这里的1就对应了前面的GL_TEXTURE1
 
+	glm::mat4 model;
+	setMat4(_shaderProgram, "model", &model);
 	if (_isUseEBORender)
 	{
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
