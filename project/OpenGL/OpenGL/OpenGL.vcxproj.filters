@@ -30,9 +30,6 @@
     <ClCompile Include="..\..\..\src\glad\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\OpenglUtils.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="practice\practice_2_1.cpp">
       <Filter>practice</Filter>
     </ClCompile>
@@ -192,13 +189,16 @@
     <ClCompile Include="Class\OpenglStateLabel.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\OpenglUtils.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateMultTextureWave.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\OpenglUtils.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="practice\practice_2_1.h">
       <Filter>practice</Filter>
@@ -358,6 +358,12 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\OpenglUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateMultTextureWave.h">
+      <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -629,6 +635,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader39.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader40.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader40.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

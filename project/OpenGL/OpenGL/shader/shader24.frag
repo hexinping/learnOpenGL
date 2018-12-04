@@ -93,7 +93,7 @@ void main()
     //vec3 R = refract(I, normalize(Normal), ratio);
     //FragColor = vec4(texture(skybox, R).rgb, 1.0);
 
-	vec3 R = reflect(-viewDir, norm);
+	vec3 R = refract(-viewDir, norm, ratio);
 	vec3 reflectColor = texture(skybox, R).rgb;
 	FragColor = vec4(reflectColor , 1.0);
 

@@ -50,11 +50,12 @@
 #include "OpenglStateDelayRenderLightsFrameBuffer.h"
 #include "OpenglStateShadow.h"
 #include "OpenglStateLabel.h"
+#include "OpenglStateMultTextureWave.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
-#define MAX_SHADERCOUNT 39
+#define MAX_SHADERCOUNT 40
 
 #include "Model.h"
 #include "OpenglWorld.h"
@@ -202,7 +203,7 @@ int createWindow(GLFWwindow** pWindow)
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
@@ -234,7 +235,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateLabel();
+	OpenglState *glState = new OpenglStateMultTextureWave();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
