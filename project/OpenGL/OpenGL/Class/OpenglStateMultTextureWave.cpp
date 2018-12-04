@@ -83,9 +83,6 @@ void OpenglStateMultTextureWave::rendeCommand()
 	bindTexture(_texture1);
 	setInt(_shaderProgram, "texture_normal", 1); // 这里的1就对应了前面的GL_TEXTURE1
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
 	if (_isUseEBORender)
 	{
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
