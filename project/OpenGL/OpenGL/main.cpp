@@ -235,7 +235,7 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
-	OpenglState *glState = new OpenglStateMultTextureWave();
+	OpenglState *glState = new OpenglStateHDRBloom();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -563,15 +563,15 @@ int main(int argc, char* argv[])
 
 		//world->_isDelayRenderLights
 
-		if (world->_isUseHDR)
-		{
-			//使用HDR
-			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
-		}
-		else if (world->_isUseBloom)
+		if (world->_isUseBloom)
 		{
 			//使用bloom 需要多个纹理
 			world->createFrameBufferByColorBuffers(width, height, &intermediateFBO, &screenTexture, &screenBrightTexture, GL_RGBA16F, GL_RGBA);
+		}
+		else if (world->_isUseHDR)
+		{
+			//使用HDR
+			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
 		}
 		else if (world->_isDelayRenderLights)
 		{
