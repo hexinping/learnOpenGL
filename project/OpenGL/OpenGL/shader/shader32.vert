@@ -50,6 +50,7 @@ void main()
 
 	TBN = transpose(mat3(T, B, N)); //切线空间矩阵的逆矩阵
 
+	//把光照需要的点转到切线空间
 	TangentLightPos = TBN * lightPos;
     TangentViewPos  = TBN * viewPos;
     TangentFragPos  = TBN * FragPos;

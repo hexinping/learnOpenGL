@@ -33,7 +33,7 @@ void main()
 	vec3 T = normalize(vec3(model * vec4(aTangent,   0.0)));
     vec3 B = normalize(vec3(model * vec4(aBitangent, 0.0)));
     vec3 N = normalize(vec3(model * vec4(aNormal,    0.0)));
-    TBN = mat3(T, B, N);
+    TBN = mat3(T, B, N); //TBN为世界空间
 
     //TexCoord = vec2(aTexCoord.x, 1.0 - aTexCoord.y);  //水平翻转
 	//TexCoord = vec2(1.0-aTexCoord.x, aTexCoord.y);   //竖直翻转

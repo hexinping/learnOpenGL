@@ -67,7 +67,7 @@ void main()
     // 将法线向量转换为范围[-1,1]，因为存到纹理里坐标范围被转换成[0,1],但是使用时法线向量的范围为[-1,1]，所以需要转换
     normal = normalize(normal * 2.0 - 1.0);  // this normal is in tangent space
 
-	normal = normalize(TBN * normal);
+	normal = normalize(TBN * normal); //把法线转到切线空间
 
 	vec3 ambient = diffuseMapColor; //环境光光照
 
@@ -78,7 +78,7 @@ void main()
 
 	//vec3 norm = normalize(Normal); //使用法线矩阵
 	vec3 norm = normal; //使用法线贴图
-	vec3 lightDir = normalize(lightPos - FragPos); 
+	vec3 lightDir = normalize(lightPos - FragPos);  //因为这里的点都在世界空间里，TBN也在世界空间里
 
 	//计算漫反射光照
 	float diff = max(dot(norm, lightDir), 0.0);
