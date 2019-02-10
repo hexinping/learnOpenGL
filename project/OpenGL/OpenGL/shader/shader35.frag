@@ -94,7 +94,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 	
 	vec3 lightDir = normalize(light.position - fragPos);
     // 漫反射着色
-    float diff = max(dot(normal, lightDir), 0.0);
+    float diff = max(dot(normal, lightDir), 0.0); //按道理这里应该改成float diff = max(dot(normal, -lightDir), 0.0)，不改的话箱子的反面被着色，但是思路没有错！！！！
     // 镜面光着色
     vec3 reflectDir = reflect(-lightDir, normal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
