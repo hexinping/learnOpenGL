@@ -10,6 +10,7 @@ const float offset = 1.0 / 300.0;
 //反色
 void func1()
 {
+	// 像素的颜色值范围为（0,1），反色起始就是把每个像素的颜色值（rgb）取反
 	vec3 col = texture(texture1, TexCoords).rgb;
 	FragColor = vec4(1.0-col, 1.0);
 }
@@ -18,6 +19,7 @@ void func1()
 //灰度1
 void func2()
 {
+	//像素颜色rgb值，取中间值
 	FragColor = texture(texture1, TexCoords);
 	float average = (FragColor.r + FragColor.g + FragColor.b) / 3.0;
 	FragColor = vec4(average, average, average, 1.0);
@@ -143,9 +145,9 @@ void main()
 	vec4 texColor = texture(texture1, TexCoords);
 	if(texColor.a < 0.2)
 		discard;
-	FragColor = texColor;
+	//FragColor = texColor;
 
-	//func1();
+	func1();
 	//func2();
 	//func3();
 	//func4();
