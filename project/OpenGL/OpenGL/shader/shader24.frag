@@ -79,7 +79,7 @@ void main()
 
 	//vec3 result = (ambient + diffuse + specular + emissionMapColor) * lightColor * objectColor;//使用自发光贴图
 	vec3 result = (ambient + diffuse + specular) * lightColor * objectColor;
-
+	FragColor = vec4(result , 1.0);
 
 	//添加反射效果
 	//vec3 R = reflect(-viewDir, norm);
@@ -93,8 +93,8 @@ void main()
     //vec3 R = refract(I, normalize(Normal), ratio);
     //FragColor = vec4(texture(skybox, R).rgb, 1.0);
 
-	vec3 R = refract(-viewDir, norm, ratio);
-	vec3 reflectColor = texture(skybox, R).rgb;
-	FragColor = vec4(reflectColor , 1.0);
+	//vec3 R = refract(-viewDir, norm, ratio);
+	//vec3 reflectColor = texture(skybox, R).rgb;
+	//FragColor = vec4(reflectColor , 1.0);
 
 }

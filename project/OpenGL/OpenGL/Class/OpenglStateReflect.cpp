@@ -140,6 +140,11 @@ bool  OpenglStateReflect::isUseReflect()
 	return true;
 }
 
+bool  OpenglStateReflect::isUseSkyBox()
+{
+	return true;
+}
+
 void OpenglStateReflect::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新

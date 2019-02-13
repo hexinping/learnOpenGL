@@ -145,8 +145,8 @@ void main()
 		discard;
 	FragColor = texColor;
 
-	func1();
-	func2();
+	//func1();
+	//func2();
 	//func3();
 	//func4();
 	//func5();

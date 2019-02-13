@@ -235,6 +235,8 @@ void createTestObjects()
 	glStatePlane->init(vertFile, fragFile);
 
 
+	//OpenglStateMultTextureBlend 无光照模板
+	//OpenglStateReflect 带光照模板
 	OpenglState *glState = new OpenglStateMultTextureBlend();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
