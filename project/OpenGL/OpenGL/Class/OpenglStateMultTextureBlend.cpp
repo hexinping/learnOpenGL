@@ -84,9 +84,12 @@ void OpenglStateMultTextureBlend::rendeCommand()
 	bindTexture(_texture0);
 	setInt(_shaderProgram, "texture1", 0);
 
+	setVec2(_shaderProgram, "resolution", 800.0f, 600.0f);
+
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(_param4), 800.0f / 600.0f, 0.1f, 100.0f);
 	setMat4(_shaderProgram, "projection", &projection);
+
 
 	glm::mat4 view;
 	glm::vec3 cameraPos = _param2;

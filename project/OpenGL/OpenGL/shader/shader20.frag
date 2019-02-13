@@ -4,8 +4,9 @@ out vec4 FragColor;
 in vec2 TexCoords;
 
 uniform sampler2D texture1;
+uniform vec2 resolution;
 
-const float offset = 1.0 / 300.0;  
+const float offset = 1.0 / 100.0;  
 
 //反色
 void func1()
@@ -70,7 +71,7 @@ void func4()
 }
 
 
-//模糊
+//模糊：原理就是用该像素周边的像素与自己做平均值插值颜色
 void func5()
 {
    vec2 offsets[9] = vec2[](
@@ -94,14 +95,41 @@ void func5()
 	vec3 sampleTex[9];
 	for(int i = 0; i < 9; i++)
 	{
-	    sampleTex[i] = vec3(texture(texture1, TexCoords.st + offsets[i]));
+	    sampleTex[i] = vec3(texture(texture1, TexCoords.st + offsets[i])); //取到周边像素的纹理颜色
 	}
 	vec3 col = vec3(0.0);
 	for(int i = 0; i < 9; i++)
-	    col += sampleTex[i] * kernel[i];
+	    col += sampleTex[i] * kernel[i]; //做平均值计算
 
 	FragColor = vec4(col, 1.0);
 
+}
+
+vec4 blur(vec2 p)
+{
+    vec4 col = vec4(0);
+    vec2 unit = 1.0 / resolution.xy * 2;
+        
+    float count = 0.0;
+        
+    for(float x = -4.0; x <= 4.0; x += 2.0)
+    {
+        for(float y = -4.0; y <= 4.0; y += 2.0)
+        {
+            float weight = (4.0 - abs(x)) * (4.0 - abs(y)); //计算权重
+            col += texture2D(texture1, p + vec2(x * unit.x *1.5, y * unit.y * 1.5)) * weight; //去周边的像素*权重 计算最后的颜色值
+            count += weight;
+        }
+    }
+        
+    return col / count;
+}
+
+//模糊2
+void func5_1()
+{
+	vec4 col = blur(TexCoords);
+    FragColor = col;
 }
 
 
@@ -140,18 +168,21 @@ void func6()
 }
 
 
+
+
 void main()
 {             
 	vec4 texColor = texture(texture1, TexCoords);
 	if(texColor.a < 0.2)
 		discard;
-	//FragColor = texColor;
+	FragColor = texColor;
 
-	func1();
+	//func1();
 	//func2();
 	//func3();
 	//func4();
 	//func5();
+	//func5_1();
 	//func6();
 
 }
