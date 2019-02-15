@@ -22,7 +22,7 @@ bool OpenglStateMultTextureBlend::init(string vertFile, string fragFile)
 	_fragFile = fragFile;
 
 	//this->loadTexture("resource/container.jpg", GL_TEXTURE0);
-	_texture0 = loadTexture("resource/grass.png", GL_TEXTURE0);
+	_texture0 = loadTexture("resource/awesomeface.png", GL_TEXTURE0);
 
 	__super::initRendCommand();
 
@@ -85,6 +85,7 @@ void OpenglStateMultTextureBlend::rendeCommand()
 	setInt(_shaderProgram, "texture1", 0);
 
 	setVec2(_shaderProgram, "resolution", 800.0f, 600.0f);
+	setVec2(_shaderProgram, "textureSize", 476, 476);// 暂时写死
 
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(_param4), 800.0f / 600.0f, 0.1f, 100.0f);

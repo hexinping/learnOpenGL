@@ -1,5 +1,8 @@
 #version 330 core
-out vec4 FragColor;
+out vec4 FragColor;  // 直接用gl_FragColor也可以 默认就输出这个
+
+//  这里肯定有朋友会问，一个for循环就搞定啦，怎么这么麻烦！其实我一开始也是用for的，但后来在安卓某些机型（如小米4）会直接崩溃，
+//  查找资料发现OpenGL es并不是很支持循环，while和for都不要用
 
 in vec2 TexCoords;
 
@@ -57,6 +60,7 @@ void func4()
 	    -1, -1, -1
 	);
 
+	//移动设备上for循环支持不太好，可以展开 todo...
 	vec3 sampleTex[9];
 	for(int i = 0; i < 9; i++)
 	{
@@ -93,6 +97,7 @@ void func5()
 	);
 
 	vec3 sampleTex[9];
+	//移动设备上for循环支持不太好，可以展开 todo...
 	for(int i = 0; i < 9; i++)
 	{
 	    sampleTex[i] = vec3(texture(texture1, TexCoords.st + offsets[i])); //取到周边像素的纹理颜色
@@ -154,6 +159,7 @@ void func6()
 	     1, 1, 1
 	 );
 
+	 //移动设备上for循环支持不太好，可以展开 todo...
 	vec3 sampleTex[9];
 	for(int i = 0; i < 9; i++)
 	{
@@ -167,6 +173,89 @@ void func6()
 
 }
 
+//描边1
+void func7()
+{
+	
+    float radius = 0.01;
+    vec4 accum = vec4(0.0);
+    vec4 normal = vec4(0.0);
+    
+    normal = texture2D(texture1, vec2(TexCoords.x, TexCoords.y)); //取到纹理的颜色
+    
+	// 取四周纹理的颜色进行均值操作
+    accum += texture2D(texture1, vec2(TexCoords.x - radius, TexCoords.y - radius));
+    accum += texture2D(texture1, vec2(TexCoords.x + radius, TexCoords.y - radius));
+    accum += texture2D(texture1, vec2(TexCoords.x + radius, TexCoords.y + radius));
+    accum += texture2D(texture1, vec2(TexCoords.x - radius, TexCoords.y + radius));
+    
+    accum *= 1.75;
+
+	vec3 outLineColor = vec3(1.0f, 0.2f, 0.3f);
+    accum.rgb =  outLineColor * accum.a;
+    accum.a = 1.0;
+    
+    vec4 result = ( accum * (1.0 - normal.a)) + (normal * normal.a);  //根据当前像素的透明度来决定最后插值颜色
+    
+    FragColor = result;
+}
+
+
+uniform vec2 textureSize; // 纹理大小（宽和高），为了计算周围各点的纹理坐标，必须传入它，因为纹理坐标范围是0~1  
+
+// 判断在这个角度上距离为outlineSize那一点是不是透明  
+int getIsStrokeWithAngel(float angel,float outlineSize)  
+{  
+    int stroke = 0;  
+    float rad = angel * 0.01745329252; // 这个浮点数是 pi / 180，角度转弧度  
+
+	// 这句比较难懂，outlineSize * cos(rad)可以理解为在x轴上投影，除以textureSize.x是因为texture2D接收的是一个0~1的纹理坐标，而不是像素坐标  
+    float a = texture2D(texture1, vec2(TexCoords.x + outlineSize * cos(rad) / textureSize.x, TexCoords.y + outlineSize * sin(rad) / textureSize.y)).a; 
+    if (a >= 0.8)// 我把alpha值大于0.8都视为不透明，小于0.5都视为透明  
+    {  
+        stroke = 1;  
+    }  
+    return stroke;  
+}  
+  
+
+//描边2： 1. 如果它是不透明的像素，则不管，维持原本颜色；2. 如果透明，是360度判断它四周有没有不透明的像素，如果有，则把它设成描边颜色，否则保持透明。
+void func7_1(vec4 color)
+{
+
+	if (color.a >= 0.8) // 不透明，不管，直接返回  
+    {  
+        FragColor = color;  
+        return;  
+    }  
+
+	vec3 outlineColor = vec3(1.0,0,0);				// 描边颜色  
+	float outlineSize = 5.0;						// 描边宽度，以像素为单位
+
+	//360度判读四周有没有透明像素
+	int strokeCount = 0;  
+    strokeCount += getIsStrokeWithAngel(0.0,  outlineSize);  
+    strokeCount += getIsStrokeWithAngel(30.0, outlineSize);  
+    strokeCount += getIsStrokeWithAngel(60.0, outlineSize);  
+    strokeCount += getIsStrokeWithAngel(90.0, outlineSize);  
+    strokeCount += getIsStrokeWithAngel(120.0, outlineSize);  
+    strokeCount += getIsStrokeWithAngel(150.0, outlineSize);  
+    strokeCount += getIsStrokeWithAngel(180.0, outlineSize);  
+    strokeCount += getIsStrokeWithAngel(210.0, outlineSize);  
+    strokeCount += getIsStrokeWithAngel(240.0, outlineSize);  
+    strokeCount += getIsStrokeWithAngel(270.0, outlineSize);  
+    strokeCount += getIsStrokeWithAngel(300.0, outlineSize);  
+    strokeCount += getIsStrokeWithAngel(330.0, outlineSize);  
+
+	if (strokeCount > 0) // 四周围至少有一个点是不透明的，这个点要设成描边颜色  
+    {  
+        color.rgb = outlineColor;  
+        color.a = 1.0;  
+    }  
+  
+    FragColor = color; 
+
+}
 
 
 
@@ -175,7 +264,7 @@ void main()
 	vec4 texColor = texture(texture1, TexCoords);
 	if(texColor.a < 0.2)
 		discard;
-	FragColor = texColor;
+	//FragColor = texColor;
 
 	//func1();
 	//func2();
@@ -184,5 +273,8 @@ void main()
 	//func5();
 	//func5_1();
 	//func6();
+
+	//func7();
+	func7_1(texColor);
 
 }
