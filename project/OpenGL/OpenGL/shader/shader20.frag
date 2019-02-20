@@ -10,6 +10,7 @@ uniform sampler2D texture1;
 uniform vec2 resolution;
 
 const float offset = 1.0 / 100.0;  
+uniform float Time;
 
 //反色
 void func1()
@@ -258,7 +259,31 @@ void func7_1(vec4 color)
 }
 
 
+const float intensity = 0.05;
+vec3 noise(vec2 uv)
+{
+	vec2 p = abs(sin(uv * 13.0 + uv.x * Time * sin(uv.y)));
+	
+	return vec3(sin (0.2 * Time + sin(p * 0.5) * Time / cos(50.0)) * 10.0,0.3+0.5 * abs(sin(Time * tan(5.0))));
 
+}
+
+// 噪点效果
+void func8()
+{
+	vec2 u = gl_FragCoord.xy/sin(resolution.xy * Time * 0.01);
+	vec3 color = intensity * noise(u) + (1-intensity)*texture2D(texture1,TexCoords.xy).xyz;
+
+	FragColor =  vec4(color,1.0);
+
+}
+
+//"Shaders/example_EdgeDetection.fsh"  -- Edge Detect
+// "Shaders/example_GreyScale.fsh"     --  Grey
+// "Shaders/example_Sepia.fsh"         -- Sepia
+// "Shaders/example_Bloom.fsh"         -- bloom  
+//  "Shaders/example_CelShading.fsh"   -- cel shading
+// "Shaders/example_LensFlare.fsh"    -- Lens Flare  
 void main()
 {             
 	vec4 texColor = texture(texture1, TexCoords);
@@ -275,6 +300,7 @@ void main()
 	//func6();
 
 	//func7();
-	func7_1(texColor);
+	//func7_1(texColor);
+	func8();
 
 }

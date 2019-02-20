@@ -83,6 +83,7 @@ void OpenglStateMultTextureBlend::rendeCommand()
 	activiteTexture(GL_TEXTURE0);
 	bindTexture(_texture0);
 	setInt(_shaderProgram, "texture1", 0);
+	setFloat(_shaderProgram, "Time", (float)glfwGetTime());
 
 	setVec2(_shaderProgram, "resolution", 800.0f, 600.0f);
 	setVec2(_shaderProgram, "textureSize", 476, 476);// 暂时写死
