@@ -335,9 +335,183 @@ void func11()
 	FragColor = final;
 }
 
-// "Shaders/example_Bloom.fsh"         -- bloom  
-//  "Shaders/example_CelShading.fsh"   -- cel shading
-// "Shaders/example_LensFlare.fsh"    -- Lens Flare  
+const float blurSize_bloom = 1.0/512.0;
+const float intensity_bloom = 0.35;
+//bloom 效果: 水平模糊+垂直模糊
+void func12()
+{
+	   vec4 sum = vec4(0);
+	   vec2 texcoord = TexCoords.xy;
+ 
+	   //thank you! http://www.gamerendering.com/2008/10/11/gaussian-blur-filter-shader/ for the 
+	   //blur tutorial
+	   // blur in y (vertical)
+	   // take nine samples, with the distance blurSize between them
+	   sum += texture2D(texture1, vec2(texcoord.x - 4.0*blurSize_bloom, texcoord.y)) * 0.05;
+	   sum += texture2D(texture1, vec2(texcoord.x - 3.0*blurSize_bloom, texcoord.y)) * 0.09;
+	   sum += texture2D(texture1, vec2(texcoord.x - 2.0*blurSize_bloom, texcoord.y)) * 0.12;
+	   sum += texture2D(texture1, vec2(texcoord.x - blurSize_bloom, texcoord.y)) * 0.15;
+	   sum += texture2D(texture1, vec2(texcoord.x, texcoord.y)) * 0.16;
+	   sum += texture2D(texture1, vec2(texcoord.x + blurSize_bloom, texcoord.y)) * 0.15;
+	   sum += texture2D(texture1, vec2(texcoord.x + 2.0*blurSize_bloom, texcoord.y)) * 0.12;
+	   sum += texture2D(texture1, vec2(texcoord.x + 3.0*blurSize_bloom, texcoord.y)) * 0.09;
+	   sum += texture2D(texture1, vec2(texcoord.x + 4.0*blurSize_bloom, texcoord.y)) * 0.05;
+	
+		// blur in y (vertical)
+	   // take nine samples, with the distance blurSize between them
+	   sum += texture2D(texture1, vec2(texcoord.x, texcoord.y - 4.0*blurSize_bloom)) * 0.05;
+	   sum += texture2D(texture1, vec2(texcoord.x, texcoord.y - 3.0*blurSize_bloom)) * 0.09;
+	   sum += texture2D(texture1, vec2(texcoord.x, texcoord.y - 2.0*blurSize_bloom)) * 0.12;
+	   sum += texture2D(texture1, vec2(texcoord.x, texcoord.y - blurSize_bloom)) * 0.15;
+	   sum += texture2D(texture1, vec2(texcoord.x, texcoord.y)) * 0.16;
+	   sum += texture2D(texture1, vec2(texcoord.x, texcoord.y + blurSize_bloom)) * 0.15;
+	   sum += texture2D(texture1, vec2(texcoord.x, texcoord.y + 2.0*blurSize_bloom)) * 0.12;
+	   sum += texture2D(texture1, vec2(texcoord.x, texcoord.y + 3.0*blurSize_bloom)) * 0.09;
+	   sum += texture2D(texture1, vec2(texcoord.x, texcoord.y + 4.0*blurSize_bloom)) * 0.05;
+
+	   //increase blur with intensity!
+	   FragColor = sum*intensity_bloom + texture2D(texture1, texcoord); 
+}
+
+
+#define FILTER_SIZE 3
+#define COLOR_LEVELS 7.0
+#define EDGE_FILTER_SIZE 3
+#define EDGE_THRESHOLD 0.05
+
+vec4 edgeFilter(in int px, in int py)
+{
+	vec4 color = vec4(0.0);
+	
+	for (int y = -EDGE_FILTER_SIZE; y <= EDGE_FILTER_SIZE; ++y)
+	{
+		for (int x = -EDGE_FILTER_SIZE; x <= EDGE_FILTER_SIZE; ++x)
+		{
+			color += texture2D(texture1, TexCoords + vec2(px + x, py + y) / resolution.xy);
+		}
+	}
+
+	color /= float((2 * EDGE_FILTER_SIZE + 1) * (2 * EDGE_FILTER_SIZE + 1));
+	
+	return color;
+}
+
+
+void func13()
+{
+	// Shade
+	vec4 color = vec4(0.0);
+	
+	for (int y = -FILTER_SIZE; y <= FILTER_SIZE; ++y)
+	{
+		for (int x = -FILTER_SIZE; x <= FILTER_SIZE; ++x)
+		{
+			color += texture2D(texture1, TexCoords + vec2(x, y) / resolution.xy);
+		}
+	}
+
+	color /= float((2 * FILTER_SIZE + 1) * (2 * FILTER_SIZE + 1));
+	
+	for (int c = 0; c < 3; ++c)
+	{
+		color[c] = floor(COLOR_LEVELS * color[c]) / COLOR_LEVELS;
+	}
+	
+	// Highlight edges
+	vec4 sum = abs(edgeFilter(0, 1) - edgeFilter(0, -1));
+	sum += abs(edgeFilter(1, 0) - edgeFilter(-1, 0));
+	sum /= 2.0;	
+
+	if (length(sum) > EDGE_THRESHOLD)
+	{
+		color.rgb = vec3(0.0);	
+	}
+	
+	FragColor = color;
+}
+
+
+
+// 返回对应像素的纹理颜色
+float noise_LensFlare(float t)
+{
+	return texture2D(texture1,vec2(t,.0)/resolution.xy).x;
+}
+float noise_LensFlare(vec2 t)
+{
+	return texture2D(texture1,t/resolution.xy).x;
+}
+
+vec3 lensflare(vec2 uv,vec2 pos)
+{
+	vec2 main = uv-pos;
+	vec2 uvd = uv*(length(uv));
+	
+	float ang = atan(main.x,main.y);
+	float dist=length(main); dist = pow(dist,.1);
+	float n = noise_LensFlare(vec2(ang*16.0,dist*32.0));
+	
+	float f0 = 1.0/(length(uv-pos)*16.0+1.0);
+	
+	f0 = f0+f0*(sin(noise_LensFlare((pos.x+pos.y)*2.2+ang*4.0+5.954)*16.0)*.1+dist*.1+.8);
+	
+	float f1 = max(0.01-pow(length(uv+1.2*pos),1.9),.0)*7.0;
+    
+	float f2 = max(1.0/(1.0+32.0*pow(length(uvd+0.8*pos),2.0)),.0)*00.25;
+	float f22 = max(1.0/(1.0+32.0*pow(length(uvd+0.85*pos),2.0)),.0)*00.23;
+	float f23 = max(1.0/(1.0+32.0*pow(length(uvd+0.9*pos),2.0)),.0)*00.21;
+	
+	vec2 uvx = mix(uv,uvd,-0.5);
+	
+	float f4 = max(0.01-pow(length(uvx+0.4*pos),2.4),.0)*6.0;
+	float f42 = max(0.01-pow(length(uvx+0.45*pos),2.4),.0)*5.0;
+	float f43 = max(0.01-pow(length(uvx+0.5*pos),2.4),.0)*3.0;
+	
+	uvx = mix(uv,uvd,-.4);
+	
+	float f5 = max(0.01-pow(length(uvx+0.2*pos),5.5),.0)*2.0;
+	float f52 = max(0.01-pow(length(uvx+0.4*pos),5.5),.0)*2.0;
+	float f53 = max(0.01-pow(length(uvx+0.6*pos),5.5),.0)*2.0;
+	
+	uvx = mix(uv,uvd,-0.5);
+	
+	float f6 = max(0.01-pow(length(uvx-0.3*pos),1.6),.0)*6.0;
+	float f62 = max(0.01-pow(length(uvx-0.325*pos),1.6),.0)*3.0;
+	float f63 = max(0.01-pow(length(uvx-0.35*pos),1.6),.0)*5.0;
+	
+	vec3 c = vec3(.0);
+	
+	c.r+=f2+f4+f5+f6; c.g+=f22+f42+f52+f62; c.b+=f23+f43+f53+f63;
+	c = c*1.3 - vec3(length(uvd)*.05);
+	c+=vec3(f0);
+	
+	return c;
+}
+
+vec3 cc(vec3 color, float factor,float factor2) // color modifier
+{
+	float w = color.x+color.y+color.z;
+	return mix(color,vec3(w)*factor,w*factor2);
+}
+
+void func14()
+{
+	vec2 uv = TexCoords - 0.5;
+	uv.x *= resolution.x/resolution.y; //fix aspect ratio
+    vec3 mouse;
+    mouse.z = 0.5;
+    mouse.x=sin(Time)*.5;
+    mouse.y=sin(Time*.913)*.5;
+	
+	vec3 color = vec3(1.4,1.2,1.0)*lensflare(uv,mouse.xy);
+	color -= noise_LensFlare(TexCoords * resolution)*.015;
+	color = cc(color,.5,.1);
+	FragColor = vec4(color,1.0);
+
+}
+
+
+
 void main()
 {             
 	vec4 texColor = texture(texture1, TexCoords);
@@ -358,6 +532,10 @@ void main()
 	//func8();
 	//func9();
 	//func10();
-	func11();
+	//func11();
+	//func12();
+	//func13();
+
+	func14();
 
 }
