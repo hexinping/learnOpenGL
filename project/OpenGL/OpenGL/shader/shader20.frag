@@ -278,9 +278,63 @@ void func8()
 
 }
 
-//"Shaders/example_EdgeDetection.fsh"  -- Edge Detect
-// "Shaders/example_GreyScale.fsh"     --  Grey
-// "Shaders/example_Sepia.fsh"         -- Sepia
+float lookup(vec2 p, float dx, float dy)
+{
+	//取一个像素周边像素的颜色值 ，然后取一个灰度值
+    vec2 uv = p.xy + vec2(dx , dy ) / resolution.xy;
+    vec4 c = texture2D(texture1, uv.xy);
+
+	//根据当前像素取一个灰度值
+    return 0.2126*c.r + 0.7152*c.g + 0.0722*c.b;
+}
+
+//边缘检测
+void func9()
+{
+	 vec2 p = TexCoords.xy;
+    // simple sobel edge detection
+    float gx = 0.0;
+    gx += -1.0 * lookup(p, -1.0, -1.0);
+    gx += -2.0 * lookup(p, -1.0,  0.0);
+    gx += -1.0 * lookup(p, -1.0,  1.0);
+    gx +=  1.0 * lookup(p,  1.0, -1.0);
+    gx +=  2.0 * lookup(p,  1.0,  0.0);
+    gx +=  1.0 * lookup(p,  1.0,  1.0);
+    
+    float gy = 0.0;
+    gy += -1.0 * lookup(p, -1.0, -1.0);
+    gy += -2.0 * lookup(p,  0.0, -1.0);
+    gy += -1.0 * lookup(p,  1.0, -1.0);
+    gy +=  1.0 * lookup(p, -1.0,  1.0);
+    gy +=  2.0 * lookup(p,  0.0,  1.0);
+    gy +=  1.0 * lookup(p,  1.0,  1.0);
+    
+    float g = gx*gx + gy*gy;
+    
+    FragColor.xyz = vec3(1.-g);
+    FragColor.w = 1.;
+}
+
+//简易灰度
+void func10()
+{
+	vec4 c = texture2D(texture1, TexCoords);
+	FragColor.xyz = vec3(0.2126*c.r + 0.7152*c.g + 0.0722*c.b);
+	FragColor.w = c.w;
+}
+
+//
+void func11()
+{
+	vec4 c = texture2D(texture1, TexCoords);
+    vec4 final = c;
+    final.r = (c.r * 0.393) + (c.g * 0.769) + (c.b * 0.189);
+    final.g = (c.r * 0.349) + (c.g * 0.686) + (c.b * 0.168);
+    final.b = (c.r * 0.272) + (c.g * 0.534) + (c.b * 0.131);
+
+	FragColor = final;
+}
+
 // "Shaders/example_Bloom.fsh"         -- bloom  
 //  "Shaders/example_CelShading.fsh"   -- cel shading
 // "Shaders/example_LensFlare.fsh"    -- Lens Flare  
@@ -301,6 +355,9 @@ void main()
 
 	//func7();
 	//func7_1(texColor);
-	func8();
+	//func8();
+	//func9();
+	//func10();
+	func11();
 
 }
