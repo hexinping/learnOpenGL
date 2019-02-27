@@ -86,7 +86,7 @@ void main()
 
 	//2 Blinn-Phong（冯氏光照的优化版）：用半程向量和法线向量的点积表示镜面反光
 	vec3 halfwayDir = normalize(lightDir + viewDir);  
-    float spec  = pow(max(dot(normal, halfwayDir), 0.0), 32.0);
+    float spec  = pow(max(dot(norm, halfwayDir), 0.0), 32.0);
 
 	vec3 specular = spec * light.specular;
 
