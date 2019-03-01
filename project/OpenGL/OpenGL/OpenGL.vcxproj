@@ -187,12 +187,18 @@
     <ClInclude Include="Utils\OpenglUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shader\blue_h.frag" />
+    <None Include="shader\blue_h.vert" />
+    <None Include="shader\blue_v.frag" />
+    <None Include="shader\blue_v.vert" />
     <None Include="shader\blur.frag" />
     <None Include="shader\blur.vert" />
     <None Include="shader\depthDebug.frag" />
     <None Include="shader\depthDebug.vert" />
     <None Include="shader\depthMap.frag" />
     <None Include="shader\depthMap.vert" />
+    <None Include="shader\extractBright.frag" />
+    <None Include="shader\extractBright.vert" />
     <None Include="shader\lamp.frag" />
     <None Include="shader\lamp.vert" />
     <None Include="shader\lamp1.frag" />

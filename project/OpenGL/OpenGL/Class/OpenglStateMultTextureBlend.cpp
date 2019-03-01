@@ -60,10 +60,25 @@ bool OpenglStateMultTextureBlend::init(string vertFile, string fragFile)
 	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	//glBindVertexArray(0);
 
-	
+	//提取亮度
+	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/extractBright.vert");
+	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/extractBright.frag");
+	_glUtils->linkShader(&_shaderBrightProgram, _vertexShader, _fragmentShader);
+
+	//水平模糊
+	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/blue_h.vert");
+	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/blue_h.frag");
+	_glUtils->linkShader(&_shaderBlurHProgram, _vertexShader, _fragmentShader);
+
+	////垂直模糊
+	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/blue_v.vert");
+	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/blue_v.frag");
+	_glUtils->linkShader(&_shaderBlurVProgram, _vertexShader, _fragmentShader);
 
 	return true;
 }
+
+
 bool OpenglStateMultTextureBlend::isUseEBORender()
 {
 	return false;

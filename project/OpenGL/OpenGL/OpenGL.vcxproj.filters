@@ -643,6 +643,24 @@
     <None Include="shader\shader20.frag">
       <Filter>shader</Filter>
     </None>
+    <None Include="shader\blue_h.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\blue_h.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\blue_v.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\blue_v.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\extractBright.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\extractBright.vert">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OpenGL.rc">

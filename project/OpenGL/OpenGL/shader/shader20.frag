@@ -669,7 +669,126 @@ void func22()
 
 }
 
+vec4 blur22(vec2);
+//模糊
+void func23()
+{
+	vec4 col = blur(TexCoords);
+    FragColor = vec4(col);
+}
 
+ vec4 blur22(vec2 p)
+ {
+    float blurRadius =4.0;
+    float sampleNum = 4.0;
+    if (blurRadius > 0.0 && sampleNum > 1.0)
+    {
+        vec4 col = vec4(0);
+        vec2 unit = 1.0 / resolution.xy;
+        
+        float r = blurRadius;
+        float sampleStep = r / sampleNum;
+        
+        float count = 0.0;
+        
+        for(float x = -r; x < r; x += sampleStep)
+        {
+            for(float y = -r; y < r; y += sampleStep)
+            {
+                float weight = (r - abs(x)) * (r - abs(y));
+                col += texture2D(texture1, p + vec2(x * unit.x, y * unit.y)) * weight;
+                count += weight;
+            }
+        }
+        
+        return col / count;
+    }
+    return texture2D(texture1, p);
+  }
+
+
+
+vec4 blur33(vec2 p, float radius)
+{
+    float sampleNum = 4.0;
+    if (radius > 0.0)
+    {
+        vec4 col = vec4(0.0);
+        vec2 unit = 1.0 / resolution.xy;
+        
+        float r = radius;
+        float sampleStep = r / sampleNum;
+        
+        float count = 0.0;
+        
+        for(float x = -r; x < r; x += sampleStep)
+        {
+            for(float y = -r; y < r; y += sampleStep)
+            {
+                float weight = (r - abs(x)) * (r - abs(y));
+                col += texture2D(texture1, p + vec2(x * unit.x, y * unit.y)) * weight;
+                count += weight;
+            }
+        }
+        
+        return col / count;
+    }
+    return texture2D(texture1, p);
+}
+
+
+//景深: 远处的物体模糊 近处的物体清晰
+void func24()
+{
+	float v_depth = TexCoords.y;
+	float near_plane = 0.25;
+	float blurRadius =6.0;
+    
+    if(v_depth <= near_plane)
+    {
+        FragColor = texture2D(texture1, TexCoords);
+    }
+    else
+    {
+        float b = clamp(v_depth, near_plane, near_plane + near_plane);
+        b = (b - near_plane) / near_plane;
+        vec4 col = blur33(TexCoords, clamp(b * blurRadius, 0.5, blurRadius));
+        FragColor = col;
+    }
+
+}
+
+//像素风
+void func25()
+{
+	float size = 8.0;
+	vec2 uv = TexCoords.xy * resolution.xy + size * 0.5;  //TexCoords.xy * resolution.xy [0 1] * [width height]
+    vec3 col = texture2D(texture1, floor(uv / size) * size / resolution.xy).rgb;	
+
+    FragColor = vec4(col, 1.0);
+}
+
+//昼夜
+void func26()
+{
+	float red = 0.039;
+	float green =0.275;
+	float blue =0.784;
+	float contrast = 0.7;
+	float saturation = 0.6;
+	float brightness = 0.0;
+	float pop_strength = 3.5;
+	float pop_threshold = 0.65;
+    vec3 out_col = texture2D(texture1, TexCoords).rgb;	
+    float grey = dot(out_col, vec3(0.299, 0.587, 0.114));
+    vec3 col = vec3(red, green, blue);
+    out_col = grey > 0.5 ? 1.0 - (1.0 - 2.0 * (out_col - 0.5)) * (1.0 - col) : 2.0 * out_col * col;
+    out_col = mix(vec3(grey), out_col, saturation);
+    out_col = (out_col - 0.5) * contrast + 0.5;
+    out_col = out_col + pop_strength * max(grey - pop_threshold, 0.0);
+    out_col = out_col + brightness;
+    FragColor = vec4(out_col, 1.0);
+}
 
 void main()
 {             
@@ -698,10 +817,14 @@ void main()
 	//func15();
 	//func16();
 	//func17();
-	func18();
+	//func18();
 	//func19();
 	//func20();
 	//func21();
 	//func22();
+	//func23();
+	//func24();
+	//func25();
+	func26();
 
 }
