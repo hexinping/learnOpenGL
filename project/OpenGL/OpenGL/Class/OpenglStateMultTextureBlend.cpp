@@ -4,13 +4,13 @@ bool OpenglStateMultTextureBlend::init(string vertFile, string fragFile)
 {
 	float vertices[] = {
 		// positions         // texture Coords (swapped y coordinates because texture is flipped upside down)
-		0.0f,  0.5f,  0.0f,  0.0f,  0.0f,
-		0.0f, -0.5f,  0.0f,  0.0f,  1.0f,
-		1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
+		0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, -0.5f, 0.0f, 0.0f, 1.0f,
+		1.0f, -0.5f, 0.0f, 1.0f, 1.0f,
 
-		0.0f,  0.5f,  0.0f,  0.0f,  0.0f,
-		1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
-		1.0f,  0.5f,  0.0f,  1.0f,  0.0f
+		0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
+		1.0f, -0.5f, 0.0f, 1.0f, 1.0f,
+		1.0f, 0.5f, 0.0f, 1.0f, 0.0f
 	};
 
 
@@ -21,8 +21,10 @@ bool OpenglStateMultTextureBlend::init(string vertFile, string fragFile)
 	_vertFile = vertFile;
 	_fragFile = fragFile;
 
-	//this->loadTexture("resource/container.jpg", GL_TEXTURE0);
-	_texture0 = loadTexture("resource/awesomeface.png", GL_TEXTURE0);
+	//this->loadTexture("resource/grass.png", GL_TEXTURE0);
+	_texture0 = loadTexture("resource/mode1.png", GL_TEXTURE0);
+	_texture1 = loadTexture("resource/noise.jpg", GL_TEXTURE1);
+	_texture2 = loadTexture("resource/water.jpg", GL_TEXTURE1);
 
 	__super::initRendCommand();
 
@@ -83,10 +85,24 @@ void OpenglStateMultTextureBlend::rendeCommand()
 	activiteTexture(GL_TEXTURE0);
 	bindTexture(_texture0);
 	setInt(_shaderProgram, "texture1", 0);
+
+	activiteTexture(GL_TEXTURE1);
+	bindTexture(_texture1);
+	setInt(_shaderProgram, "NoiseTexture", 1);
+
+	activiteTexture(GL_TEXTURE2);
+	bindTexture(_texture2);
+	setInt(_shaderProgram, "uvTexture", 2);
+
 	setFloat(_shaderProgram, "Time", (float)glfwGetTime());
 
+	setFloat(_shaderProgram, "dissolveFactor", 0.4);
+	setFloat(_shaderProgram, "edgeWidth", 0.1);
+
 	setVec2(_shaderProgram, "resolution", 800.0f, 600.0f);
-	setVec2(_shaderProgram, "textureSize", 476, 476);// 暂时写死
+	setVec2(_shaderProgram, "textureSize", 523, 418);// 暂时写死
+
+	//NoiseTexture
 
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(_param4), 800.0f / 600.0f, 0.1f, 100.0f);

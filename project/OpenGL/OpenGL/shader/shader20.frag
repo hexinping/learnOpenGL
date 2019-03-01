@@ -371,6 +371,11 @@ void func12()
 
 	   //increase blur with intensity!
 	   FragColor = sum*intensity_bloom + texture2D(texture1, texcoord); 
+
+	   //vec4 color = texture2D(texture1, texcoord);
+	   //const float colorThreshold = 0.12;
+	   //color = clamp(color - colorThreshold, 0.0, 1.0);
+	   //gl_FragColor = sum*intensity + color; 
 }
 
 
@@ -511,6 +516,160 @@ void func14()
 }
 
 
+//浮雕效果
+void func15()
+{
+	const vec2 texOffset = vec2( 0.005, 0.005);
+	const vec4 lumcoeff = vec4(0.299, 0.587, 0.114, 0);
+	vec2 tc0 = TexCoords.st + vec2(-texOffset.s, -texOffset.t);
+    vec2 tc1 = TexCoords.st + vec2(         0.0, -texOffset.t);
+    vec2 tc2 = TexCoords.st + vec2(-texOffset.s,          0.0);
+    vec2 tc3 = TexCoords.st + vec2(+texOffset.s,          0.0);
+    vec2 tc4 = TexCoords.st + vec2(         0.0, +texOffset.t);
+    vec2 tc5 = TexCoords.st + vec2(+texOffset.s, +texOffset.t);
+
+    vec4 col0 = texture2D(texture1, tc0);
+    vec4 col1 = texture2D(texture1, tc1);
+    vec4 col2 = texture2D(texture1, tc2);
+    vec4 col3 = texture2D(texture1, tc3);
+    vec4 col4 = texture2D(texture1, tc4);
+    vec4 col5 = texture2D(texture1, tc5);
+
+    vec4 sum = vec4(0.5) + (col0 + col1 + col2) - (col3 + col4 + col5);
+    float lum = dot(sum, lumcoeff);
+    FragColor = vec4(lum, lum, lum, 1.0);
+}
+
+
+//黑白效果
+void func16()
+{
+	 vec4 col = texture2D(texture1, TexCoords.st);
+	 const vec4 W = vec4(0.2125, 0.7154, 0.0721, 0);
+     float lum = dot(col, W);
+     if (0.5 < lum)
+	 {
+        FragColor = vec4(1, 1, 1, 1);
+    }
+	else 
+	{
+       FragColor = vec4(0, 0, 0, col.a);
+	}
+}
+
+//负色Shader 
+void func17()
+{
+	float T = 1.0;                                  
+    vec2 st = TexCoords.st;                        
+    vec3 irgb = texture2D(texture1, st).rgb;     
+    float a = texture2D(texture1, st).a;        
+    vec3 neg = vec3(1., 1., 1.)-irgb;               
+    FragColor = vec4(mix(irgb,neg, a), a);  
+}
+
+//边缘shader
+void func18()
+{
+	const vec2 texOffset = vec2( 0.005, 0.005);
+	const vec4 lumcoeff = vec4(0.299, 0.587, 0.114, 0);
+
+	vec2 tc0 = TexCoords.st + vec2(-texOffset.s, -texOffset.t);
+	vec2 tc1 = TexCoords.st + vec2(         0.0, -texOffset.t);
+	vec2 tc2 = TexCoords.st + vec2(+texOffset.s, -texOffset.t);
+	vec2 tc3 = TexCoords.st + vec2(-texOffset.s,          0.0);
+	vec2 tc4 = TexCoords.st + vec2(         0.0,          0.0);
+	vec2 tc5 = TexCoords.st + vec2(+texOffset.s,          0.0);
+	vec2 tc6 = TexCoords.st + vec2(-texOffset.s, +texOffset.t);
+	vec2 tc7 = TexCoords.st + vec2(         0.0, +texOffset.t);
+	vec2 tc8 = TexCoords.st + vec2(+texOffset.s, +texOffset.t);
+																	
+	vec4 col0 = texture2D(texture1, tc0);
+	vec4 col1 = texture2D(texture1, tc1);
+	vec4 col2 = texture2D(texture1, tc2);
+	vec4 col3 = texture2D(texture1, tc3);
+	vec4 col4 = texture2D(texture1, tc4);
+	vec4 col5 = texture2D(texture1, tc5);
+	vec4 col6 = texture2D(texture1, tc6);
+	vec4 col7 = texture2D(texture1, tc7);
+	vec4 col8 = texture2D(texture1, tc8);
+	
+	vec4 sum = 8.0 * col4 - (col0 + col1 + col2 + col3 + col5 + col6 + col7 + col8);
+	FragColor = vec4(sum.rgb, texture2D(texture1, TexCoords).a);
+}
+
+//老照片
+void func19()
+{
+	// vec3( 0.299, 0.587, 0.114 ) 是RGB转YUV的参数值，生成灰色图
+	float MixColor = dot(texture2D(texture1, TexCoords).rgb, vec3(0.299, 0.587, 0.114));
+	// 使用灰色图进行颜色混合
+	vec4 blendColor = vec4( 1.2, 1.0, 0.8, 1.0 ); // 调整这个值以修改最终混合色值
+	FragColor = vec4(MixColor * blendColor.r, MixColor * blendColor.g, MixColor * blendColor.b, texture2D(texture1, TexCoords).a);
+}
+
+
+//alpha取反Shader 
+void func20()
+{
+	vec4 col = texture2D(texture1, TexCoords.st);  
+    float a = 1.0 - col.a;                                
+    FragColor = vec4(col.r*a, col.g*a, col.b*a, a);  
+}
+
+//溶解效果
+uniform float dissolveFactor;
+uniform float edgeWidth;
+uniform sampler2D NoiseTexture;
+
+void func21()
+{
+	vec2 texcoord = TexCoords.xy;
+
+    float noiseValue =  texture2D(NoiseTexture, texcoord).r;      
+    vec4 color = texture2D(texture1, texcoord);
+    if(noiseValue <= dissolveFactor || color.a < 0.01)
+    {
+        discard;
+    }
+        
+    float EdgeFactor = clamp((noiseValue - dissolveFactor)/(edgeWidth*dissolveFactor), 0.0, 1.0);
+
+    vec4 edgeColor = vec4(0.9, 0.4, 0.0, 1.0);
+    FragColor = color * EdgeFactor + edgeColor * (1.0 - EdgeFactor);
+    return;
+}
+
+//water效果
+uniform sampler2D uvTexture;
+vec3 waveNormal(vec2 p) {
+    vec3 normal = texture2D(uvTexture, p * 0.25).xyz;
+    normal = -1.0 + normal * 2.0; //转到[-1,1]
+    return normalize(normal);
+}
+
+void func22()
+{
+	float timeFactor = 0.2;
+    float offsetFactor = 0.5;
+    float refractionFactor = 0.7;
+    
+    // simple UV animation
+    vec2 coord = TexCoords;
+    vec3 normal = waveNormal(coord + vec2(Time * timeFactor, 0));
+    
+    // simple calculate refraction UV offset
+    vec2 p = -1 + 2 * coord;
+    vec3 eyePos = vec3(0, 0, 100);
+    vec3 inVec = normalize(vec3(p, 0) - eyePos);
+    vec3 refractVec = refract(inVec, normal, refractionFactor);
+    coord += refractVec.xy * offsetFactor;
+
+    FragColor = texture2D(texture1, coord);
+
+}
+
+
 
 void main()
 {             
@@ -535,7 +694,14 @@ void main()
 	//func11();
 	//func12();
 	//func13();
-
-	func14();
+	//func14();
+	//func15();
+	//func16();
+	//func17();
+	func18();
+	//func19();
+	//func20();
+	//func21();
+	//func22();
 
 }

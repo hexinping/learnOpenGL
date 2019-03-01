@@ -25,6 +25,30 @@ float specular(vec3 n,vec3 l,vec3 e, float shininess)
 	return spec;
 }
 
+
+//water效果
+
+void func22()
+{
+	float timeFactor = 0.2;
+    float offsetFactor = 0.5;
+    float refractionFactor = 0.7;
+    
+    // simple UV animation
+    vec2 coord = TexCoord;
+    vec3 normal = waveNormal(coord + vec2(Time * timeFactor, 0));
+    
+    // simple calculate refraction UV offset
+    vec2 p = -1 + 2 * coord;
+    vec3 eyePos = vec3(0, 0, 100);
+    vec3 inVec = normalize(vec3(p, 0) - eyePos);
+    vec3 refractVec = refract(inVec, normal, refractionFactor);
+    coord += refractVec.xy * offsetFactor;
+
+    FragColor = texture2D(texture0, coord);
+
+}
+
 void main()
 {
 
@@ -78,5 +102,7 @@ void main()
     //gl_FragColor = texture(texture0, v_texCoordN); //这样可以看到不带高光的水面，可选
     //gl_FragColor = texture(u_normalMap, v_texCoord); //这样可以只看法线图，可选
     gl_FragColor = texture(texture0, v_texCoordN)*0.9 + vec4(color,1); //加了高光效果的水面
+
+	//func22();
 
 }
