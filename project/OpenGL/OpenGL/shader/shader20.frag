@@ -795,7 +795,7 @@ void main()
 	vec4 texColor = texture(texture1, TexCoords);
 	if(texColor.a < 0.2)
 		discard;
-	//FragColor = texColor;
+	FragColor = texColor;
 
 	//func1();
 	//func2();
@@ -825,6 +825,6 @@ void main()
 	//func23();
 	//func24();
 	//func25();
-	func26();
+	//func26();
 
 }

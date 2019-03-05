@@ -45,6 +45,12 @@ uniform Light light;
 
 uniform samplerCube skybox;
 
+
+//函数声明
+void func1(vec3 result, vec3 diffuseMapColor);
+
+
+
 void main()
 {
 	//float ambientStrength = 0.1; 
@@ -59,7 +65,7 @@ void main()
 
 
 	vec3 norm = normalize(Normal);
-	vec3 lightDir = normalize(lightPos - FragPos); // 这里为什么不是FragPos - lightPos 
+	vec3 lightDir = normalize(lightPos - FragPos); // 这里为什么不是FragPos - lightPos : 因为法线的方向时垂直平面的，然后lightPos-FragPos构成的向量才能计算dot夹角值
 
 	//计算漫反射光照
 	float diff = max(dot(norm, lightDir), 0.0);
@@ -79,7 +85,7 @@ void main()
 
 	//vec3 result = (ambient + diffuse + specular + emissionMapColor) * lightColor * objectColor;//使用自发光贴图
 	vec3 result = (ambient + diffuse + specular) * lightColor * objectColor;
-	FragColor = vec4(result , 1.0);
+	//FragColor = vec4(result , 1.0);
 
 	//添加反射效果
 	//vec3 R = reflect(-viewDir, norm);
@@ -97,4 +103,16 @@ void main()
 	//vec3 reflectColor = texture(skybox, R).rgb;
 	//FragColor = vec4(reflectColor , 1.0);
 
+
+	func1(result, diffuseMapColor);
+
+}
+
+
+//反色
+void func1(vec3 result, vec3 diffuseMapColor)
+{
+	vec3 color = 1.0 -diffuseMapColor;
+	result = result + color;
+	FragColor = vec4(result , 1.0);
 }
