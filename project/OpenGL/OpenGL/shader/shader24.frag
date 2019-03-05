@@ -47,7 +47,7 @@ uniform samplerCube skybox;
 
 
 //函数声明
-void func1(vec3 result, vec3 diffuseMapColor);
+void func1(vec3 result);
 
 
 
@@ -104,15 +104,13 @@ void main()
 	//FragColor = vec4(reflectColor , 1.0);
 
 
-	func1(result, diffuseMapColor);
+	func1(result);
 
 }
 
 
 //反色
-void func1(vec3 result, vec3 diffuseMapColor)
+void func1(vec3 result)
 {
-	vec3 color = 1.0 -diffuseMapColor;
-	result = result + color;
-	FragColor = vec4(result , 1.0);
+	FragColor = vec4(1.0 - result , 1.0);
 }
