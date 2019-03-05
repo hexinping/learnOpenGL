@@ -126,6 +126,7 @@ bool OpenglStateReflect::init(string vertFile, string fragFile)
 
 	setVec3(_shaderProgram, "light.ambient", ambientColor);
 	setVec3(_shaderProgram, "light.diffuse", diffuseColor);
+	setVec3(_shaderProgram, "light.specular", 1.0f, 1.0f, 1.0f);
 
 
 	return true;
@@ -152,7 +153,8 @@ void OpenglStateReflect::rendeCommand()
 	但是更新一个uniform之前你必须先使用程序（调用glUseProgram)，因为它是在当前激活的着色器程序中设置uniform的。
 	*/
 	__super::rendeCommand();
-	//setFloat(_shaderProgram, "textureAlpha", _param1);
+	setVec2(_shaderProgram, "resolution", 800.0f, 600.0f);
+	setVec2(_shaderProgram, "textureSize", 512, 512);// 暂时写死
 
 	activiteTexture(GL_TEXTURE0);
 	bindTexture(_cubemapTexture,true);
@@ -185,7 +187,7 @@ void OpenglStateReflect::rendeCommand()
 
 
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-	lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
+	lightPos.x = 1.0f + sin(glfwGetTime()) * 10.0f;
 	lightPos.y = sin(glfwGetTime() / 2.0f) * 1.0f;
 	setVec3(_shaderProgram, "lightPos", lightPos.x, lightPos.y, lightPos.z);		// 光源的位置
 	setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// 摄像机的位置（观察空间的原点）

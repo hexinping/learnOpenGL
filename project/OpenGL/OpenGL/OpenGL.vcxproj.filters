@@ -505,9 +505,6 @@
     <None Include="shader\shader23.vert">
       <Filter>shader</Filter>
     </None>
-    <None Include="shader\shader24.frag">
-      <Filter>shader</Filter>
-    </None>
     <None Include="shader\shader24.vert">
       <Filter>shader</Filter>
     </None>
@@ -659,6 +656,9 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\extractBright.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader24.frag">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

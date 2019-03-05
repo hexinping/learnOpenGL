@@ -673,7 +673,7 @@ vec4 blur22(vec2);
 //模糊
 void func23()
 {
-	vec4 col = blur(TexCoords);
+	vec4 col = blur22(TexCoords);
     FragColor = vec4(col);
 }
 
@@ -806,7 +806,7 @@ void main()
 	//func6();
 
 	//func7();
-	//func7_1(texColor);
+	func7_1(texColor);
 	//func8();
 	//func9();
 	//func10();
