@@ -91,6 +91,7 @@ void func5()
 	    vec2( offset, -offset)  // 右下
 	);
 
+	//设置周围像素值的权重比例
 	float kernel[9] = float[](
 	    1.0 / 16, 2.0 / 16, 1.0 / 16,
 	    2.0 / 16, 4.0 / 16, 2.0 / 16,
@@ -801,12 +802,12 @@ void main()
 	//func2();
 	//func3();
 	//func4();
-	//func5();
+	func5();
 	//func5_1();
 	//func6();
 
 	//func7();
-	func7_1(texColor);
+	//func7_1(texColor);
 	//func8();
 	//func9();
 	//func10();
