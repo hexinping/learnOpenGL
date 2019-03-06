@@ -98,7 +98,7 @@ void main()
 
 	vec3 diffuseMapColor = vec3(texture(material.diffuse, TexCoords)); //漫反射贴图纹理颜色
 
-	diffuseMapColor = testFunc(diffuseMapColor);  //觉得在这里操作才是对的
+	//diffuseMapColor = testFunc(diffuseMapColor);  //觉得在这里操作才是对的
 
 	vec3 specularMapColor = vec3(texture(material.specular, TexCoords)); //高光贴图纹理颜色
 	vec3 emissionMapColor = vec3(texture(material.emission, TexCoords)); //自发光贴图纹理颜色
@@ -133,17 +133,17 @@ void main()
 	//vec3 R = reflect(-viewDir, norm);
 	//vec3 reflectColor = texture(skybox, R).rgb;
 
-	//FragColor = vec4(result * reflectColor , 1.0);
+	//FragColor = vec4(result + reflectColor , 1.0);
 
 	//折射
-	//float ratio = 1.00 / 1.52; //折射率
+	float ratio = 1.00 / 1.52; //折射率
     //vec3 I = normalize(Position - cameraPos);
     //vec3 R = refract(I, normalize(Normal), ratio);
     //FragColor = vec4(texture(skybox, R).rgb, 1.0);
 
 	//vec3 R = refract(-viewDir, norm, ratio);
 	//vec3 reflectColor = texture(skybox, R).rgb;
-	//FragColor = vec4(reflectColor , 1.0);
+	//FragColor = vec4(result + reflectColor , 1.0);
 
 	
 	//不同shader方法

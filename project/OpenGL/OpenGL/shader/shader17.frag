@@ -63,6 +63,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 
 }
 
+
 void main()
 {    
 	// 属性
@@ -82,5 +83,5 @@ void main()
 	vec3 reflectColor = texture(skybox, R).rgb;
 	FragColor = vec4(result * reflectColor, 1.0);
 
-   // FragColor = vec4(result, 1.0);
+   //FragColor = vec4(result, 1.0);
 }
