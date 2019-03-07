@@ -81,11 +81,11 @@ void main()
 	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 
 
-	//vec3 norm = normalize(Normal); //使用法线矩阵
-	vec3 norm = normal; //使用法线贴图
+	//vec3 norm = normalize(Normal); //使用法线矩阵  
+	vec3 norm = normal; //使用法线贴图   法线原本就已经在切线空间
 	//vec3 lightDir = TBN * normalize(lightPos - FragPos);  //乘以逆矩阵 转到切线空间
 
-	vec3 lightDir =  normalize(TangentLightPos - TangentFragPos);  //乘以逆矩阵 转到切线空间
+	vec3 lightDir =  normalize(TangentLightPos - TangentFragPos);  //已经在切线空间
 
 	//计算漫反射光照
 	float diff = max(dot(norm, lightDir), 0.0);
@@ -95,7 +95,7 @@ void main()
 	//float specularStrength = 0.5; // 高光强度
 	//vec3 viewDir = TBN * normalize(viewPos - FragPos); //乘以逆矩阵 转到切线空间
 
-	vec3 viewDir = normalize(TangentViewPos - TangentFragPos); //乘以逆矩阵 转到切线空间
+	vec3 viewDir = normalize(TangentViewPos - TangentFragPos); //已经在切线空间
 
 	//计算高光光照
 
