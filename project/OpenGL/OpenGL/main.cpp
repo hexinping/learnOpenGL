@@ -48,7 +48,7 @@
 #include "OpenglStateHDRBloom.h"
 #include "OpenglStateDelayRenderLights.h"
 #include "OpenglStateDelayRenderLightsFrameBuffer.h"
-#include "OpenglStateShadow.h"
+#include "OpenglStateShadowDirLight.h"
 #include "OpenglStateLabel.h"
 #include "OpenglStateMultTextureWave.h"
 
@@ -237,7 +237,7 @@ void createTestObjects()
 
 	//OpenglStateMultTextureBlend 无光照模板
 	//OpenglStateReflect 带光照模板
-	OpenglState *glState = new OpenglStateReflect();
+	OpenglState *glState = new OpenglStateShadowDirLight();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);

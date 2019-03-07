@@ -183,9 +183,6 @@
     <ClCompile Include="Class\OpenglStateDelayRenderLightsFrameBuffer.cpp">
       <Filter>Class</Filter>
     </ClCompile>
-    <ClCompile Include="Class\OpenglStateShadow.cpp">
-      <Filter>Class</Filter>
-    </ClCompile>
     <ClCompile Include="Class\OpenglStateLabel.cpp">
       <Filter>Class</Filter>
     </ClCompile>
@@ -193,6 +190,9 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Class\OpenglStateMultTextureWave.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\OpenglStateShadowDirLight.cpp">
       <Filter>Class</Filter>
     </ClCompile>
   </ItemGroup>
@@ -350,9 +350,6 @@
     <ClInclude Include="Class\OpenglStateDelayRenderLightsFrameBuffer.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="Class\OpenglStateShadow.h">
-      <Filter>Class</Filter>
-    </ClInclude>
     <ClInclude Include="Class\OpenglStateLabel.h">
       <Filter>Class</Filter>
     </ClInclude>
@@ -363,6 +360,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateMultTextureWave.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateShadowDirLight.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
