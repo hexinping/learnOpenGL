@@ -195,6 +195,9 @@
     <ClCompile Include="Class\OpenglStateShadowDirLight.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateShadowPointLight.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -363,6 +366,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateShadowDirLight.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateShadowPointLight.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -659,6 +665,21 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader24.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader41.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader41.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\point_shadows_depth.farg">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\point_shadows_depth.gs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\point_shadows_depth.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

@@ -49,13 +49,14 @@
 #include "OpenglStateDelayRenderLights.h"
 #include "OpenglStateDelayRenderLightsFrameBuffer.h"
 #include "OpenglStateShadowDirLight.h"
+#include "OpenglStateShadowPointLight.h"
 #include "OpenglStateLabel.h"
 #include "OpenglStateMultTextureWave.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
-#define MAX_SHADERCOUNT 40
+#define MAX_SHADERCOUNT 41
 
 #include "Model.h"
 #include "OpenglWorld.h"
@@ -237,7 +238,7 @@ void createTestObjects()
 
 	//OpenglStateMultTextureBlend 无光照模板
 	//OpenglStateReflect 带光照模板
-	OpenglState *glState = new OpenglStateShadowDirLight();
+	OpenglState *glState = new OpenglStateShadowPointLight();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -635,6 +636,7 @@ int main(int argc, char* argv[])
 			state->_param2 = camera->Position; //更新观察矩阵
 			state->_param3 = camera->Front; //更新观察矩阵
 			state->_param4 = camera->Zoom;   //更新矩阵投影
+			state->_viewMat4 = camera->GetViewMatrix();  //观察矩阵
 			if (state->isRenderFrameBuffer())
 			{
 				state->_multFrambuffer = framebuffer;

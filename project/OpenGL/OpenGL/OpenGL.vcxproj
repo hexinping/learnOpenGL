@@ -116,6 +116,7 @@
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateReflect.cpp" />
     <ClCompile Include="Class\OpenglStateShadowDirLight.cpp" />
+    <ClCompile Include="Class\OpenglStateShadowPointLight.cpp" />
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
     <ClCompile Include="Class\OpenglStateTriangleMove.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateReflect.h" />
     <ClInclude Include="Class\OpenglStateShadowDirLight.h" />
+    <ClInclude Include="Class\OpenglStateShadowPointLight.h" />
     <ClInclude Include="Class\OpenglStateTexture.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
     <ClInclude Include="Class\OpenglStateTriangleMove.h" />
@@ -203,6 +205,9 @@
     <None Include="shader\lamp.vert" />
     <None Include="shader\lamp1.frag" />
     <None Include="shader\lamp1.vert" />
+    <None Include="shader\point_shadows_depth.farg" />
+    <None Include="shader\point_shadows_depth.gs" />
+    <None Include="shader\point_shadows_depth.vert" />
     <None Include="shader\shader0.frag" />
     <None Include="shader\shader0.vert" />
     <None Include="shader\shader1.frag" />
@@ -275,6 +280,8 @@
     <None Include="shader\shader4.vert" />
     <None Include="shader\shader40.frag" />
     <None Include="shader\shader40.vert" />
+    <None Include="shader\shader41.frag" />
+    <None Include="shader\shader41.vert" />
     <None Include="shader\shader5.frag" />
     <None Include="shader\shader5.vert" />
     <None Include="shader\shader6.frag" />

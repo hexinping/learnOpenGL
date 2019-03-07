@@ -111,13 +111,17 @@ void  OpenglUtils::createShaderWithFile(int shaderType, unsigned int *pShader, s
 	createShaderWithSource(shaderType, pShader, shaderSource);
 }
 
-int OpenglUtils::linkShader(unsigned int *shaderProgram, unsigned int vertexShader, unsigned int fragmentShader)
+int OpenglUtils::linkShader(unsigned int *shaderProgram, unsigned int vertexShader, unsigned int fragmentShader, unsigned int geoMetryShader)
 {
 	//4链接着色器，创建着色器程序并且激活
 	unsigned int program;
 	program = glCreateProgram(); //创建着色器程序对象
 	glAttachShader(program, vertexShader);  //附加顶点着色器
 	glAttachShader(program, fragmentShader);//附加片段着色器
+	if (geoMetryShader != 0)
+	{
+		glAttachShader(program, geoMetryShader);//附加几何着色器
+	}
 	glLinkProgram(program); // 开始链接顶点着色器和片段着色器
 
 	int  success;
