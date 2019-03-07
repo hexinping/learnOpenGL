@@ -57,8 +57,8 @@ uniform Light light;
 //阴影贴图
 uniform samplerCube depthMap;
 
-uniform float isDisplayDepth;
-uniform float isUsePCFShadow;
+uniform bool isDisplayDepth;
+uniform bool isUsePCFShadow;
 
 //pcf 解决阴影锯齿感
 //由于万向阴影贴图基于传统阴影映射的原则，它便也继承了由解析度产生的非真实感。如果你放大就会看到锯齿边了。
@@ -94,7 +94,7 @@ float ShadowCalculationPCF(vec3 fragPos)
     shadow /= float(samples);
         
     // display closestDepth as debug (to visualize depth cubemap)
-    if(isDisplayDepth == 1.0)
+    if(isDisplayDepth)
 	{
 		FragColor = vec4(vec3(closestDepth / far_plane), 1.0); 
 	}
@@ -123,7 +123,7 @@ float ShadowCalculation(vec3 fragPos)
     float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;   
 	     
     // display closestDepth as debug (to visualize depth cubemap)
-	if(isDisplayDepth == 1.0)
+	if(isDisplayDepth)
 	{
 		FragColor = vec4(vec3(closestDepth / far_plane), 1.0); 
 	}
