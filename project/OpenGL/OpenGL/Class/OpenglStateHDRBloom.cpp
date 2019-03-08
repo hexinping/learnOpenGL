@@ -357,7 +357,7 @@ void OpenglStateHDRBloom::rendeCommand()
 	setMat4(_shaderProgram, "projection", &projection);
 
 	glm::mat4 view;
-	glm::vec3 cameraPos = _param2;
+	glm::vec3 cameraPos = _param2 + glm::vec3(0,1,0);
 	glm::vec3 cameraFront = _param3;
 	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
