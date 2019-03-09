@@ -682,6 +682,12 @@
     <None Include="shader\point_shadows_depth.vert">
       <Filter>shader</Filter>
     </None>
+    <None Include="shader\shaderLightBox.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shaderLightBox.vert">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OpenGL.rc">

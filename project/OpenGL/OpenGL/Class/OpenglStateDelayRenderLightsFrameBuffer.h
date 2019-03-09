@@ -12,4 +12,10 @@ public:
 	void enableVertexAttribArray();
 
 	bool isRenderFrameBuffer();
+
+	unsigned int cubeVAO = 0;
+	unsigned int cubeVBO = 0;
+
+	unsigned int _shaderLightBox;
+
 };

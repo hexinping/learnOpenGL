@@ -292,6 +292,8 @@
     <None Include="shader\shader8.vert" />
     <None Include="shader\shader9.frag" />
     <None Include="shader\shader9.vert" />
+    <None Include="shader\shaderLightBox.frag" />
+    <None Include="shader\shaderLightBox.vert" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OpenGL.rc" />
