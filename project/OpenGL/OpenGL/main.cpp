@@ -238,7 +238,7 @@ void createTestObjects()
 
 	//OpenglStateMultTextureBlend 无光照模板
 	//OpenglStateReflect 带光照模板
-	OpenglState *glState = new OpenglStateShadowPointLight();
+	OpenglState *glState = new OpenglStateDelayRenderLights();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -248,6 +248,17 @@ void createTestObjects()
 	fragFile = "shader/" + shaderName + ".frag";
 	glState->init(vertFile, fragFile);
 	world->add(glState);
+
+	//OpenglState *glState1 = new OpenglStateModel3DRock();
+	//index = glState1->getShaderIndex();
+	//shaderName = OpenglStatesMap[index];
+	////float s = i * random(1, 2);
+	////float v = i* random(1, 2);
+	////glState->setModelMat4(glm::vec3(s, v, s * v), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0);
+	//vertFile = "shader/" + shaderName + ".vert";
+	//fragFile = "shader/" + shaderName + ".frag";
+	//glState1->init(vertFile, fragFile);
+	//world->add(glState1);
 
 	//OpenglState *glState1 = new OpenglStateMultTextureBlend();
 	//index = glState1->getShaderIndex();
@@ -559,34 +570,27 @@ int main(int argc, char* argv[])
 	bool isUseFrameBuffer = world->_isUseFrameBuffer;
 	if (isUseFrameBuffer)
 	{
-		world->createFrameBufferByMultSample(width, height, &framebuffer);
-
-		//多重采样的帧缓冲不能进行采样，需要创建一个临时的正常帧缓冲然后把数据复制到正常帧缓冲中
-
-
-		//world->_isDelayRenderLights
-
-		if (world->_isUseBloom)
+		
+		if (!world->_isDelayRenderLights)
 		{
-			//使用bloom 需要多个纹理
-			world->createFrameBufferByColorBuffers(width, height, &intermediateFBO, &screenTexture, &screenBrightTexture, GL_RGBA16F, GL_RGBA);
+			world->createFrameBufferByMultSample(width, height, &framebuffer);
+			//多重采样的帧缓冲不能进行采样，需要创建一个临时的正常帧缓冲然后把数据复制到正常帧缓冲中
+			if (world->_isUseBloom)
+			{
+				//使用bloom 需要多个纹理
+				world->createFrameBufferByColorBuffers(width, height, &intermediateFBO, &screenTexture, &screenBrightTexture, GL_RGBA16F, GL_RGBA);
+			}
+			else if (world->_isUseHDR)
+			{
+				//使用HDR
+				world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
+			}
 		}
-		else if (world->_isUseHDR)
-		{
-			//使用HDR
-			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
-		}
-		else if (world->_isDelayRenderLights)
+		else
 		{
 			//使用延迟光照 todo
 			world->createFrameBufferByDelayRenderLights(width, height, &intermediateFBO, &postionTexture, &normalTexture, &albedoSpecTexture);
 		}
-		else
-		{
-			//默认帧缓冲
-			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture);
-		}
-		
 	}
 
 	auto _openglStateArray = world->_openglStateArray;
@@ -608,7 +612,17 @@ int main(int argc, char* argv[])
 		//绑定创建的帧缓冲对象，下面的绘制命令都会填充到帧缓冲里面
 		if (isUseFrameBuffer)
 		{
-			world->useFrameBuffer(framebuffer);
+			if (!world->_isDelayRenderLights)
+			{
+				//非延迟光照用多重采样帧缓冲
+				world->useFrameBuffer(framebuffer);
+			}
+			else
+			{
+				//延迟光照用普通采样帧缓冲
+				world->useFrameBuffer(intermediateFBO);
+			}
+			
 		}
 
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -639,9 +653,11 @@ int main(int argc, char* argv[])
 			state->_viewMat4 = camera->GetViewMatrix();  //观察矩阵
 			if (state->isRenderFrameBuffer())
 			{
-				state->_multFrambuffer = framebuffer;
-				state->_framebuffer = intermediateFBO;
+			
+				state->_multFrambuffer = framebuffer; //创建的多重采样帧缓冲
+				state->_framebuffer = intermediateFBO; //要拷贝到正常的帧缓冲
 				state->_textureColorbuffer = screenTexture;
+				state->_isUseDelayeRenderLight = world->_isDelayRenderLights;
 			}
 
 			//非天空盒的对象保存下

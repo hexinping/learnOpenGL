@@ -155,4 +155,7 @@ public:
 	unsigned int _delayeRenderLightNormalTexture;
 	unsigned int _delayeRenderLightAlbedoSpecTexture;
 
+	//默认不使用延迟光照技术
+	bool _isUseDelayeRenderLight = false;
+
 };

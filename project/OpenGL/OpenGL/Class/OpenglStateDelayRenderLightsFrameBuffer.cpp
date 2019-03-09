@@ -116,12 +116,15 @@ void OpenglStateDelayRenderLightsFrameBuffer::rendeCommand()
 	但是更新一个uniform之前你必须先使用程序（调用glUseProgram)，因为它是在当前激活的着色器程序中设置uniform的。
 	*/
 
-	//采用多重采样帧缓冲
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, _multFrambuffer);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _framebuffer);
-	glBlitFramebuffer(0, 0, 800, 600, 0, 0, 800, 600, GL_COLOR_BUFFER_BIT, GL_NEAREST);// 把多重采样的帧缓冲数据复制到正常帧缓冲内容里
-
-
+	//非延迟光照才使用多重缓冲帧缓冲区
+	if (!_isUseDelayeRenderLight)
+	{
+		//采用多重采样帧缓冲
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, _multFrambuffer);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _framebuffer);
+		glBlitFramebuffer(0, 0, 800, 600, 0, 0, 800, 600, GL_COLOR_BUFFER_BIT, GL_NEAREST);// 把多重采样的帧缓冲数据复制到正常帧缓冲内容里
+	}
+	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);  // 返回默认,//把创建的帧缓冲对象输出到屏幕，必须要有这句
 	glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
 	// clear all relevant buffers
