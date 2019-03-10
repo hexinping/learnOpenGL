@@ -77,6 +77,10 @@ bool OpenglStateDelayRenderLightsFrameBuffer::init(string vertFile, string fragF
 		std::string quadratic = s;
 		quadratic = quadratic + "[" + to_string(i) + "].quadratic";
 
+		std::string raduis = s;
+		raduis = raduis + "[" + to_string(i) + "].raduis";
+
+
 		setVec3(_shaderProgram, positon.c_str(), _lightPositions[i]);
 		setVec3(_shaderProgram, color.c_str(), _lightColors[i]);
 
@@ -85,10 +89,24 @@ bool OpenglStateDelayRenderLightsFrameBuffer::init(string vertFile, string fragF
 		setVec3(_shaderProgram, diffuse.c_str(), 0.8f, 0.8f, 0.8f);
 		setVec3(_shaderProgram, specular.c_str(), 1.0f, 1.0f, 1.0f);
 
+
+		//const GLfloat constantV = 1.0f; // Note that we don't send this to the shader, we assume it is always 1.0 (in our case)
+		//const GLfloat linearV = 0.09;
+		//const GLfloat quadraticV = 0.032;
+
 		//设置点光源的衰减变量
-		setFloat(_shaderProgram, constant.c_str(), 1.0f);
+		setFloat(_shaderProgram, constant.c_str(), 1.0);
 		setFloat(_shaderProgram, linear.c_str(), 0.09);
 		setFloat(_shaderProgram, quadratic.c_str(), 0.032);
+
+		const GLfloat constantV = 1.0f; // Note that we don't send this to the shader, we assume it is always 1.0 (in our case)
+		const GLfloat linearV = 0.7;
+		const GLfloat quadraticV = 1.8;
+
+		const GLfloat maxBrightness = std::fmaxf(std::fmaxf(_lightColors[i].r, _lightColors[i].g), _lightColors[i].b);
+		GLfloat radiusV = (-linearV + std::sqrtf(linearV * linearV - 4 * quadraticV * (constantV - (256.0 / 5.0) * maxBrightness))) / (2 * quadraticV);
+		setFloat(_shaderProgram, raduis.c_str(), radiusV);
+
 	}
 
 
