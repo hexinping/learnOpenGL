@@ -179,6 +179,21 @@ void OpenglStateDelayRenderLightsFrameBuffer::rendeCommand()
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
 
+	/*
+
+	然而，这些渲染出来的立方体并没有考虑到我们储存的延迟渲染器的几何深度(Depth)信息，并且结果是它被渲染在之前渲染过的物体之上，这并不是我们想要的结果。
+
+
+	`我们需要做的就是首先复制出在几何渲染阶段中储存的深度信息，并输出到默认的帧缓冲的深度缓冲，然后我们才渲染光立方体。
+	这样之后只有当它在之前渲染过的几何体上方的时候，光立方体的片段才会被渲染出来
+	
+	*/
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, _framebuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // 写入到默认帧缓冲
+	glBlitFramebuffer(
+		0, 0, 800, 600, 0, 0, 800, 600, GL_DEPTH_BUFFER_BIT, GL_NEAREST
+		);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	glUseProgram(_shaderLightBox);
 
