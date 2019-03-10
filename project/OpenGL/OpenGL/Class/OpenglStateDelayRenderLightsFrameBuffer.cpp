@@ -273,17 +273,14 @@ void OpenglStateDelayRenderLightsFrameBuffer::enableVertexAttribArray()
 	// Link vertex attributes
 	glBindVertexArray(cubeVAO);
 
-	posLocation = _glUtils->getAttribLocation(_shaderLightBox, "position");
-	glEnableVertexAttribArray(posLocation);
-	glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-
-	GLint aNormalLocation = _glUtils->getAttribLocation(_shaderLightBox, "normal");
-	glEnableVertexAttribArray(aNormalLocation);
-	glVertexAttribPointer(aNormalLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-
-	aTexCoordLocation = _glUtils->getAttribLocation(_shaderLightBox, "texCoords");
-	glEnableVertexAttribArray(aTexCoordLocation);
-	glVertexAttribPointer(aTexCoordLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 
 	//恢复VBO VAO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
