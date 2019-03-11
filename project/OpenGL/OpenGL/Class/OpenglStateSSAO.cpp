@@ -25,6 +25,7 @@ bool OpenglStateSSAO::init(string vertFile, string fragFile)
 
 	_vertFile = vertFile;
 	_fragFile = fragFile;
+	_cameroPosOffset = glm::vec3(0.0, 4.5, 8.0);
 
 	__super::initRendCommand();
 
@@ -222,7 +223,7 @@ void OpenglStateSSAO::rendeCommand()
 	// room cube
 	model = glm::mat4();
 	model = glm::translate(model, glm::vec3(0.0, 7.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(7.5f, 7.5f, 17.5f));
+	model = glm::scale(model, glm::vec3(17.5f, 7.5f, 17.5f));
 	setMat4(_shaderProgram,"model", &model);
 	setInt(_shaderProgram,"invertedNormals", 1); // invert normals as we're inside the cube
 

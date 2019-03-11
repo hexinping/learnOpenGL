@@ -116,6 +116,8 @@ public:
 
 	glm::mat4 _viewMat4; //观察矩阵
 
+	glm::vec3 _cameroPosOffset = glm::vec3(0.0); // 摄像机位置偏移
+
 	unsigned int _texture0;
 	unsigned int _texture1;
 	unsigned int _texture2;

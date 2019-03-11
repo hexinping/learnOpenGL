@@ -680,7 +680,7 @@ int main(int argc, char* argv[])
 			state->_param2 = camera->Position; //更新观察矩阵
 			state->_param3 = camera->Front; //更新观察矩阵
 			state->_param4 = camera->Zoom;   //更新矩阵投影
-			state->_viewMat4 = camera->GetViewMatrix();  //观察矩阵
+			state->_viewMat4 = camera->GetViewMatrix(state->_cameroPosOffset);  //观察矩阵
 			if (state->isRenderFrameBuffer())
 			{
 			
