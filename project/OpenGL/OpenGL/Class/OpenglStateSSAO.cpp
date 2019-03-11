@@ -1,4 +1,24 @@
 #include "OpenglStateSSAO.h"
+#include <random>
+
+
+/*
+
+	思路：利用多个帧缓冲处理数据以及传递计算结果
+
+	1 world创建G缓冲，glstate 默认shader创建处理数据
+	G缓冲==》数据采集
+
+	2 glstate创建多个帧缓冲和shader进行传递以及计算
+	SSAO缓冲 ==》计算遮蔽因子
+	模糊缓冲 ==》模糊效果
+	默认帧缓冲 ==》计算最后光照效果
+
+*/
+float lerp(float a, float b, float f)
+{
+	return a + f * (b - a);
+}
 
 bool OpenglStateSSAO::init(string vertFile, string fragFile)
 {
@@ -6,168 +26,115 @@ bool OpenglStateSSAO::init(string vertFile, string fragFile)
 	_vertFile = vertFile;
 	_fragFile = fragFile;
 
-	//this->loadTexture("resource/container.jpg",GL_TEXTURE0);
-	_texture0 = loadTexture("resource/wood.png",GL_TEXTURE0);
-	//_texture1 = loadTexture("resource/container2.png",GL_TEXTURE0); //来回切换
-	//_texture2 = loadTexture("resource/matrix.jpg", GL_TEXTURE2);
-
 	__super::initRendCommand();
 
 
-	/*
-		设置uniform变量有两种方法
+	lightPos = glm::vec3(2.0, 4.0, -2.0);
+	lightColor = glm::vec3(0.2, 0.2, 0.7);
 
-		第一种：在initRendCommand后使用一次glUseProgram(_shaderProgram)，这个时候赋值给uniform变量
-		第二种：在主循环rendeCommand里不断设置
-	
-	*/
-	//设置纹理单元
-	_glUtils->useProgram(_shaderProgram);// 先使用这个着色器程序对象才能设置uniform变量
-
-	//通过使用glUniform1i设置采样器，我们保证了每个uniform采样器对应着正确的纹理单元
-	setInt(_shaderProgram, "material.diffuse", 0); // 这里的0就对应了前面的GL_TEXTURE0
-	//setInt(_shaderProgram, "material.specular", 1); // 这里的1就对应了前面的GL_TEXTURE1
-	//setInt(_shaderProgram, "material.emission", 2);
-
-
-	
-
-
-	//设置光源的颜色
-	//setVec3(_shaderProgram, "lightColor", 1.0f, 1.0f, 1.0f);
-	setVec3(_shaderProgram, "objectColor", 1.0f, 1.0f, 1.0f);
-
-	//ambient材质和diffuse材质都设置成跟物体的颜色一样
-	//setVec3(_shaderProgram, "material.ambient", 1.0f, 0.5f, 0.31f);
-	//setVec3(_shaderProgram, "material.diffuse", 1.0f, 0.5f, 0.31f);  // 用漫反射贴图代替了
-	//setVec3(_shaderProgram, "material.specular", 0.5f, 0.5f, 0.5f);  // 用高光贴图代替了
-	setFloat(_shaderProgram, "material.shininess", 32.0f);
-
-
-
-	//设置光源的颜色
-	glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
-	setVec3(_shaderProgram, "lightColor", lightColor);
-	setVec3(_shaderProgram, "objectColor", lightColor);
-	
-
-	glm::vec3 diffuseColor = lightColor   * glm::vec3(0.5f); // 降低影响
-	glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); // 很低的影响
-
-	//setVec3(_shaderProgram, "light.ambient", ambientColor);
-	//setVec3(_shaderProgram, "light.diffuse", diffuseColor);
-	//setVec3(_shaderProgram, "light.specular", 1.0f, 1.0f, 1.0f);
-	//setVec3(_shaderProgram, "light.direction", -0.2f, -1.0f, -0.3f); //（0.2f, 1.0f, 0.3f) 可以理解光源的位置点
-
-	////设置点光源的衰减变量
-	//setFloat(_shaderProgram, "light.constant", 1.0f);
-	//setFloat(_shaderProgram, "light.linear", 0.09f);
-	//setFloat(_shaderProgram, "light.quadratic", 0.032f);
-
-	//定向光方向
-	setVec3(_shaderProgram, "dirLight.direction", -0.2f, -1.0f, -0.3f); //（0.2f, 1.0f, 0.3f) 可以理解光源的位置点
-	setVec3(_shaderProgram, "dirLight.ambient", 0.05f, 0.05f, 0.05f);
-	setVec3(_shaderProgram, "dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-	setVec3(_shaderProgram, "dirLight.specular", 0.5f, 0.5f, 0.5f);
-
-	
-
-	////点光源 放到光照延迟渲染里了
-	//_lightPositions.push_back(glm::vec3(0.0f, 0.5f, 1.5f));
-	//_lightPositions.push_back(glm::vec3(-4.0f, 0.5f, -3.0f));
-	//_lightPositions.push_back(glm::vec3(3.0f, 0.5f, 1.0f));
-	//_lightPositions.push_back(glm::vec3(-.8f, 2.4f, -1.0f));
-
-
-	//_lightColors.push_back(glm::vec3(2.0f, 2.0f, 2.0f));
-	//_lightColors.push_back(glm::vec3(1.5f, 0.0f, 0.0f));
-	//_lightColors.push_back(glm::vec3(0.0f, 0.0f, 1.5f));
-	//_lightColors.push_back(glm::vec3(0.0f, 1.5f, 0.0f));
-
-
-	//_lightScale.push_back(glm::vec3(0.5));
-	//_lightScale.push_back(glm::vec3(0.5));
-	//_lightScale.push_back(glm::vec3(0.5));
-	//_lightScale.push_back(glm::vec3(0.5));
-
-
-	//std::string s = "pointLights";
-	//for (unsigned int i = 0; i < 4; i++)
-	//{
-	//	std::string positon = s;
-	//	positon = positon + "[" + to_string(i) + "].position";
-
-
-	//	std::string color = s;
-	//	color = color + "[" + to_string(i) + "].color";
-
-	//	std::string ambient = s;
-	//	ambient = ambient + "[" + to_string(i) + "].ambient";
-
-	//	std::string diffuse = s;
-	//	diffuse = diffuse + "[" + to_string(i) + "].diffuse";
-
-	//	std::string specular = s;
-	//	specular = specular + "[" + to_string(i) + "].specular";
-
-	//	std::string constant = s;
-	//	constant = constant + "[" + to_string(i) + "].constant";
-
-	//	std::string linear = s;
-	//	linear = linear + "[" + to_string(i) + "].linear";
-
-	//	std::string quadratic = s;
-	//	quadratic = quadratic + "[" + to_string(i) + "].quadratic";
-
-	//	setVec3(_shaderProgram, positon.c_str(), _lightPositions[i]);
-	//	setVec3(_shaderProgram, color.c_str(), _lightColors[i]);
-
-	//	//设置光源分量的不同强度
-	//	setVec3(_shaderProgram, ambient.c_str(), 0.05f, 0.05f, 0.05f);
-	//	setVec3(_shaderProgram, diffuse.c_str(), 0.8f, 0.8f, 0.8f);
-	//	setVec3(_shaderProgram, specular.c_str(), 1.0f, 1.0f, 1.0f);
-
-	//	//设置点光源的衰减变量
-	//	setFloat(_shaderProgram, constant.c_str(), 1.0f);
-	//	setFloat(_shaderProgram, linear.c_str(), 0.09);
-	//	setFloat(_shaderProgram, quadratic.c_str(), 0.032);
-	//}
-	
-
-
-	std::vector<glm::vec3> objectPositions;
-	objectPositions.push_back(glm::vec3(-3.0, -3.0, -3.0));
-	objectPositions.push_back(glm::vec3(0.0, -3.0, -3.0));
-	objectPositions.push_back(glm::vec3(3.0, -3.0, -3.0));
-	objectPositions.push_back(glm::vec3(-3.0, -3.0, 0.0));
-	objectPositions.push_back(glm::vec3(0.0, -3.0, 0.0));
-	objectPositions.push_back(glm::vec3(3.0, -3.0, 0.0));
-	objectPositions.push_back(glm::vec3(-3.0, -3.0, 3.0));
-	objectPositions.push_back(glm::vec3(0.0, -3.0, 3.0));
-	objectPositions.push_back(glm::vec3(3.0, -3.0, 3.0));
-
-
-	unsigned int amount = 9;
+	unsigned int amount = 1;
 	_amount = amount;
 	//glm::mat4 *modelMatrices;
 	modelMatrices = new glm::mat4[amount];
 	for (unsigned int i = 0; i < amount; i++)
 	{
 		glm::mat4 model;
-		model = glm::translate(model, objectPositions[i]);
-
-		//// 2. 缩放：在 0.05 和 0.25f 之间缩放
-		//float scale = (rand() % 20) / 100.0f + 0.05;
-		model = glm::scale(model, glm::vec3(0.25f));
-
-		//// 3. 旋转：绕着一个（半）随机选择的旋转轴向量进行随机的旋转
-		//float rotAngle = (rand() % 360);
-		//model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
+		model = glm::mat4();
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 5.0));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0, 0.0, 0.0));
+		model = glm::scale(model, glm::vec3(0.5f));
 
 		// 4. 添加到矩阵的数组中
 		modelMatrices[i] = model;
 	}
 
+
+
+	//使用G缓冲中采样数据 ssao着色器 计算遮蔽因子
+	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/ssao.vert");
+	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/ssao.frag");
+	_glUtils->linkShader(&_shaderSSAO, _vertexShader, _fragmentShader);
+
+
+	//模糊
+	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/ssao.vert");
+	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/ssaoBlur.frag");
+	_glUtils->linkShader(&_shaderSSAOBlur, _vertexShader, _fragmentShader);
+
+
+	//光照计算着色器
+	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/ssao.vert");
+	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/ssaoLighting.frag");
+	_glUtils->linkShader(&_shaderLightingPass, _vertexShader, _fragmentShader);
+
+
+	// also create framebuffer to hold SSAO processing stage 
+	// -----------------------------------------------------
+	//计算遮蔽因子的帧缓冲
+	glGenFramebuffers(1, &ssaoFBO); 
+	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);
+	unsigned int ssaoColorBuffer;
+	// SSAO color buffer
+	glGenTextures(1, &ssaoColorBuffer);
+	glBindTexture(GL_TEXTURE_2D, ssaoColorBuffer);
+	//由于环境遮蔽的结果是一个灰度值，我们将只需要纹理的红色分量，所以我们将颜色缓冲的内部格式设置为GL_RED。
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, 800, 600, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ssaoColorBuffer, 0);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cout << "SSAO Framebuffer not complete!" << std::endl;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// 模糊帧缓冲
+	unsigned int ssaoColorBufferBlur;
+	glGenFramebuffers(1, &ssaoBlurFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFBO);
+	glGenTextures(1, &ssaoColorBufferBlur);
+	glBindTexture(GL_TEXTURE_2D, ssaoColorBufferBlur);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, 800, 600, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ssaoColorBufferBlur, 0);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cout << "SSAO Blur Framebuffer not complete!" << std::endl;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+	// 生成采样核
+	// ----------------------
+	std::uniform_real_distribution<GLfloat> randomFloats(0.0, 1.0); // generates random floats between 0.0 and 1.0
+	std::default_random_engine generator;
+	//std::vector<glm::vec3> ssaoKernel;
+	for (unsigned int i = 0; i < 64; ++i)
+	{
+		glm::vec3 sample(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, randomFloats(generator));
+		sample = glm::normalize(sample);
+		sample *= randomFloats(generator);
+		float scale = float(i) / 64.0;
+
+		// scale samples s.t. they're more aligned to center of kernel
+		scale = lerp(0.1f, 1.0f, scale * scale);
+		sample *= scale;
+		ssaoKernel.push_back(sample);
+	}
+
+	// 生成噪点图 随机核心转动
+	// ----------------------
+	std::vector<glm::vec3> ssaoNoise;
+	for (unsigned int i = 0; i < 16; i++)
+	{
+		glm::vec3 noise(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, 0.0f); // rotate around z-axis (in tangent space)
+		ssaoNoise.push_back(noise);
+	}
+	//unsigned int noiseTexture; 
+	glGenTextures(1, &noiseTexture);
+	glBindTexture(GL_TEXTURE_2D, noiseTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 
 
@@ -227,88 +194,234 @@ bool OpenglStateSSAO::isDelayRenderLights()
 	return false;
 }
 
+bool OpenglStateSSAO::isRenderFrameBuffer()
+{
+	return true;
+}
+
+
 void OpenglStateSSAO::rendeCommand()
 {
-	_glUtils->useProgram(_shaderProgram);
-
-	//activiteTexture(GL_TEXTURE4);
-	//bindTexture(_cubemapTexture, true);
-	//setInt(_shaderProgram, "skybox", 4); // 这里的0就对应了前面的GL_TEXTURE0
-
-	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(_param4), 800.0f / 600.0f, 0.1f, 100.0f);
-	setMat4(_shaderProgram, "projection", &projection);
-
-	glm::mat4 view;
-	glm::vec3 cameraPos = _param2;
-	glm::vec3 cameraFront = _param3;
-	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-	view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-	setMat4(_shaderProgram, "view", &view);
-
-	//cout << "(float)glfwGetTime():" << (float)glfwGetTime() << endl;
-
-	// render the loaded model
-	if (!_useModelMat4)
-	{
-		glm::mat4 model;
-		model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-		setMat4(_shaderProgram, "model", &model);
-	}
-	else
-	{
-		setMat4(_shaderProgram, "model", &_modelMat4);
-	}
-
-
-	setVec3(_shaderProgram, "viewPos", cameraPos.x, cameraPos.y, cameraPos.z);		// 摄像机的位置（观察空间的原点）
-
-
-
-	//if (_isUseEBORender)
-	//{
-	//	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //使用索引绘制
-	//}
-	//else
-	//{
-	//	glm::mat4 model;
-	//	model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0));
-	//	model = glm::rotate(model,  glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//	model = glm::scale(model, glm::vec3(12.5f, 0.5f, 12.5f));
-	//	setMat4(_shaderProgram, "model", &model);
-	//	glDrawArrays(GL_TRIANGLES, 0, 36);
-	//	/*glm::vec3 cubePositions[] = {
-	//		glm::vec3(0.0f, 0.0f, 0.0f),
-	//		glm::vec3(2.0f, 5.0f, -15.0f),
-	//		glm::vec3(-1.5f, -2.2f, -2.5f),
-	//		glm::vec3(-3.8f, -2.0f, -12.3f),
-	//		glm::vec3(2.4f, -0.4f, -3.5f),
-	//		glm::vec3(-1.7f, 3.0f, -7.5f),
-	//		glm::vec3(1.3f, -2.0f, -2.5f),
-	//		glm::vec3(1.5f, 2.0f, -2.5f),
-	//		glm::vec3(1.5f, 0.2f, -1.5f),
-	//		glm::vec3(-1.3f, 1.0f, -1.5f)
-	//	};
-	//	for (unsigned int i = 0; i < 10; i++)
-	//	{
-	//		glm::mat4 model;
-	//		model = glm::translate(model, cubePositions[i]);
-	//		float angle = 20.0f * (i+1);
-	//		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-	//		setMat4(_shaderProgram, "model", &model);
-	//		glDrawArrays(GL_TRIANGLES, 0, 36);
-	//	}*/
-	//}
-
 	
+	//__super::rendeCommand();
 
+	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+	//1. geometry pass: render scene's geometry/color data into gbuffer
+	__super::rendeCommand();
+	glm::mat4 projection = glm::perspective(glm::radians(_param4), (float)800 / (float)600, 0.1f, 50.0f);
+	glm::mat4 model;
+	setMat4(_shaderProgram,"projection", &projection);
+	setMat4(_shaderProgram,"view", &_viewMat4);
+
+	_projection = projection;
+
+	// room cube
+	model = glm::mat4();
+	model = glm::translate(model, glm::vec3(0.0, 7.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(7.5f, 7.5f, 7.5f));
+	setMat4(_shaderProgram,"model", &model);
+	setInt(_shaderProgram,"invertedNormals", 1); // invert normals as we're inside the cube
+
+	glBindVertexArray(cubeVAO);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
+
+
+}
+
+bool OpenglStateSSAO::afterModleRender()
+{
+	// Send kernel + rotation 
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	//*********************************************************
+	//2 绑定ssao帧缓冲，在ssao的着色器上计算遮蔽因子
+	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glUseProgram(_shaderSSAO);
+	for (unsigned int i = 0; i < 64; ++i)
+	{
+		std::string str = "samples[" + std::to_string(i) + "]";
+		setVec3(_shaderSSAO, str.c_str(), ssaoKernel[i]);
+
+	}
+	setMat4(_shaderSSAO,"projection", &_projection);
+
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(_ssaoPosTexture);
+	setInt(_shaderSSAO, "gPosition", 0);
+
+	activiteTexture(GL_TEXTURE1);
+	bindTexture(_ssaoNormalTexture);
+	setInt(_shaderSSAO, "gNormal", 1);
+
+	activiteTexture(GL_TEXTURE2);
+	bindTexture(noiseTexture);
+	setInt(_shaderSSAO, "noiseTexture", 2);
+
+	//绘制quad
+	glBindVertexArray(quadVAO);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
+
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	//*********************************************************
+	//3 绑定模糊帧缓冲，优化环境遮蔽效果，去除噪点
+	glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFBO);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glUseProgram(_shaderSSAOBlur);
+	
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(ssaoColorBuffer);
+	setInt(_shaderSSAOBlur, "ssaoInput", 0);
+
+	glBindVertexArray(quadVAO);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	//*********************************************************
+	//4. 使用遮蔽因子进行光照计算
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glUseProgram(_shaderLightingPass);
+	glm::vec3 lightPosView = glm::vec3(_viewMat4 * glm::vec4(lightPos, 1.0));
+
+	setVec3(_shaderLightingPass,"light.Position", lightPosView);
+	setVec3(_shaderLightingPass,"light.Color", lightColor);
+
+	// Update attenuation parameters
+	const float constant = 1.0; // note that we don't send this to the shader, we assume it is always 1.0 (in our case)
+	const float linear = 0.09;
+	const float quadratic = 0.032;
+	setFloat(_shaderLightingPass,"light.Linear", linear);
+	setFloat(_shaderLightingPass,"light.Quadratic", quadratic);
+
+
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(_ssaoPosTexture);
+	setInt(_shaderLightingPass, "gPosition", 0);
+
+	activiteTexture(GL_TEXTURE1);
+	bindTexture(_ssaoNormalTexture);
+	setInt(_shaderLightingPass, "gNormal", 1);
+
+	activiteTexture(GL_TEXTURE2);
+	bindTexture(_ssaoAlbedoSpecTexture);
+	setInt(_shaderLightingPass, "gAlbedo", 2);
+
+	activiteTexture(GL_TEXTURE3);
+	bindTexture(ssaoColorBufferBlur);
+	setInt(_shaderLightingPass, "ssao", 3);
+
+
+	glBindVertexArray(quadVAO);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
+
+	return true;
 }
 
 int OpenglStateSSAO::getShaderIndex()
 {
 	return 42;
+}
+
+
+void OpenglStateSSAO::enableVertexAttribArray()
+{
+	
+
+	float vertices[] = {
+		// back face
+		-1.0f, -1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+		1.0f, 1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, // top-right
+		1.0f, -1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, // bottom-right         
+		1.0f, 1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, // top-right
+		-1.0f, -1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+		-1.0f, 1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f, // top-left
+		// front face
+		-1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom-left
+		1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, // bottom-right
+		1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // top-right
+		1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // top-right
+		-1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // top-left
+		-1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom-left
+		// left face
+		-1.0f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // top-right
+		-1.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top-left
+		-1.0f, -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom-left
+		-1.0f, -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom-left
+		-1.0f, -1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // bottom-right
+		-1.0f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // top-right
+		// right face
+		1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // top-left
+		1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom-right
+		1.0f, 1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top-right         
+		1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom-right
+		1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // top-left
+		1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // bottom-left     
+		// bottom face
+		-1.0f, -1.0f, -1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, // top-right
+		1.0f, -1.0f, -1.0f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f, // top-left
+		1.0f, -1.0f, 1.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, // bottom-left
+		1.0f, -1.0f, 1.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, // bottom-left
+		-1.0f, -1.0f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, // bottom-right
+		-1.0f, -1.0f, -1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, // top-right
+		// top face
+		-1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // top-left
+		1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom-right
+		1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // top-right     
+		1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom-right
+		-1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // top-left
+		-1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f  // bottom-left        
+	};
+	glGenVertexArrays(1, &cubeVAO);
+	glGenBuffers(1, &cubeVBO);
+	// fill buffer
+	glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	// link vertex attributes
+	glBindVertexArray(cubeVAO);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+
+	//恢复VBO VAO
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+
+	//绘制一个屏幕大小的矩形 用作帧缓冲最后的输出以及交换数据
+	float quadVertices[] = {
+		// positions        // texture Coords
+		-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+		1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+	};
+	// setup plane VAO
+	glGenVertexArrays(1, &quadVAO);
+	glGenBuffers(1, &quadVBO);
+	glBindVertexArray(quadVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 }
 
 

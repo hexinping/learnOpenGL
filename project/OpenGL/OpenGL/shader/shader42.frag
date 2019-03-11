@@ -94,7 +94,7 @@ void main()
 
 
 	// 储存片段的位置矢量到第一个G缓冲纹理
-	gPositionDepth.xyz = FragPos;
+	gPositionDepth.xyz = FragPos;  //FragPos 摄像机空间中
 
 	// 储存线性深度到gPositionDepth的alpha分量
 	gPositionDepth.a = LinearizeDepth(gl_FragCoord.z); 

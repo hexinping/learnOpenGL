@@ -298,6 +298,10 @@
     <None Include="shader\shader9.vert" />
     <None Include="shader\shaderLightBox.frag" />
     <None Include="shader\shaderLightBox.vert" />
+    <None Include="shader\ssao.frag" />
+    <None Include="shader\ssao.vert" />
+    <None Include="shader\ssaoBlur.frag" />
+    <None Include="shader\ssaoLighting.frag" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OpenGL.rc" />

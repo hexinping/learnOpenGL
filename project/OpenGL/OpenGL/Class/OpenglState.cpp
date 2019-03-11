@@ -206,6 +206,11 @@ bool OpenglState::isUseMSAA()
 	return true;
 }
 
+bool OpenglState::afterModleRender()
+{
+	return true;
+}
+
 
 bool OpenglState:: isUseMultipleTextureId()
 {

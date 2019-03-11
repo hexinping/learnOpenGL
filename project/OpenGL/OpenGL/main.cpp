@@ -52,6 +52,7 @@
 #include "OpenglStateShadowPointLight.h"
 #include "OpenglStateLabel.h"
 #include "OpenglStateMultTextureWave.h"
+#include "OpenglStateSSAO.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
@@ -238,7 +239,7 @@ void createTestObjects()
 
 	//OpenglStateMultTextureBlend 无光照模板
 	//OpenglStateReflect 带光照模板
-	OpenglState *glState = new OpenglStateDelayRenderLights();
+	OpenglState *glState = new OpenglStateSSAO();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -720,7 +721,20 @@ int main(int argc, char* argv[])
 				}
 				else
 				{
+					if (world->_isUseSSAO)
+					{
+						glm::mat4 *modelMatrices = state->modelMatrices;
+						glm::mat4 modelMat4 = modelMatrices[0];
+						state->setMat4(state->_shaderProgram, "model", &modelMat4);
+					}
 					model->Draw();
+					if (world->_isUseSSAO)
+					{
+						state->_ssaoPosTexture = postionTexture;
+						state->_ssaoNormalTexture = normalTexture;
+						state->_ssaoAlbedoSpecTexture = albedoSpecTexture;
+						state->afterModleRender();
+					}
 				}
 
 

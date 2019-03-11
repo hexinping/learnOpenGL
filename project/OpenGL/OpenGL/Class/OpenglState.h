@@ -35,6 +35,8 @@ public:
 	virtual bool  isUseSSAO(); //是否使用环境光遮罩
 	virtual bool  isUseMSAA(); //是否使用多重采样  默认开启
 
+	virtual bool afterModleRender(); //渲染模型之后
+
 	virtual bool  isUseHDR();
 	//帧缓冲是否使用多个纹理附件
 	virtual bool  isUseMultipleTextureId();
@@ -159,5 +161,10 @@ public:
 
 	//默认不使用延迟光照技术
 	bool _isUseDelayeRenderLight = false;
+
+	//SSAO 需要的缓冲数据
+	unsigned int _ssaoPosTexture;
+	unsigned int _ssaoNormalTexture;
+	unsigned int _ssaoAlbedoSpecTexture;
 
 };
