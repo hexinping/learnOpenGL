@@ -56,7 +56,7 @@
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
-#define MAX_SHADERCOUNT 41
+#define MAX_SHADERCOUNT 42
 
 #include "Model.h"
 #include "OpenglWorld.h"
@@ -588,7 +588,7 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			//使用延迟光照 todo
+			//使用延迟光照 不支持多重采样帧缓冲区
 			world->createFrameBufferByDelayRenderLights(width, height, &intermediateFBO, &postionTexture, &normalTexture, &albedoSpecTexture);
 		}
 	}

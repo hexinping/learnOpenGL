@@ -36,6 +36,9 @@ public:
 	//延迟光照渲染计算 保存G缓冲
 	void createFrameBufferByDelayRenderLights(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *pos, unsigned int *normal, unsigned int *albedoSpec);
 
+	//使用环境遮罩 （与延迟光照一样，这里只是为了区分单独再加一个方法）
+	void createFrameBufferBySSAO(int screenWidth, int screenHeight, unsigned int *framebuffer, unsigned int *pos, unsigned int *normal, unsigned int *albedoSpec);
+
 
 	void setCubemapTexture(unsigned int cubemapTexture);
 
