@@ -180,7 +180,19 @@ unsigned int OpenglUtils::genTexImage2D(const char *file, int type, int level, i
 	int width, height, nrChannels;
 	unsigned char *data = stbi_load(file, &width, &height, &nrChannels, 0);
 	if (data)
-	{
+	{	
+		//参数意义  https://learnopengl-cn.github.io/01%20Getting%20started/06%20Textures/
+		/*
+			1 纹理目标(Target）
+			2 纹理指定多级渐远纹理的级别
+			3 告诉OpenGL我们希望把纹理储存为何种格式
+			4 设置最终的纹理的宽度
+			5 设置最终的纹理的高度
+			6 参数应该总是被设为0（历史遗留的问题）。
+			7 源图的格式
+			8 源图的数据类型
+			9 真正的图像数据
+		*/
 		glTexImage2D(GL_TEXTURE_2D, level, type, width, height, 0, type, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
