@@ -32,6 +32,8 @@ public:
 	virtual bool  isUseReflect();
 	virtual bool  isUseBloom();
 	virtual bool  isDelayRenderLights(); //是否延迟光照渲染计算
+	virtual bool  isUseSSAO(); //是否使用环境光遮罩
+	virtual bool  isUseMSAA(); //是否使用多重采样  默认开启
 
 	virtual bool  isUseHDR();
 	//帧缓冲是否使用多个纹理附件

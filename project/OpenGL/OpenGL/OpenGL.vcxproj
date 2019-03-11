@@ -117,6 +117,7 @@
     <ClCompile Include="Class\OpenglStateReflect.cpp" />
     <ClCompile Include="Class\OpenglStateShadowDirLight.cpp" />
     <ClCompile Include="Class\OpenglStateShadowPointLight.cpp" />
+    <ClCompile Include="Class\OpenglStateSSAO.cpp" />
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
     <ClCompile Include="Class\OpenglStateTriangleMove.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Class\OpenglStateReflect.h" />
     <ClInclude Include="Class\OpenglStateShadowDirLight.h" />
     <ClInclude Include="Class\OpenglStateShadowPointLight.h" />
+    <ClInclude Include="Class\OpenglStateSSAO.h" />
     <ClInclude Include="Class\OpenglStateTexture.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
     <ClInclude Include="Class\OpenglStateTriangleMove.h" />

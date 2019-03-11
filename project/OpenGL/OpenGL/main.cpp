@@ -300,6 +300,7 @@ void createTestObjects()
 	glStateDelayRenderLightsFrameBuffer->init(vertFile, fragFile);
 
 
+
 	//天空盒子
 	OpenglState *glStateSkyBox = new OpenglStateCubeMap();
 	index = glStateSkyBox->getShaderIndex();
@@ -378,6 +379,16 @@ void createTestObjects()
 			world->_isDelayRenderLights = glState->isDelayRenderLights();
 		}
 
+		if (!world->_isUseMSAA)
+		{
+			world->_isUseMSAA = glState->isUseMSAA();
+		}
+
+		if (!world->_isUseSSAO)
+		{
+			world->_isUseSSAO = glState->isUseSSAO();
+		}
+
 	}
 
 
@@ -386,7 +397,8 @@ void createTestObjects()
 		world->add(glStatePlane, true);
 	}
 
-	if (world->_isUseFrameBuffer)
+	//
+	if (world->_isUseFrameBuffer && !world->_isUseSSAO)
 	{
 		if (!world->_isDelayRenderLights)
 		{
@@ -573,7 +585,11 @@ int main(int argc, char* argv[])
 		
 		if (!world->_isDelayRenderLights)
 		{
-			world->createFrameBufferByMultSample(width, height, &framebuffer);
+			if (world->_isUseMSAA)
+			{
+				world->createFrameBufferByMultSample(width, height, &framebuffer);
+			}
+			
 			//多重采样的帧缓冲不能进行采样，需要创建一个临时的正常帧缓冲然后把数据复制到正常帧缓冲中
 			if (world->_isUseBloom)
 			{
@@ -584,6 +600,11 @@ int main(int argc, char* argv[])
 			{
 				//使用HDR
 				world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
+			}
+			else if (world->_isUseSSAO)
+			{
+				//使用SSAO 环境光遮罩
+				world->createFrameBufferBySSAO(width, height, &intermediateFBO, &postionTexture, &normalTexture, &albedoSpecTexture);
 			}
 		}
 		else
@@ -614,8 +635,16 @@ int main(int argc, char* argv[])
 		{
 			if (!world->_isDelayRenderLights)
 			{
-				//非延迟光照用多重采样帧缓冲
-				world->useFrameBuffer(framebuffer);
+				
+				if (world->_isUseMSAA)
+				{
+					//非延迟光照默认用多重采样帧缓冲
+					world->useFrameBuffer(framebuffer);
+				}
+				else
+				{
+					world->useFrameBuffer(intermediateFBO);
+				}
 			}
 			else
 			{

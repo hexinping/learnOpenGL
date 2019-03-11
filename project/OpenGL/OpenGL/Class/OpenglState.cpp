@@ -196,6 +196,17 @@ bool OpenglState::isDelayRenderLights()
 	return false;
 }
 
+bool OpenglState::isUseSSAO()
+{
+	return false;
+}
+
+bool OpenglState::isUseMSAA()
+{
+	return true;
+}
+
+
 bool OpenglState:: isUseMultipleTextureId()
 {
 	return false;

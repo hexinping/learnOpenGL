@@ -198,6 +198,9 @@
     <ClCompile Include="Class\OpenglStateShadowPointLight.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateSSAO.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -369,6 +372,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStateShadowPointLight.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateSSAO.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>

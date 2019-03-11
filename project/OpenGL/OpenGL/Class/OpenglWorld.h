@@ -66,6 +66,9 @@ public:
 
 	//是否使用自定义frameBuffer
 	bool _isUseFrameBuffer;
+	bool _isUseMSAA; //是否使用多重采样
+
+	bool _isUseSSAO; //是否使用环境光遮罩
 
 	//天空盒纹理
 	unsigned int _cubemapTexture;
