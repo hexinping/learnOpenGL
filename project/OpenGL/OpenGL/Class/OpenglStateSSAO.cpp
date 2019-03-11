@@ -31,6 +31,7 @@ bool OpenglStateSSAO::init(string vertFile, string fragFile)
 
 	lightPos = glm::vec3(2.0, 4.0, -2.0);
 	lightColor = glm::vec3(0.2, 0.2, 0.7);
+	//lightColor = glm::vec3(1.0, 1.0, 1.0);
 
 	unsigned int amount = 1;
 	_amount = amount;
@@ -221,13 +222,14 @@ void OpenglStateSSAO::rendeCommand()
 	// room cube
 	model = glm::mat4();
 	model = glm::translate(model, glm::vec3(0.0, 7.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(17.5f, 7.5f, 17.5f));
+	model = glm::scale(model, glm::vec3(7.5f, 7.5f, 17.5f));
 	setMat4(_shaderProgram,"model", &model);
 	setInt(_shaderProgram,"invertedNormals", 1); // invert normals as we're inside the cube
 
 	glBindVertexArray(cubeVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
+	setInt(_shaderProgram, "invertedNormals", 0); //渲染modle的时候不需要反转法线
 
 
 }
@@ -261,7 +263,7 @@ bool OpenglStateSSAO::afterModleRender()
 
 	activiteTexture(GL_TEXTURE2);
 	bindTexture(noiseTexture);
-	setInt(_shaderSSAO, "noiseTexture", 2);
+	setInt(_shaderSSAO, "texNoise", 2);
 
 	//绘制quad
 	glBindVertexArray(quadVAO);
