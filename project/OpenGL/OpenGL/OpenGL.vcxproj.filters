@@ -688,6 +688,12 @@
     <None Include="shader\shaderLightBox.vert">
       <Filter>shader</Filter>
     </None>
+    <None Include="shader\shader42.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader42.vert">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OpenGL.rc">
