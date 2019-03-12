@@ -26,7 +26,11 @@ public:
 	virtual float  getExposure();
 	virtual bool  isShowLight();
 	virtual bool  isUsePlane();
+
+	//是否让大世界创建帧缓冲
 	virtual bool  isUseFrameBuffer();
+
+	//是否使用大世界创建的帧缓冲
 	virtual bool  isRenderFrameBuffer();
 	virtual bool  isUseSkyBox();
 	virtual bool  isUseReflect();

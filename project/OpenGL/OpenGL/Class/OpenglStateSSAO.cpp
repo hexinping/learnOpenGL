@@ -198,7 +198,7 @@ bool OpenglStateSSAO::isDelayRenderLights()
 
 bool OpenglStateSSAO::isRenderFrameBuffer()
 {
-	return true;
+	return false;
 }
 
 

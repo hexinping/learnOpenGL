@@ -12,6 +12,7 @@ public:
 	void enableVertexAttribArray();
 
 	bool isRenderFrameBuffer();
+	bool isUseFrameBuffer();
 
 	unsigned int cubeVAO = 0;
 	unsigned int cubeVBO = 0;

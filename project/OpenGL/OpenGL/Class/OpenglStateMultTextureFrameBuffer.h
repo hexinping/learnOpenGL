@@ -12,4 +12,5 @@ public:
 	void enableVertexAttribArray();
 
 	bool isRenderFrameBuffer();
+	bool isUseFrameBuffer();
 };

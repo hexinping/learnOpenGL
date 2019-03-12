@@ -375,19 +375,28 @@ void createTestObjects()
 			world->_isUseBloom = glState->isUseBloom();
 		}
 
+		//是否使用延迟光照渲染
 		if (!world->_isDelayRenderLights)
 		{
 			world->_isDelayRenderLights = glState->isDelayRenderLights();
 		}
 
+		//是否使用多重采样
 		if (!world->_isUseMSAA)
 		{
 			world->_isUseMSAA = glState->isUseMSAA();
 		}
 
+		//是否使用环境光遮罩
 		if (!world->_isUseSSAO)
 		{
 			world->_isUseSSAO = glState->isUseSSAO();
+		}
+
+		//是否渲染默认帧缓冲
+		if (!world->_isRenderFrameBuffer)
+		{
+			world->_isRenderFrameBuffer = glState->isRenderFrameBuffer();
 		}
 
 	}
@@ -399,7 +408,7 @@ void createTestObjects()
 	}
 
 	//
-	if (world->_isUseFrameBuffer && !world->_isUseSSAO)
+	if (world->_isRenderFrameBuffer)
 	{
 		if (!world->_isDelayRenderLights)
 		{
@@ -681,7 +690,7 @@ int main(int argc, char* argv[])
 			state->_param3 = camera->Front; //更新观察矩阵
 			state->_param4 = camera->Zoom;   //更新矩阵投影
 			state->_viewMat4 = camera->GetViewMatrix(state->_cameroPosOffset);  //观察矩阵
-			if (state->isRenderFrameBuffer())
+			if (state->isUseFrameBuffer())
 			{
 			
 				state->_multFrambuffer = framebuffer; //创建的多重采样帧缓冲

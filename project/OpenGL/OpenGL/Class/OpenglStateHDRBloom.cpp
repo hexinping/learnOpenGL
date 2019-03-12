@@ -300,6 +300,11 @@ bool OpenglStateHDRBloom::isUseFrameBuffer()
 	return true;
 }
 
+bool OpenglStateHDRBloom::isRenderFrameBuffer()
+{
+	return true;
+}
+
 bool OpenglStateHDRBloom::isUseHDR()
 {
 	return true;

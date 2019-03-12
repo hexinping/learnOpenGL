@@ -183,6 +183,11 @@ bool OpenglStateDelayRenderLights::isUseFrameBuffer()
 	return true;
 }
 
+bool OpenglStateDelayRenderLights::isRenderFrameBuffer()
+{
+	return true;
+}
+
 
 int  OpenglStateDelayRenderLights::getPointLights()
 {

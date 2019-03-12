@@ -102,6 +102,9 @@ public:
 
 
 	bool _isDelayRenderLights = false;
+	
+	//是否渲染默认帧缓冲
+	bool _isRenderFrameBuffer = false;
 
 
 };

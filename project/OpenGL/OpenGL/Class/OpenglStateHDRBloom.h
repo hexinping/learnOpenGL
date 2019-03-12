@@ -17,6 +17,7 @@ public:
 	bool isShowLight();
 	bool isUseCustomLightPos();
 	bool isUseBloom();
+	bool isRenderFrameBuffer();
 
 public:
 

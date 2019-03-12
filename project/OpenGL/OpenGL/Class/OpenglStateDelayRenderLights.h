@@ -10,6 +10,7 @@ public:
 	void rendeCommand();
 	int getShaderIndex();
 	bool isUseFrameBuffer();
+	bool isRenderFrameBuffer();
 	int getPointLights();
 	bool isShowLight();
 	bool isUseCustomLightPos();

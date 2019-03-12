@@ -134,6 +134,11 @@ bool OpenglStateDelayRenderLightsFrameBuffer::isRenderFrameBuffer()
 	return true;
 }
 
+bool OpenglStateDelayRenderLightsFrameBuffer::isUseFrameBuffer()
+{
+	return true;
+
+}
 void OpenglStateDelayRenderLightsFrameBuffer::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新

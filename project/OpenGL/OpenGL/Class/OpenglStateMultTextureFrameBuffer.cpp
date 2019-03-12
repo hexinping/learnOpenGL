@@ -35,6 +35,11 @@ bool OpenglStateMultTextureFrameBuffer::isRenderFrameBuffer()
 	return true;
 }
 
+bool OpenglStateMultTextureFrameBuffer::isUseFrameBuffer()
+{
+	return true;
+}
+
 void OpenglStateMultTextureFrameBuffer::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新
