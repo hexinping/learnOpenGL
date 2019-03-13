@@ -53,6 +53,7 @@
 #include "OpenglStateLabel.h"
 #include "OpenglStateMultTextureWave.h"
 #include "OpenglStateSSAO.h"
+#include "OpenglStatePBRSimple.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
@@ -239,7 +240,7 @@ void createTestObjects()
 
 	//OpenglStateMultTextureBlend 无光照模板
 	//OpenglStateReflect 带光照模板
-	OpenglState *glState = new OpenglStateSSAO();
+	OpenglState *glState = new OpenglStatePBRSimple();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
