@@ -616,6 +616,11 @@ int main(int argc, char* argv[])
 				//使用SSAO 环境光遮罩
 				world->createFrameBufferBySSAO(width, height, &intermediateFBO, &postionTexture, &normalTexture, &albedoSpecTexture);
 			}
+			else
+			{	
+				//默认使用帧缓冲的默认格式
+				world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture);
+			}
 		}
 		else
 		{
