@@ -1,4 +1,4 @@
-#include "OpenglStatePBR_IBL_Irradiance_Conversion.h"
+#include "OpenglStatePBR_IBL_Irradiance.h"
 #include <random>
 #include "stb_image.h"
 /*
@@ -28,10 +28,7 @@ irradiance 辐照度
 */
 
 //窗口大小为800 * 600 最好大于这个比例 也要是2的次幂方
-int cfgwidth  = 1024;
-int cfgheight = 1024;
-
-bool OpenglStatePBR_IBL_Irradiance_Conversion::init(string vertFile, string fragFile)
+bool OpenglStatePBR_IBL_Irradiance::init(string vertFile, string fragFile)
 {
 
 	_vertFile = vertFile;
@@ -40,7 +37,7 @@ bool OpenglStatePBR_IBL_Irradiance_Conversion::init(string vertFile, string frag
 
 	__super::initRendCommand();
 
-
+	glDepthFunc(GL_LEQUAL);
 
 
 	//把HDR贴图数据转换到立方体贴图shader
@@ -52,6 +49,13 @@ bool OpenglStatePBR_IBL_Irradiance_Conversion::init(string vertFile, string frag
 	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/PBR_IBL_background.vert");
 	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/PBR_IBL_background.frag");
 	_glUtils->linkShader(&_backgroundShader, _vertexShader, _fragmentShader);
+
+	//计算辐照度shader
+	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/cubemap.vert");
+	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/irradiance_convolution.frag");
+	_glUtils->linkShader(&_irradianceShader, _vertexShader, _fragmentShader);
+
+
 
 	//光源位置
 	_lightPositions.push_back(glm::vec3(-10.0f, 10.0f, 10.0f));
@@ -146,91 +150,13 @@ bool OpenglStatePBR_IBL_Irradiance_Conversion::init(string vertFile, string frag
 	////********* pbr: convert HDR equirectangular environment map to cubemap equivalent
 	//// ----------------------------------------------------------------------
 
-	//glUseProgram(_equirectangularToCubemapShader);
-	//activiteTexture(GL_TEXTURE0);
-	//bindTexture(hdrTexture);
-	//setInt(_equirectangularToCubemapShader, "equirectangularMap", 0);
-	//setMat4(_equirectangularToCubemapShader, "projection", &captureProjection);
-	//
-
-	//glViewport(0, 0, cfgwidth, cfgheight); // don't forget to configure the viewport to the capture dimensions.
-
-	////绑定帧缓冲，绘制到帧缓冲区，这步之后envCubemap就有数据了
-	//glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
-	//for (unsigned int i = 0; i < 6; ++i)
-	//{
-	//	setMat4(_equirectangularToCubemapShader, "view", &captureViews[i]);
-	//	//把立方体贴图作为帧缓冲的纹理附件
-	//	//生成颜色立方体贴图
-	//	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, envCubemap, 0);
-	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-	//	//绘制立方体
-	//	glBindVertexArray(cubeVAO);
-	//	glDrawArrays(GL_TRIANGLES, 0, 36);
-	//	glBindVertexArray(0);
-	//}
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// initialize static shader uniforms before rendering
-	// --------------------------------------------------
-
-
-	// then before rendering, configure the viewport to the original framebuffer's screen dimensions
-	//int scrWidth, scrHeight;
-	//glfwGetFramebufferSize(_window, &scrWidth, &scrHeight);
-	//glViewport(0, 0, scrWidth, scrHeight);
-
-	return true;
-}
-bool OpenglStatePBR_IBL_Irradiance_Conversion::isUseEBORender()
-{
-	return false;
-}
-
-bool OpenglStatePBR_IBL_Irradiance_Conversion::isUseFrameBuffer()
-{
-	return false;
-}
-
-
-int  OpenglStatePBR_IBL_Irradiance_Conversion::getPointLights()
-{
-	return 4;
-}
-
-bool OpenglStatePBR_IBL_Irradiance_Conversion::isShowLight()
-{
-	return false;
-}
-
-bool OpenglStatePBR_IBL_Irradiance_Conversion::isUseCustomLightPos()
-{
-	return true;
-}
-
-bool OpenglStatePBR_IBL_Irradiance_Conversion::isDelayRenderLights()
-{
-	return false;
-}
-
-bool OpenglStatePBR_IBL_Irradiance_Conversion::isRenderFrameBuffer()
-{
-	return false;
-}
-
-
-void OpenglStatePBR_IBL_Irradiance_Conversion::rendeCommand()
-{
-	glDepthFunc(GL_LEQUAL);
 	//生成帧缓冲里的纹理附件数据
 	//********* pbr: convert HDR equirectangular environment map to cubemap equivalent  
 
 	/*
-		将HDR环境贴图存储在立方体贴图中
-		要将equirectangular图像转换为立方体贴图，我们需要渲染一个（单位）立方体，
-		并从内部投影所有立方体面上的地图信息，并将每个立方体边的6个图像作为立方体贴图面
+	将HDR环境贴图存储在立方体贴图中
+	要将equirectangular图像转换为立方体贴图，我们需要渲染一个（单位）立方体，
+	并从内部投影所有立方体面上的地图信息，并将每个立方体边的6个图像作为立方体贴图面
 	*/
 	glUseProgram(_equirectangularToCubemapShader);
 	activiteTexture(GL_TEXTURE0);
@@ -253,27 +179,122 @@ void OpenglStatePBR_IBL_Irradiance_Conversion::rendeCommand()
 
 		//绘制立方体，信息都保存在帧缓冲区的纹理附件上，即立方体贴图上envCubemap ==》源HDR图像转换为立方体贴图纹理
 		/*
-			我们采用帧缓冲的颜色附件并为立方体贴图的每个面切换其纹理目标，直接将场景渲染到立方体贴图的一个面上。
-			一旦这个例程完成（我们只需做一次），立方体贴图envCubemap就应该是原始HDR图像的立方体贴图环境版本。
+		我们采用帧缓冲的颜色附件并为立方体贴图的每个面切换其纹理目标，直接将场景渲染到立方体贴图的一个面上。
+		一旦这个例程完成（我们只需做一次），立方体贴图envCubemap就应该是原始HDR图像的立方体贴图环境版本。
 
-			优化：可以放到init方法里初始化画一次就好，思考下其他使用帧缓冲的例子是不是也一样？？？？
+		优化：可以放到init方法里初始化画一次就好，思考下其他使用帧缓冲的例子是不是也一样？？？？
 		*/
-		
+
 		glBindVertexArray(cubeVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
 	}
 
+
+	
+	// pbr: create an irradiance cubemap, and re-scale capture FBO to irradiance scale.
+	// --------------------------------------------------------------------------------
+	glGenTextures(1, &irradianceMap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, irradianceMap);
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 32, 32, 0, GL_RGB, GL_FLOAT, nullptr);
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 32, 32);
+
+
+	////// pbr: solve diffuse integral by convolution to create an irradiance (cube)map.
+	//// -----------------------------------------------------------------------------
+	glUseProgram(_irradianceShader);
+	setInt(_irradianceShader, "environmentMap", 0);
+	setMat4(_irradianceShader,"projection", &captureProjection);
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(envCubemap, true);
+	
+
+	glViewport(0, 0, 64, 64); // don't forget to configure the viewport to the capture dimensions.
+	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		setMat4(_irradianceShader,"view", &captureViews[i]);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, irradianceMap, 0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glBindVertexArray(cubeVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	 //initialize static shader uniforms before rendering
+	 //--------------------------------------------------
+	int scrWidth, scrHeight;
+	glfwGetFramebufferSize(_window, &scrWidth, &scrHeight);
+	glViewport(0, 0, scrWidth, scrHeight);
+
+	return true;
+}
+bool OpenglStatePBR_IBL_Irradiance::isUseEBORender()
+{
+	return false;
+}
+
+bool OpenglStatePBR_IBL_Irradiance::isUseFrameBuffer()
+{
+	return false;
+}
+
+
+int  OpenglStatePBR_IBL_Irradiance::getPointLights()
+{
+	return 4;
+}
+
+bool OpenglStatePBR_IBL_Irradiance::isShowLight()
+{
+	return false;
+}
+
+bool OpenglStatePBR_IBL_Irradiance::isUseCustomLightPos()
+{
+	return true;
+}
+
+bool OpenglStatePBR_IBL_Irradiance::isDelayRenderLights()
+{
+	return false;
+}
+
+bool OpenglStatePBR_IBL_Irradiance::isRenderFrameBuffer()
+{
+	return false;
+}
+
+
+void OpenglStatePBR_IBL_Irradiance::rendeCommand()
+{
+	glDepthFunc(GL_LEQUAL);
+	
 	//恢复到默认帧缓冲以及重置映射窗口大小
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, 800, 600);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-
 	__super::rendeCommand();
 	setVec3(_shaderProgram,"albedo", 0.5f, 0.0f, 0.0f);
 	setFloat(_shaderProgram,"ao", 1.0f);
+
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(irradianceMap, true);
+	setInt(_shaderProgram, "irradianceMap", 0);
 
 	// initialize static shader uniforms before rendering
 	// --------------------------------------------------
@@ -342,6 +363,7 @@ void OpenglStatePBR_IBL_Irradiance_Conversion::rendeCommand()
 
 	activiteTexture(GL_TEXTURE0);
 	bindTexture(envCubemap, true);
+	//bindTexture(irradianceMap, true); // display irradiance map
 	setInt(_backgroundShader, "environmentMap", 0);
 	//绘制立方体
 	glBindVertexArray(cubeVAO);
@@ -352,13 +374,13 @@ void OpenglStatePBR_IBL_Irradiance_Conversion::rendeCommand()
 	glDepthFunc(GL_LESS);
 }
 
-int OpenglStatePBR_IBL_Irradiance_Conversion::getShaderIndex()
+int OpenglStatePBR_IBL_Irradiance::getShaderIndex()
 {
-	return 45;
+	return 46;
 }
 
 
-void OpenglStatePBR_IBL_Irradiance_Conversion::enableVertexAttribArray()
+void OpenglStatePBR_IBL_Irradiance::enableVertexAttribArray()
 {
 	//立方体数据
 	float vertices[] = {

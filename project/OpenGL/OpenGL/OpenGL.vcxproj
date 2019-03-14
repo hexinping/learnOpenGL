@@ -114,6 +114,7 @@
     <ClCompile Include="Class\OpenglStateNormalMap1.cpp" />
     <ClCompile Include="Class\OpenglStatePBRSimple.cpp" />
     <ClCompile Include="Class\OpenglStatePBRTexture.cpp" />
+    <ClCompile Include="Class\OpenglStatePBR_IBL_Irradiance.cpp" />
     <ClCompile Include="Class\OpenglStatePBR_IBL_Irradiance_Conversion.cpp" />
     <ClCompile Include="Class\OpenglStatePlane.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Class\OpenglStateNormalMap1.h" />
     <ClInclude Include="Class\OpenglStatePBRSimple.h" />
     <ClInclude Include="Class\OpenglStatePBRTexture.h" />
+    <ClInclude Include="Class\OpenglStatePBR_IBL_Irradiance.h" />
     <ClInclude Include="Class\OpenglStatePBR_IBL_Irradiance_Conversion.h" />
     <ClInclude Include="Class\OpenglStatePlane.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
@@ -211,6 +213,7 @@
     <None Include="shader\equirectangular_to_cubemap.frag" />
     <None Include="shader\extractBright.frag" />
     <None Include="shader\extractBright.vert" />
+    <None Include="shader\irradiance_convolution.frag" />
     <None Include="shader\lamp.frag" />
     <None Include="shader\lamp.vert" />
     <None Include="shader\lamp1.frag" />
@@ -302,6 +305,8 @@
     <None Include="shader\shader44.vert" />
     <None Include="shader\shader45.frag" />
     <None Include="shader\shader45.vert" />
+    <None Include="shader\shader46.frag" />
+    <None Include="shader\shader46.vert" />
     <None Include="shader\shader5.frag" />
     <None Include="shader\shader5.vert" />
     <None Include="shader\shader6.frag" />
