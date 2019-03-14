@@ -1,4 +1,4 @@
-#include "OpenglStatePBR_IBL_Irradiance.h"
+#include "OpenglStatePBR_IBL_Irradiance_Specular.h"
 #include <random>
 #include "stb_image.h"
 /*
@@ -28,7 +28,7 @@ irradiance 辐照度
 */
 
 //窗口大小为800 * 600 最好大于这个比例 也要是2的次幂方
-bool OpenglStatePBR_IBL_Irradiance::init(string vertFile, string fragFile)
+bool OpenglStatePBR_IBL_Irradiance_Specular::init(string vertFile, string fragFile)
 {
 
 	_vertFile = vertFile;
@@ -54,6 +54,15 @@ bool OpenglStatePBR_IBL_Irradiance::init(string vertFile, string fragFile)
 	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/cubemap.vert");
 	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/PBR_IBL_irradiance_convolution.frag");
 	_glUtils->linkShader(&_irradianceShader, _vertexShader, _fragmentShader);
+
+
+	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/cubemap.vert");
+	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/PBR_IBL_Prefilter.frag");
+	_glUtils->linkShader(&_prefilterShader, _vertexShader, _fragmentShader);
+
+	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/PBR_IBL_Brdf.vert");
+	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/PBR_IBL_Brdf.frag");
+	_glUtils->linkShader(&_brdfShader, _vertexShader, _fragmentShader);
 
 
 
@@ -191,6 +200,11 @@ bool OpenglStatePBR_IBL_Irradiance::init(string vertFile, string fragFile)
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// then let OpenGL generate mipmaps from first mip face (combatting visible dots artifact)
+	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
+	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+
 	
 	// pbr: create an irradiance cubemap, and re-scale capture FBO to irradiance scale.
 	// --------------------------------------------------------------------------------
@@ -234,6 +248,96 @@ bool OpenglStatePBR_IBL_Irradiance::init(string vertFile, string fragFile)
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+
+
+	// pbr: create a pre-filter cubemap, and re-scale capture FBO to pre-filter scale.
+	// --------------------------------------------------------------------------------
+	//unsigned int prefilterMap;
+	glGenTextures(1, &prefilterMap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, prefilterMap);
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 128, 128, 0, GL_RGB, GL_FLOAT, nullptr);
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); // be sure to set minifcation filter to mip_linear 
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// generate mipmaps for the cubemap so OpenGL automatically allocates the required memory.
+	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+
+
+	// pbr: run a quasi monte-carlo simulation on the environment lighting to create a prefilter (cube)map.
+	// ----------------------------------------------------------------------------------------------------
+	glUseProgram(_prefilterShader);
+	setInt(_prefilterShader,"environmentMap", 0);
+	setMat4(_prefilterShader,"projection", &captureProjection);
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(envCubemap, true);
+	
+
+	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
+	unsigned int maxMipLevels = 5;
+	for (unsigned int mip = 0; mip < maxMipLevels; ++mip)
+	{
+		// reisze framebuffer according to mip-level size.
+		unsigned int mipWidth = 128 * std::pow(0.5, mip);
+		unsigned int mipHeight = 128 * std::pow(0.5, mip);
+		glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, mipWidth, mipHeight);
+		glViewport(0, 0, mipWidth, mipHeight);
+
+		float roughness = (float)mip / (float)(maxMipLevels - 1);
+		setFloat(_prefilterShader,"roughness", roughness);
+		for (unsigned int i = 0; i < 6; ++i)
+		{
+			setMat4(_prefilterShader,"view", &captureViews[i]);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, prefilterMap, mip);
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			//绘制立方体
+			glBindVertexArray(cubeVAO);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+			glBindVertexArray(0);
+		}
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+	// pbr: generate a 2D LUT from the BRDF equations used.
+	// ----------------------------------------------------
+	//unsigned int brdfLUTTexture;
+	glGenTextures(1, &brdfLUTTexture);
+
+	// pre-allocate enough memory for the LUT texture.
+	glBindTexture(GL_TEXTURE_2D, brdfLUTTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, 512, 512, 0, GL_RG, GL_FLOAT, 0);
+	// be sure to set wrapping mode to GL_CLAMP_TO_EDGE
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// then re-configure capture framebuffer object and render screen-space quad with BRDF shader.
+	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, brdfLUTTexture, 0);
+
+	glViewport(0, 0, 512, 512);
+	glUseProgram(_brdfShader);
+	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//绘制矩形
+	glBindVertexArray(quadVAO);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	 //initialize static shader uniforms before rendering
 	 //--------------------------------------------------
 	int scrWidth, scrHeight;
@@ -242,44 +346,44 @@ bool OpenglStatePBR_IBL_Irradiance::init(string vertFile, string fragFile)
 
 	return true;
 }
-bool OpenglStatePBR_IBL_Irradiance::isUseEBORender()
+bool OpenglStatePBR_IBL_Irradiance_Specular::isUseEBORender()
 {
 	return false;
 }
 
-bool OpenglStatePBR_IBL_Irradiance::isUseFrameBuffer()
+bool OpenglStatePBR_IBL_Irradiance_Specular::isUseFrameBuffer()
 {
 	return false;
 }
 
 
-int  OpenglStatePBR_IBL_Irradiance::getPointLights()
+int  OpenglStatePBR_IBL_Irradiance_Specular::getPointLights()
 {
 	return 4;
 }
 
-bool OpenglStatePBR_IBL_Irradiance::isShowLight()
+bool OpenglStatePBR_IBL_Irradiance_Specular::isShowLight()
 {
 	return false;
 }
 
-bool OpenglStatePBR_IBL_Irradiance::isUseCustomLightPos()
+bool OpenglStatePBR_IBL_Irradiance_Specular::isUseCustomLightPos()
 {
 	return true;
 }
 
-bool OpenglStatePBR_IBL_Irradiance::isDelayRenderLights()
+bool OpenglStatePBR_IBL_Irradiance_Specular::isDelayRenderLights()
 {
 	return false;
 }
 
-bool OpenglStatePBR_IBL_Irradiance::isRenderFrameBuffer()
+bool OpenglStatePBR_IBL_Irradiance_Specular::isRenderFrameBuffer()
 {
 	return false;
 }
 
 
-void OpenglStatePBR_IBL_Irradiance::rendeCommand()
+void OpenglStatePBR_IBL_Irradiance_Specular::rendeCommand()
 {
 	glDepthFunc(GL_LEQUAL);
 	
@@ -295,6 +399,18 @@ void OpenglStatePBR_IBL_Irradiance::rendeCommand()
 	activiteTexture(GL_TEXTURE0);
 	bindTexture(irradianceMap, true);
 	setInt(_shaderProgram, "irradianceMap", 0);
+
+	activiteTexture(GL_TEXTURE1);
+	bindTexture(prefilterMap, true);
+	setInt(_shaderProgram, "prefilterMap", 1);
+
+	activiteTexture(GL_TEXTURE2);
+	bindTexture(brdfLUTTexture);
+	setInt(_shaderProgram, "brdfLUT", 2);
+
+	//pbrShader.setInt("irradianceMap", 0);
+	//pbrShader.setInt("prefilterMap", 1);
+	//pbrShader.setInt("brdfLUT", 2);
 
 	// initialize static shader uniforms before rendering
 	// --------------------------------------------------
@@ -364,6 +480,7 @@ void OpenglStatePBR_IBL_Irradiance::rendeCommand()
 	activiteTexture(GL_TEXTURE0);
 	bindTexture(envCubemap, true);
 	//bindTexture(irradianceMap, true); // display irradiance map
+	// bindTexture(prefilterMap, true); // display prefilterMap map
 	setInt(_backgroundShader, "environmentMap", 0);
 	//绘制立方体
 	glBindVertexArray(cubeVAO);
@@ -374,13 +491,13 @@ void OpenglStatePBR_IBL_Irradiance::rendeCommand()
 	glDepthFunc(GL_LESS);
 }
 
-int OpenglStatePBR_IBL_Irradiance::getShaderIndex()
+int OpenglStatePBR_IBL_Irradiance_Specular::getShaderIndex()
 {
-	return 46;
+	return 47;
 }
 
 
-void OpenglStatePBR_IBL_Irradiance::enableVertexAttribArray()
+void OpenglStatePBR_IBL_Irradiance_Specular::enableVertexAttribArray()
 {
 	//立方体数据
 	float vertices[] = {
@@ -531,6 +648,24 @@ void OpenglStatePBR_IBL_Irradiance::enableVertexAttribArray()
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
 
 
+	//矩形数据
+	float quadVertices[] = {
+		// positions        // texture Coords
+		-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+		1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+	};
+	// setup plane VAO
+	glGenVertexArrays(1, &quadVAO);
+	glGenBuffers(1, &quadVBO);
+	glBindVertexArray(quadVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
 }
 

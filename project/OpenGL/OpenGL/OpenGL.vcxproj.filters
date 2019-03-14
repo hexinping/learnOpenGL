@@ -213,6 +213,9 @@
     <ClCompile Include="Class\OpenglStatePBR_IBL_Irradiance.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStatePBR_IBL_Irradiance_Specular.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -399,6 +402,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStatePBR_IBL_Irradiance.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStatePBR_IBL_Irradiance_Specular.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -757,9 +763,6 @@
     <None Include="shader\cubemap.vert">
       <Filter>shader</Filter>
     </None>
-    <None Include="shader\equirectangular_to_cubemap.frag">
-      <Filter>shader</Filter>
-    </None>
     <None Include="shader\PBR_IBL_background.frag">
       <Filter>shader</Filter>
     </None>
@@ -772,7 +775,28 @@
     <None Include="shader\shader46.vert">
       <Filter>shader</Filter>
     </None>
-    <None Include="shader\irradiance_convolution.frag">
+    <None Include="shader\shader47.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader47.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\PBR_IBL_Brdf.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\PBR_IBL_Brdf.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\PBR_IBL_Prefilter.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\point_shadows_depth.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\PBR_IBL_equirectangular_to_cubemap.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\PBR_IBL_irradiance_convolution.frag">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

@@ -41,7 +41,7 @@ bool OpenglStatePBR_IBL_Irradiance_Conversion::init(string vertFile, string frag
 
 	//把HDR贴图数据转换到立方体贴图shader
 	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/cubemap.vert");
-	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/equirectangular_to_cubemap.frag");
+	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/PBR_IBL_equirectangular_to_cubemap.frag");
 	_glUtils->linkShader(&_equirectangularToCubemapShader, _vertexShader, _fragmentShader);
 
 	//背景天空盒shader

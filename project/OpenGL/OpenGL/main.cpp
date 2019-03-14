@@ -57,11 +57,12 @@
 #include "OpenglStatePBRTexture.h"
 #include "OpenglStatePBR_IBL_Irradiance_Conversion.h"
 #include "OpenglStatePBR_IBL_Irradiance.h"
+#include "OpenglStatePBR_IBL_Irradiance_Specular.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
-#define MAX_SHADERCOUNT 46
+#define MAX_SHADERCOUNT 47
 
 #include "Model.h"
 #include "OpenglWorld.h"
