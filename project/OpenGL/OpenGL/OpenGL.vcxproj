@@ -113,6 +113,7 @@
     <ClCompile Include="Class\OpenglStateNormalMap.cpp" />
     <ClCompile Include="Class\OpenglStateNormalMap1.cpp" />
     <ClCompile Include="Class\OpenglStatePBRSimple.cpp" />
+    <ClCompile Include="Class\OpenglStatePBRTexture.cpp" />
     <ClCompile Include="Class\OpenglStatePlane.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateReflect.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Class\OpenglStateNormalMap.h" />
     <ClInclude Include="Class\OpenglStateNormalMap1.h" />
     <ClInclude Include="Class\OpenglStatePBRSimple.h" />
+    <ClInclude Include="Class\OpenglStatePBRTexture.h" />
     <ClInclude Include="Class\OpenglStatePlane.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateReflect.h" />
@@ -290,6 +292,8 @@
     <None Include="shader\shader42.vert" />
     <None Include="shader\shader43.frag" />
     <None Include="shader\shader43.vert" />
+    <None Include="shader\shader44.frag" />
+    <None Include="shader\shader44.vert" />
     <None Include="shader\shader5.frag" />
     <None Include="shader\shader5.vert" />
     <None Include="shader\shader6.frag" />

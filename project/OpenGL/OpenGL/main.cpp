@@ -54,11 +54,12 @@
 #include "OpenglStateMultTextureWave.h"
 #include "OpenglStateSSAO.h"
 #include "OpenglStatePBRSimple.h"
+#include "OpenglStatePBRTexture.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
-#define MAX_SHADERCOUNT 43
+#define MAX_SHADERCOUNT 44
 
 #include "Model.h"
 #include "OpenglWorld.h"
@@ -240,7 +241,7 @@ void createTestObjects()
 
 	//OpenglStateMultTextureBlend 无光照模板
 	//OpenglStateReflect 带光照模板
-	OpenglState *glState = new OpenglStatePBRSimple();
+	OpenglState *glState = new OpenglStatePBRTexture();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);

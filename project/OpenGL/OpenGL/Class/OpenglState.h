@@ -125,6 +125,11 @@ public:
 	unsigned int _texture0;
 	unsigned int _texture1;
 	unsigned int _texture2;
+	unsigned int _texture3;
+	unsigned int _texture4;
+	unsigned int _texture5;
+	unsigned int _texture6;
+	unsigned int _texture7;
 
 
 	unsigned int _cubemapTexture;

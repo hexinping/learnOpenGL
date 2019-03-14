@@ -204,6 +204,9 @@
     <ClCompile Include="Class\OpenglStatePBRSimple.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStatePBRTexture.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -381,6 +384,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStatePBRSimple.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStatePBRTexture.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -722,6 +728,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader43.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader44.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader44.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
