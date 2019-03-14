@@ -216,6 +216,9 @@
     <ClCompile Include="Class\OpenglStatePBR_IBL_Irradiance_Specular.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStatePBR_IBL_Irradiance_Specular_Texture.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -405,6 +408,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStatePBR_IBL_Irradiance_Specular.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStatePBR_IBL_Irradiance_Specular_Texture.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -797,6 +803,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\PBR_IBL_irradiance_convolution.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader48.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader48.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

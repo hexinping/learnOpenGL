@@ -33,10 +33,10 @@ bool OpenglStatePBRTexture::init(string vertFile, string fragFile)
 
 
 	_texture0 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE0);
-	_texture1 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE1); 
-	_texture2 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE2);
-	_texture3 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE3); 
-	_texture4 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE4);
+	_texture1 = loadTexture("resource/pbr/rusted_iron/normal.png", GL_TEXTURE1); 
+	_texture2 = loadTexture("resource/pbr/rusted_iron/metallic.png", GL_TEXTURE2);
+	_texture3 = loadTexture("resource/pbr/rusted_iron/roughness.png", GL_TEXTURE3); 
+	_texture4 = loadTexture("resource/pbr/rusted_iron/ao.png", GL_TEXTURE4);
 
 	_glUtils->useProgram(_shaderProgram);
 
