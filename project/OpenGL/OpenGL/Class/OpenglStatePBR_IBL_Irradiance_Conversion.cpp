@@ -27,10 +27,6 @@ irradiance 辐照度
 
 */
 
-//窗口大小为800 * 600 最好大于这个比例 也要是2的次幂方
-int cfgwidth  = 1024;
-int cfgheight = 1024;
-
 bool OpenglStatePBR_IBL_Irradiance_Conversion::init(string vertFile, string fragFile)
 {
 
@@ -146,32 +142,46 @@ bool OpenglStatePBR_IBL_Irradiance_Conversion::init(string vertFile, string frag
 	////********* pbr: convert HDR equirectangular environment map to cubemap equivalent
 	//// ----------------------------------------------------------------------
 
-	//glUseProgram(_equirectangularToCubemapShader);
-	//activiteTexture(GL_TEXTURE0);
-	//bindTexture(hdrTexture);
-	//setInt(_equirectangularToCubemapShader, "equirectangularMap", 0);
-	//setMat4(_equirectangularToCubemapShader, "projection", &captureProjection);
-	//
+	////生成帧缓冲里的纹理附件数据
+	////********* pbr: convert HDR equirectangular environment map to cubemap equivalent  
 
-	//glViewport(0, 0, cfgwidth, cfgheight); // don't forget to configure the viewport to the capture dimensions.
+	///*
+	//	将HDR环境贴图存储在立方体贴图中
+	//	要将equirectangular图像转换为立方体贴图，我们需要渲染一个（单位）立方体，
+	//	并从内部投影所有立方体面上的地图信息，并将每个立方体边的6个图像作为立方体贴图面
+	//*/
+	glUseProgram(_equirectangularToCubemapShader);
+	activiteTexture(GL_TEXTURE0);
+	bindTexture(hdrTexture);
+	setInt(_equirectangularToCubemapShader, "equirectangularMap", 0);
+	setMat4(_equirectangularToCubemapShader, "projection", &captureProjection);
 
-	////绑定帧缓冲，绘制到帧缓冲区，这步之后envCubemap就有数据了
-	//glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
-	//for (unsigned int i = 0; i < 6; ++i)
-	//{
-	//	setMat4(_equirectangularToCubemapShader, "view", &captureViews[i]);
-	//	//把立方体贴图作为帧缓冲的纹理附件
-	//	//生成颜色立方体贴图
-	//	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, envCubemap, 0);
-	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0, 0, cfgwidth, cfgheight); // don't forget to configure the viewport to the capture dimensions.
+
+	//绑定帧缓冲，绘制到帧缓冲区，这步之后envCubemap就有数据了
+	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		setMat4(_equirectangularToCubemapShader, "view", &captureViews[i]);
+		//把立方体贴图作为帧缓冲的纹理附件
+		//生成颜色立方体贴图
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, envCubemap, 0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-	//	//绘制立方体
-	//	glBindVertexArray(cubeVAO);
-	//	glDrawArrays(GL_TRIANGLES, 0, 36);
-	//	glBindVertexArray(0);
-	//}
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		//绘制立方体，信息都保存在帧缓冲区的纹理附件上，即立方体贴图上envCubemap ==》源HDR图像转换为立方体贴图纹理
+		/*
+			我们采用帧缓冲的颜色附件并为立方体贴图的每个面切换其纹理目标，直接将场景渲染到立方体贴图的一个面上。
+			一旦这个例程完成（我们只需做一次），立方体贴图envCubemap就应该是原始HDR图像的立方体贴图环境版本。
+
+			优化：可以放到init方法里初始化画一次就好，思考下其他使用帧缓冲的例子是不是也一样？？？？
+		*/
+		
+		glBindVertexArray(cubeVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// initialize static shader uniforms before rendering
 	// --------------------------------------------------
@@ -224,52 +234,11 @@ bool OpenglStatePBR_IBL_Irradiance_Conversion::isRenderFrameBuffer()
 void OpenglStatePBR_IBL_Irradiance_Conversion::rendeCommand()
 {
 	glDepthFunc(GL_LEQUAL);
-	//生成帧缓冲里的纹理附件数据
-	//********* pbr: convert HDR equirectangular environment map to cubemap equivalent  
-
-	/*
-		将HDR环境贴图存储在立方体贴图中
-		要将equirectangular图像转换为立方体贴图，我们需要渲染一个（单位）立方体，
-		并从内部投影所有立方体面上的地图信息，并将每个立方体边的6个图像作为立方体贴图面
-	*/
-	glUseProgram(_equirectangularToCubemapShader);
-	activiteTexture(GL_TEXTURE0);
-	bindTexture(hdrTexture);
-	setInt(_equirectangularToCubemapShader, "equirectangularMap", 0);
-	setMat4(_equirectangularToCubemapShader, "projection", &captureProjection);
-
-	glViewport(0, 0, cfgwidth, cfgheight); // don't forget to configure the viewport to the capture dimensions.
-
-	//绑定帧缓冲，绘制到帧缓冲区，这步之后envCubemap就有数据了
-	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
-	for (unsigned int i = 0; i < 6; ++i)
-	{
-		setMat4(_equirectangularToCubemapShader, "view", &captureViews[i]);
-		//把立方体贴图作为帧缓冲的纹理附件
-		//生成颜色立方体贴图
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, envCubemap, 0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-		//绘制立方体，信息都保存在帧缓冲区的纹理附件上，即立方体贴图上envCubemap ==》源HDR图像转换为立方体贴图纹理
-		/*
-			我们采用帧缓冲的颜色附件并为立方体贴图的每个面切换其纹理目标，直接将场景渲染到立方体贴图的一个面上。
-			一旦这个例程完成（我们只需做一次），立方体贴图envCubemap就应该是原始HDR图像的立方体贴图环境版本。
-
-			优化：可以放到init方法里初始化画一次就好，思考下其他使用帧缓冲的例子是不是也一样？？？？
-		*/
-		
-		glBindVertexArray(cubeVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
-	}
-
+	
 	//恢复到默认帧缓冲以及重置映射窗口大小
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, 800, 600);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
 
 	__super::rendeCommand();
 	setVec3(_shaderProgram,"albedo", 0.5f, 0.0f, 0.0f);
