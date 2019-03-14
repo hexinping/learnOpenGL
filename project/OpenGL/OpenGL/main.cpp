@@ -55,11 +55,12 @@
 #include "OpenglStateSSAO.h"
 #include "OpenglStatePBRSimple.h"
 #include "OpenglStatePBRTexture.h"
+#include "OpenglStatePBR_IBL_Irradiance_Conversion.h"
 
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
-#define MAX_SHADERCOUNT 44
+#define MAX_SHADERCOUNT 45
 
 #include "Model.h"
 #include "OpenglWorld.h"
@@ -88,6 +89,7 @@ glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 using namespace std;
 
+GLFWwindow* window = nullptr;
 OpenglCamera *camera = nullptr;
 OpenglWorld  *world = nullptr;
 OpenglState *glStateFrameBuffer = nullptr;
@@ -207,7 +209,7 @@ int createWindow(GLFWwindow** pWindow)
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
@@ -241,7 +243,7 @@ void createTestObjects()
 
 	//OpenglStateMultTextureBlend 无光照模板
 	//OpenglStateReflect 带光照模板
-	OpenglState *glState = new OpenglStatePBRTexture();
+	OpenglState *glState = new OpenglStatePBR_IBL_Irradiance_Conversion();
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -249,6 +251,9 @@ void createTestObjects()
 	//glState->setModelMat4(glm::vec3(s, v, s * v), glm::vec3(1.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0);
 	vertFile = "shader/" + shaderName + ".vert";
 	fragFile = "shader/" + shaderName + ".frag";
+	//存储下摄像机
+	glState->_camera = camera;
+	glState->_window = window;
 	glState->init(vertFile, fragFile);
 	world->add(glState);
 
@@ -454,7 +459,7 @@ int main(int argc, char* argv[])
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//glfwWindowHint(GLFW_SAMPLES, 4); //每个像素点使用4个采样点 ，为了多级采样用
-	GLFWwindow* window;
+	
 	createWindow(&window);
 
 	camera = new OpenglCamera();

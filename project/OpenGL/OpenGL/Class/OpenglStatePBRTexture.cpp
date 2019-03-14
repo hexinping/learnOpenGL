@@ -1,6 +1,14 @@
 #include "OpenglStatePBRTexture.h"
 #include <random>
 
+/*
+
+PBR 带贴图模型
+
+
+*/
+
+
 bool OpenglStatePBRTexture::init(string vertFile, string fragFile)
 {
 
@@ -25,10 +33,12 @@ bool OpenglStatePBRTexture::init(string vertFile, string fragFile)
 
 
 	_texture0 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE0);
-	_texture1 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE1); //来回切换
+	_texture1 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE1); 
 	_texture2 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE2);
-	_texture3 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE3); //来回切换
+	_texture3 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE3); 
 	_texture4 = loadTexture("resource/pbr/rusted_iron/albedo.png", GL_TEXTURE4);
+
+	_glUtils->useProgram(_shaderProgram);
 
 	setInt(_shaderProgram, "albedoMap", 0);
 	setInt(_shaderProgram, "normalMap", 1);

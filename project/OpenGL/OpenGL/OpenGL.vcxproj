@@ -114,6 +114,7 @@
     <ClCompile Include="Class\OpenglStateNormalMap1.cpp" />
     <ClCompile Include="Class\OpenglStatePBRSimple.cpp" />
     <ClCompile Include="Class\OpenglStatePBRTexture.cpp" />
+    <ClCompile Include="Class\OpenglStatePBR_IBL_Irradiance_Conversion.cpp" />
     <ClCompile Include="Class\OpenglStatePlane.cpp" />
     <ClCompile Include="Class\OpenglStateRect.cpp" />
     <ClCompile Include="Class\OpenglStateReflect.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Class\OpenglStateNormalMap1.h" />
     <ClInclude Include="Class\OpenglStatePBRSimple.h" />
     <ClInclude Include="Class\OpenglStatePBRTexture.h" />
+    <ClInclude Include="Class\OpenglStatePBR_IBL_Irradiance_Conversion.h" />
     <ClInclude Include="Class\OpenglStatePlane.h" />
     <ClInclude Include="Class\OpenglStateRect.h" />
     <ClInclude Include="Class\OpenglStateReflect.h" />
@@ -201,16 +203,20 @@
     <None Include="shader\blue_v.vert" />
     <None Include="shader\blur.frag" />
     <None Include="shader\blur.vert" />
+    <None Include="shader\cubemap.vert" />
     <None Include="shader\depthDebug.frag" />
     <None Include="shader\depthDebug.vert" />
     <None Include="shader\depthMap.frag" />
     <None Include="shader\depthMap.vert" />
+    <None Include="shader\equirectangular_to_cubemap.frag" />
     <None Include="shader\extractBright.frag" />
     <None Include="shader\extractBright.vert" />
     <None Include="shader\lamp.frag" />
     <None Include="shader\lamp.vert" />
     <None Include="shader\lamp1.frag" />
     <None Include="shader\lamp1.vert" />
+    <None Include="shader\PBR_IBL_background.frag" />
+    <None Include="shader\PBR_IBL_background.vert" />
     <None Include="shader\point_shadows_depth.farg" />
     <None Include="shader\point_shadows_depth.gs" />
     <None Include="shader\point_shadows_depth.vert" />
@@ -294,6 +300,8 @@
     <None Include="shader\shader43.vert" />
     <None Include="shader\shader44.frag" />
     <None Include="shader\shader44.vert" />
+    <None Include="shader\shader45.frag" />
+    <None Include="shader\shader45.vert" />
     <None Include="shader\shader5.frag" />
     <None Include="shader\shader5.vert" />
     <None Include="shader\shader6.frag" />

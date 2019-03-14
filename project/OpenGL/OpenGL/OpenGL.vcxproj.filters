@@ -207,6 +207,9 @@
     <ClCompile Include="Class\OpenglStatePBRTexture.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStatePBR_IBL_Irradiance_Conversion.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -387,6 +390,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="Class\OpenglStatePBRTexture.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStatePBR_IBL_Irradiance_Conversion.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -734,6 +740,24 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\shader44.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader45.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader45.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\cubemap.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\equirectangular_to_cubemap.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\PBR_IBL_background.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\PBR_IBL_background.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

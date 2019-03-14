@@ -2,6 +2,7 @@
 #include <iostream>
 #include "OpenglUtils.h"
 #include "MathUtils.h"
+#include "OpenglCamera.h"
 
 extern int _countId;
 
@@ -177,5 +178,11 @@ public:
 	unsigned int _ssaoPosTexture;
 	unsigned int _ssaoNormalTexture;
 	unsigned int _ssaoAlbedoSpecTexture;
+
+	//camrea
+	OpenglCamera *_camera;
+
+	//window
+	GLFWwindow * _window;
 
 };

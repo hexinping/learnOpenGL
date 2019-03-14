@@ -1,6 +1,13 @@
 #include "OpenglStatePBRSimple.h"
 #include <random>
 
+/*
+	
+	PBR 简易模型
+
+
+*/
+
 bool OpenglStatePBRSimple::init(string vertFile, string fragFile)
 {
 
