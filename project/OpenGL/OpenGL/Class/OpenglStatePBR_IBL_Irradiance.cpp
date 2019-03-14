@@ -220,7 +220,7 @@ bool OpenglStatePBR_IBL_Irradiance::init(string vertFile, string fragFile)
 	bindTexture(envCubemap, true);
 	
 
-	glViewport(0, 0, 64, 64); // don't forget to configure the viewport to the capture dimensions.
+	glViewport(0, 0, 32, 32); // don't forget to configure the viewport to the capture dimensions.
 	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
 	for (unsigned int i = 0; i < 6; ++i)
 	{

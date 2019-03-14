@@ -22,8 +22,8 @@ public:
 
 public:
 
-	int cfgwidth = 1024;
-	int cfgheight = 1024;
+	int cfgwidth = 512;
+	int cfgheight = 512;
 
 	unsigned int sphereVAO = 0;
 	unsigned int indexCount = 0;
