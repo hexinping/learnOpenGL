@@ -58,7 +58,7 @@
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
-#define MAX_SHADERCOUNT 42
+#define MAX_SHADERCOUNT 43
 
 #include "Model.h"
 #include "OpenglWorld.h"

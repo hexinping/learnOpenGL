@@ -718,6 +718,12 @@
     <None Include="shader\ssaoLighting.frag">
       <Filter>shader</Filter>
     </None>
+    <None Include="shader\shader43.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\shader43.vert">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OpenGL.rc">

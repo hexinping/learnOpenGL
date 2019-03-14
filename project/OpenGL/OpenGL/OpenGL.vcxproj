@@ -288,6 +288,8 @@
     <None Include="shader\shader41.vert" />
     <None Include="shader\shader42.frag" />
     <None Include="shader\shader42.vert" />
+    <None Include="shader\shader43.frag" />
+    <None Include="shader\shader43.vert" />
     <None Include="shader\shader5.frag" />
     <None Include="shader\shader5.vert" />
     <None Include="shader\shader6.frag" />
