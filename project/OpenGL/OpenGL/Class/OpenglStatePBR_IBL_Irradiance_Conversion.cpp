@@ -7,6 +7,19 @@ PBR IBL(基于图像光照)  漫反射辐照
 
 irradiance 辐照度
 
+******************* 此例子的目的就是利用辐照度信息绘制立方体贴图
+
+思路: 把空间环境当做无数个光源
+	基于图像的照明 = 立方体贴图 +辐照度贴图
+{
+	1 创建立方体贴图，
+	2 创建帧缓冲，用立方体贴图作为帧缓冲区的纹理附件
+	3 加载环境的辐照度贴图，把辐照度贴图数据绘制到立方体贴图的6个面上
+	4 绘制立方体贴图作为天空盒子，为之后卷积运算做准备
+}
+
+辐照度贴图：直接采样这样辐照图贴图就能获取到场景每个位置光源的辐照度
+
 */
 
 //窗口大小为800 * 600 最好大于这个比例 也要是2的次幂方
@@ -23,11 +36,14 @@ bool OpenglStatePBR_IBL_Irradiance_Conversion::init(string vertFile, string frag
 	__super::initRendCommand();
 
 
-	//初始化 shaders
+
+
+	//采样环境的辐照图shader
 	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/cubemap.vert");
 	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/equirectangular_to_cubemap.frag");
 	_glUtils->linkShader(&_equirectangularToCubemapShader, _vertexShader, _fragmentShader);
 
+	//背景天空盒shader
 	_glUtils->createShaderWithFile(GL_VERTEX_SHADER, &_vertexShader, "shader/PBR_IBL_background.vert");
 	_glUtils->createShaderWithFile(GL_FRAGMENT_SHADER, &_fragmentShader, "shader/PBR_IBL_background.frag");
 	_glUtils->linkShader(&_backgroundShader, _vertexShader, _fragmentShader);
