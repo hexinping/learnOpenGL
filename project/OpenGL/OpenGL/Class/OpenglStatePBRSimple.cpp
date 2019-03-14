@@ -33,7 +33,7 @@ bool OpenglStatePBRSimple::isUseEBORender()
 
 bool OpenglStatePBRSimple::isUseFrameBuffer()
 {
-	return true;
+	return false;
 }
 
 

@@ -130,9 +130,5 @@ void main()
     // gamma correct Gamma校正：因为前面计算衰减的时候用距离的平方作为倒数
     color = pow(color, vec3(1.0/2.2)); 
 
-    FragColor = vec4(ambient, 1.0);
-
-
-
-
+    FragColor = vec4(color, 1.0);
 }
