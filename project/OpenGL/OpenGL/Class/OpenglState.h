@@ -187,4 +187,7 @@ public:
 
 	string title = "";
 
+	//每一帧的时间
+	float _deltaTime = 0;
+
 };
