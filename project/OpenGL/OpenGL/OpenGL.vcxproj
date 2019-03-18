@@ -125,6 +125,7 @@
     <ClCompile Include="Class\OpenglStateShadowPointLight.cpp" />
     <ClCompile Include="Class\OpenglStateSSAO.cpp" />
     <ClCompile Include="Class\OpenglStateTexture.cpp" />
+    <ClCompile Include="Class\OpenglStateTitle.cpp" />
     <ClCompile Include="Class\OpenglStateTriangle.cpp" />
     <ClCompile Include="Class\OpenglStateTriangleMove.cpp" />
     <ClCompile Include="Class\OpenglWorld.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Class\OpenglStateShadowPointLight.h" />
     <ClInclude Include="Class\OpenglStateSSAO.h" />
     <ClInclude Include="Class\OpenglStateTexture.h" />
+    <ClInclude Include="Class\OpenglStateTitle.h" />
     <ClInclude Include="Class\OpenglStateTriangle.h" />
     <ClInclude Include="Class\OpenglStateTriangleMove.h" />
     <ClInclude Include="Class\OpenglWorld.h" />

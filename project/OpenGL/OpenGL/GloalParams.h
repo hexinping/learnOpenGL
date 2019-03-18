@@ -311,3 +311,8 @@ int getClassCount()
 {
 	return _nameArray.size();
 }
+
+string getClassName(int curIndex)
+{
+	return _nameArray[curIndex];
+}

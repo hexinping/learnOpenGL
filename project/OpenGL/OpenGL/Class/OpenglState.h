@@ -185,4 +185,6 @@ public:
 	//window
 	GLFWwindow * _window;
 
+	string title = "";
+
 };

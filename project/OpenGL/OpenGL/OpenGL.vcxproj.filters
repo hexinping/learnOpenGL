@@ -219,6 +219,9 @@
     <ClCompile Include="Class\OpenglStatePBR_IBL_Irradiance_Specular_Texture.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="Class\OpenglStateTitle.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -414,6 +417,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="GloalParams.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\OpenglStateTitle.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>

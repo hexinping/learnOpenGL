@@ -58,10 +58,11 @@
 #include "OpenglStatePBR_IBL_Irradiance.h"
 #include "OpenglStatePBR_IBL_Irradiance_Specular.h"
 #include "OpenglStatePBR_IBL_Irradiance_Specular_Texture.h"
+#include "OpenglStateTitle.h"
 
 #include "GloalParams.h"
 
-int showShaderIndex = 33;
+int showShaderIndex = 0;
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
@@ -301,6 +302,16 @@ void createTestObjects(int curIndex)
 	fragFile = "shader/" + shaderName + ".frag";
 	glStateSkyBox->init(vertFile, fragFile);
 	//world->add(glStateSkyBox);
+
+	//标题
+	OpenglState *glStateTitle = new OpenglStateTitle();
+	index = glStateTitle->getShaderIndex();
+	shaderName = OpenglStatesMap[index];
+	vertFile = "shader/" + shaderName + ".vert";
+	fragFile = "shader/" + shaderName + ".frag";
+	glStateTitle->init(vertFile, fragFile);
+	glStateTitle->title = getClassName(showShaderIndex);
+	world->add(glStateTitle);
 
 	//------------------------------------------------------------------------------------------
 
