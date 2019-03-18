@@ -31,7 +31,6 @@
 #include "OpenglStateMultTextureBlend.h"
 #include "OpenglStateMultTextureTransparent.h"
 #include "OpenglStateMultTextureFrameBuffer.h"
-#include "OpenglStateMultTextureFrameBuffer.h"
 #include "OpenglStateCubeMap.h"
 #include "OpenglStateReflect.h"
 #include "OpenglStateInStance.h"
@@ -59,6 +58,10 @@
 #include "OpenglStatePBR_IBL_Irradiance.h"
 #include "OpenglStatePBR_IBL_Irradiance_Specular.h"
 #include "OpenglStatePBR_IBL_Irradiance_Specular_Texture.h"
+
+#include "GloalParams.h"
+
+int showShaderIndex = 33;
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
@@ -97,43 +100,18 @@ OpenglWorld  *world = nullptr;
 OpenglState *glStateFrameBuffer = nullptr;
 OpenglState *glStateDelayRenderLightsFrameBuffer = nullptr;
 
+
+vector<OpenglState *> _openglStateArray;
+int shaderCount;
+map<int, Model *> _renderModelMap;
+
+
+bool isKeyDownRight = false;
+bool isKeyDownLeft = false;
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
-}
-
-void processInput(GLFWwindow *window)
-{
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-	{
-		mixValue += 0.0001f; // change this value accordingly (might be too slow or too fast based on system hardware)
-		if (mixValue >= 1.0f)
-			mixValue = 1.0f;
-	}
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-	{
-		mixValue -= 0.0001f; // change this value accordingly (might be too slow or too fast based on system hardware)
-		if (mixValue <= 0.0f)
-			mixValue = 0.0f;
-	}
-
-	float cameraSpeed = 2.5f * deltaTime; // adjust accordingly
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		//cameraPos += cameraSpeed * cameraFront;
-		camera->ProcessKeyboard(Camera_Movement::FORWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		//cameraPos -= cameraSpeed * cameraFront;
-		camera->ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		//cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-		camera->ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		//cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-		camera->ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
-
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
@@ -211,7 +189,7 @@ int createWindow(GLFWwindow** pWindow)
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
@@ -231,7 +209,7 @@ void initShaders()
 }
 
 
-void createTestObjects()
+void createTestObjects(int curIndex)
 {
 	//------------------------------------------------------------------------------------------
 	//底板
@@ -245,7 +223,11 @@ void createTestObjects()
 
 	//OpenglStateMultTextureBlend 无光照模板
 	//OpenglStateReflect 带光照模板
-	OpenglState *glState = new OpenglStatePBR_IBL_Irradiance_Specular_Texture();
+	OpenglState *glState = getGLState(curIndex);
+
+	//OpenglState *glState = new OpenglStateMultTextureBlend();
+
+	
 	index = glState->getShaderIndex();
 	shaderName = OpenglStatesMap[index];
 	//float s = i * random(1, 2);
@@ -448,6 +430,240 @@ void createTestObjects()
 
 }
 
+
+unsigned int framebuffer = 0; //使用多重采样的帧缓冲
+unsigned int texColorBuffer; //使用多重采样的纹理附件
+
+unsigned int intermediateFBO; //多重采样帧缓冲的还原的正常帧缓冲
+unsigned int screenTexture = 0;  //正常帧缓冲的纹理附件
+unsigned int screenBrightTexture = 0;  //屏幕明亮区域纹理
+
+//延迟光照计算保存的信息
+unsigned int postionTexture = 0;		//顶点位置信息
+unsigned int normalTexture = 0;			//法线贴图信息
+unsigned int albedoSpecTexture = 0;		//漫反射贴图信息和高光贴图信息
+
+void createScene(int curIndex)
+{
+	camera = new OpenglCamera();
+	world = new OpenglWorld();
+
+
+	//创建测试对象
+	createTestObjects(curIndex);
+
+	/*
+	glfwWindowShouldClose函数在我们每次循环的开始前检查一次GLFW是否被要求退出，如果是的话该函数返回true然后渲染循环便结束了，之后为我们就可以关闭应用程序了。
+	glfwPollEvents函数检查有没有触发什么事件（比如键盘输入、鼠标移动等）、更新窗口状态，并调用对应的回调函数（可以通过回调方法手动设置）。
+	glfwSwapBuffers函数会交换颜色缓冲（它是一个储存着GLFW窗口每一个像素颜色值的大缓冲），它在这一迭代中被用来绘制，并且将会作为输出显示在屏幕上。
+	*/
+
+	auto creaetModelMap = world->_creaetModelMap;
+	map<int, OpenglState *>::iterator iter;
+	for (iter = creaetModelMap.begin(); iter != creaetModelMap.end(); iter++)
+	{
+		int id = iter->first;
+		OpenglState *state = iter->second;
+		string file = state->getModelFile();
+		Model *model = new Model(file.c_str(), state);
+
+		//加入渲染map里
+		world->addRenderModel(model, id);
+	}
+
+	//渲染光源模型
+	if (world->_isLight)
+	{
+		if (world->_isUseHDR)
+		{
+			world->_vertFile = "shader/lamp1.vert";
+			world->_fragFile = "shader/lamp1.frag";
+		}
+		world->init();
+
+	}
+
+
+	// 渲染循环
+	glEnable(GL_DEPTH_TEST); // 开启深度测试
+
+	if (world->_isUseFrameBuffer)
+	{
+		glfwWindowHint(GLFW_SAMPLES, 4); //每个像素点使用4个采样点 ，为了多级采样用
+		glEnable(GL_MULTISAMPLE); //开启多级采样
+	}
+
+	/*
+
+	渲染到多重采样帧缓冲对象的过程都是自动的。只要我们在帧缓冲绑定时绘制任何东西，光栅器就会负责所有的多重采样运算。
+	我们最终会得到一个多重采样颜色缓冲以及/或深度和模板缓冲。因为多重采样缓冲有一点特别，我们不能直接将它们的缓冲图像用于其他运算，比如在着色器中对它们进行采样。
+
+	一个多重采样的图像包含比普通图像更多的信息，我们所要做的是缩小或者还原(Resolve)图像。
+	多重采样帧缓冲的还原通常是通过glBlitFramebuffer来完成，它能够将一个帧缓冲中的某个区域复制到另一个帧缓冲中，并且将多重采样缓冲还原。
+
+	*/
+
+	//unsigned int framebuffer = 0; //使用多重采样的帧缓冲
+	//unsigned int texColorBuffer; //使用多重采样的纹理附件
+
+	//unsigned int intermediateFBO; //多重采样帧缓冲的还原的正常帧缓冲
+	//unsigned int screenTexture = 0;  //正常帧缓冲的纹理附件
+	//unsigned int screenBrightTexture = 0;  //屏幕明亮区域纹理
+
+	////延迟光照计算保存的信息
+	//unsigned int postionTexture = 0;		//顶点位置信息
+	//unsigned int normalTexture = 0;			//法线贴图信息
+	//unsigned int albedoSpecTexture = 0;		//漫反射贴图信息和高光贴图信息
+
+	bool isUseFrameBuffer = world->_isUseFrameBuffer;
+	if (isUseFrameBuffer)
+	{
+
+		if (!world->_isDelayRenderLights)
+		{
+			if (world->_isUseMSAA)
+			{
+				world->createFrameBufferByMultSample(width, height, &framebuffer);
+			}
+
+			//多重采样的帧缓冲不能进行采样，需要创建一个临时的正常帧缓冲然后把数据复制到正常帧缓冲中
+			if (world->_isUseBloom)
+			{
+				//使用bloom 需要多个纹理
+				world->createFrameBufferByColorBuffers(width, height, &intermediateFBO, &screenTexture, &screenBrightTexture, GL_RGBA16F, GL_RGBA);
+			}
+			else if (world->_isUseHDR)
+			{
+				//使用HDR
+				world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
+			}
+			else if (world->_isUseSSAO)
+			{
+				//使用SSAO 环境光遮罩
+				world->createFrameBufferBySSAO(width, height, &intermediateFBO, &postionTexture, &normalTexture, &albedoSpecTexture);
+			}
+			else
+			{
+				//默认使用帧缓冲的默认格式
+				world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture);
+			}
+		}
+		else
+		{
+			//使用延迟光照 不支持多重采样帧缓冲区
+			world->createFrameBufferByDelayRenderLights(width, height, &intermediateFBO, &postionTexture, &normalTexture, &albedoSpecTexture);
+		}
+	}
+
+
+	 _openglStateArray = world->_openglStateArray;
+	 shaderCount = _openglStateArray.size();
+	_renderModelMap = world->_renderModelMap;
+
+}
+
+
+void processInput(GLFWwindow *window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		mixValue += 0.0001f; // change this value accordingly (might be too slow or too fast based on system hardware)
+		if (mixValue >= 1.0f)
+			mixValue = 1.0f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		mixValue -= 0.0001f; // change this value accordingly (might be too slow or too fast based on system hardware)
+		if (mixValue <= 0.0f)
+			mixValue = 0.0f;
+	}
+
+	float cameraSpeed = 2.5f * deltaTime; // adjust accordingly
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		//cameraPos += cameraSpeed * cameraFront;
+		camera->ProcessKeyboard(Camera_Movement::FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		//cameraPos -= cameraSpeed * cameraFront;
+		camera->ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		//cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		camera->ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		//cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		camera->ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
+
+
+	//方向键左右
+	if (!isKeyDownRight)
+	{
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		{
+			std::cout << "Right 444444444444444" << std::endl;
+			isKeyDownRight = true;
+		}
+	}
+
+	if (!isKeyDownLeft)
+	{
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+		{
+			std::cout << "left 444444444444444" << std::endl;
+			isKeyDownLeft = true;
+		}
+
+	}
+
+	if (isKeyDownRight)
+	{
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_RELEASE)
+		{
+			std::cout << "Right 555555555555" << std::endl;
+			isKeyDownRight = false;
+
+			delete world;
+			delete camera;
+
+			//下标++
+			showShaderIndex++;
+			if (showShaderIndex > getClassCount() - 1)
+			{
+				showShaderIndex = 0;
+			}
+			cout << "showShaderIndex===========:" + to_string(showShaderIndex) << endl;
+			createScene(showShaderIndex);
+		}
+	}
+
+	if (isKeyDownLeft)
+	{
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE)
+		{
+			std::cout << "left 555555555555" << std::endl;
+			isKeyDownLeft = false;
+
+			delete world;
+			delete camera;
+
+			//下标--
+			showShaderIndex--;
+			if (showShaderIndex < 0)
+			{
+				showShaderIndex = getClassCount() - 1;
+			}
+
+			cout << "showShaderIndex===========:" + to_string(showShaderIndex) << endl;
+			createScene(showShaderIndex);
+
+			//createScene();
+		}
+	}
+
+}
+
+
 int main(int argc, char* argv[])
 {
 	glfwInit();
@@ -464,7 +680,7 @@ int main(int argc, char* argv[])
 	
 	createWindow(&window);
 
-	camera = new OpenglCamera();
+	
 
 	// ------------------------------------------------------------------
 
@@ -524,123 +740,125 @@ int main(int argc, char* argv[])
 
 	initShaders();
 
+	createScene(showShaderIndex);
+
 	int nrAttributes;
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
 	std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
 	srand((unsigned)time(NULL));
 
-	world = new OpenglWorld();
-
-	//创建测试对象
-	createTestObjects();
-
-	/*
-	glfwWindowShouldClose函数在我们每次循环的开始前检查一次GLFW是否被要求退出，如果是的话该函数返回true然后渲染循环便结束了，之后为我们就可以关闭应用程序了。
-	glfwPollEvents函数检查有没有触发什么事件（比如键盘输入、鼠标移动等）、更新窗口状态，并调用对应的回调函数（可以通过回调方法手动设置）。
-	glfwSwapBuffers函数会交换颜色缓冲（它是一个储存着GLFW窗口每一个像素颜色值的大缓冲），它在这一迭代中被用来绘制，并且将会作为输出显示在屏幕上。
-	*/
-
-	auto creaetModelMap = world->_creaetModelMap;
-	map<int, OpenglState *>::iterator iter;
-	for (iter = creaetModelMap.begin(); iter != creaetModelMap.end(); iter++)
-	{
-		int id = iter->first;
-		OpenglState *state = iter->second;
-		string file = state->getModelFile();
-		Model *model = new Model(file.c_str(), state);
-
-		//加入渲染map里
-		world->addRenderModel(model, id);
-	}
-
-	//渲染光源模型
-	if (world->_isLight)
-	{
-		if (world->_isUseHDR)
-		{
-			world->_vertFile = "shader/lamp1.vert";
-			world->_fragFile = "shader/lamp1.frag";
-		}
-		world->init();
-		
-	}
-
-
-	// 渲染循环
-	glEnable(GL_DEPTH_TEST); // 开启深度测试
-
-	if (world->_isUseFrameBuffer)
-	{
-		glfwWindowHint(GLFW_SAMPLES, 4); //每个像素点使用4个采样点 ，为了多级采样用
-		glEnable(GL_MULTISAMPLE); //开启多级采样
-	}
-
-	/*
-
-	渲染到多重采样帧缓冲对象的过程都是自动的。只要我们在帧缓冲绑定时绘制任何东西，光栅器就会负责所有的多重采样运算。
-	我们最终会得到一个多重采样颜色缓冲以及/或深度和模板缓冲。因为多重采样缓冲有一点特别，我们不能直接将它们的缓冲图像用于其他运算，比如在着色器中对它们进行采样。
-
-	一个多重采样的图像包含比普通图像更多的信息，我们所要做的是缩小或者还原(Resolve)图像。
-	多重采样帧缓冲的还原通常是通过glBlitFramebuffer来完成，它能够将一个帧缓冲中的某个区域复制到另一个帧缓冲中，并且将多重采样缓冲还原。
 	
-	*/
 
-	unsigned int framebuffer = 0; //使用多重采样的帧缓冲
-	unsigned int texColorBuffer; //使用多重采样的纹理附件
+	////创建测试对象
+	//createTestObjects();
 
-	unsigned int intermediateFBO; //多重采样帧缓冲的还原的正常帧缓冲
-	unsigned int screenTexture = 0;  //正常帧缓冲的纹理附件
-	unsigned int screenBrightTexture = 0;  //屏幕明亮区域纹理
+	///*
+	//glfwWindowShouldClose函数在我们每次循环的开始前检查一次GLFW是否被要求退出，如果是的话该函数返回true然后渲染循环便结束了，之后为我们就可以关闭应用程序了。
+	//glfwPollEvents函数检查有没有触发什么事件（比如键盘输入、鼠标移动等）、更新窗口状态，并调用对应的回调函数（可以通过回调方法手动设置）。
+	//glfwSwapBuffers函数会交换颜色缓冲（它是一个储存着GLFW窗口每一个像素颜色值的大缓冲），它在这一迭代中被用来绘制，并且将会作为输出显示在屏幕上。
+	//*/
 
-	//延迟光照计算保存的信息
-	unsigned int postionTexture = 0;		//顶点位置信息
-	unsigned int normalTexture = 0;			//法线贴图信息
-	unsigned int albedoSpecTexture = 0;		//漫反射贴图信息和高光贴图信息
+	//auto creaetModelMap = world->_creaetModelMap;
+	//map<int, OpenglState *>::iterator iter;
+	//for (iter = creaetModelMap.begin(); iter != creaetModelMap.end(); iter++)
+	//{
+	//	int id = iter->first;
+	//	OpenglState *state = iter->second;
+	//	string file = state->getModelFile();
+	//	Model *model = new Model(file.c_str(), state);
 
-	bool isUseFrameBuffer = world->_isUseFrameBuffer;
-	if (isUseFrameBuffer)
-	{
-		
-		if (!world->_isDelayRenderLights)
-		{
-			if (world->_isUseMSAA)
-			{
-				world->createFrameBufferByMultSample(width, height, &framebuffer);
-			}
-			
-			//多重采样的帧缓冲不能进行采样，需要创建一个临时的正常帧缓冲然后把数据复制到正常帧缓冲中
-			if (world->_isUseBloom)
-			{
-				//使用bloom 需要多个纹理
-				world->createFrameBufferByColorBuffers(width, height, &intermediateFBO, &screenTexture, &screenBrightTexture, GL_RGBA16F, GL_RGBA);
-			}
-			else if (world->_isUseHDR)
-			{
-				//使用HDR
-				world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
-			}
-			else if (world->_isUseSSAO)
-			{
-				//使用SSAO 环境光遮罩
-				world->createFrameBufferBySSAO(width, height, &intermediateFBO, &postionTexture, &normalTexture, &albedoSpecTexture);
-			}
-			else
-			{	
-				//默认使用帧缓冲的默认格式
-				world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture);
-			}
-		}
-		else
-		{
-			//使用延迟光照 不支持多重采样帧缓冲区
-			world->createFrameBufferByDelayRenderLights(width, height, &intermediateFBO, &postionTexture, &normalTexture, &albedoSpecTexture);
-		}
-	}
+	//	//加入渲染map里
+	//	world->addRenderModel(model, id);
+	//}
 
-	auto _openglStateArray = world->_openglStateArray;
-	int size = _openglStateArray.size();
-	auto renderModelMap = world->_renderModelMap;
+	////渲染光源模型
+	//if (world->_isLight)
+	//{
+	//	if (world->_isUseHDR)
+	//	{
+	//		world->_vertFile = "shader/lamp1.vert";
+	//		world->_fragFile = "shader/lamp1.frag";
+	//	}
+	//	world->init();
+	//	
+	//}
+
+
+	//// 渲染循环
+	//glEnable(GL_DEPTH_TEST); // 开启深度测试
+
+	//if (world->_isUseFrameBuffer)
+	//{
+	//	glfwWindowHint(GLFW_SAMPLES, 4); //每个像素点使用4个采样点 ，为了多级采样用
+	//	glEnable(GL_MULTISAMPLE); //开启多级采样
+	//}
+
+	///*
+
+	//渲染到多重采样帧缓冲对象的过程都是自动的。只要我们在帧缓冲绑定时绘制任何东西，光栅器就会负责所有的多重采样运算。
+	//我们最终会得到一个多重采样颜色缓冲以及/或深度和模板缓冲。因为多重采样缓冲有一点特别，我们不能直接将它们的缓冲图像用于其他运算，比如在着色器中对它们进行采样。
+
+	//一个多重采样的图像包含比普通图像更多的信息，我们所要做的是缩小或者还原(Resolve)图像。
+	//多重采样帧缓冲的还原通常是通过glBlitFramebuffer来完成，它能够将一个帧缓冲中的某个区域复制到另一个帧缓冲中，并且将多重采样缓冲还原。
+	//
+	//*/
+
+	//unsigned int framebuffer = 0; //使用多重采样的帧缓冲
+	//unsigned int texColorBuffer; //使用多重采样的纹理附件
+
+	//unsigned int intermediateFBO; //多重采样帧缓冲的还原的正常帧缓冲
+	//unsigned int screenTexture = 0;  //正常帧缓冲的纹理附件
+	//unsigned int screenBrightTexture = 0;  //屏幕明亮区域纹理
+
+	////延迟光照计算保存的信息
+	//unsigned int postionTexture = 0;		//顶点位置信息
+	//unsigned int normalTexture = 0;			//法线贴图信息
+	//unsigned int albedoSpecTexture = 0;		//漫反射贴图信息和高光贴图信息
+
+	//bool isUseFrameBuffer = world->_isUseFrameBuffer;
+	//if (isUseFrameBuffer)
+	//{
+	//	
+	//	if (!world->_isDelayRenderLights)
+	//	{
+	//		if (world->_isUseMSAA)
+	//		{
+	//			world->createFrameBufferByMultSample(width, height, &framebuffer);
+	//		}
+	//		
+	//		//多重采样的帧缓冲不能进行采样，需要创建一个临时的正常帧缓冲然后把数据复制到正常帧缓冲中
+	//		if (world->_isUseBloom)
+	//		{
+	//			//使用bloom 需要多个纹理
+	//			world->createFrameBufferByColorBuffers(width, height, &intermediateFBO, &screenTexture, &screenBrightTexture, GL_RGBA16F, GL_RGBA);
+	//		}
+	//		else if (world->_isUseHDR)
+	//		{
+	//			//使用HDR
+	//			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture, GL_RGBA16F, GL_RGBA);
+	//		}
+	//		else if (world->_isUseSSAO)
+	//		{
+	//			//使用SSAO 环境光遮罩
+	//			world->createFrameBufferBySSAO(width, height, &intermediateFBO, &postionTexture, &normalTexture, &albedoSpecTexture);
+	//		}
+	//		else
+	//		{	
+	//			//默认使用帧缓冲的默认格式
+	//			world->createFrameBuffer(width, height, &intermediateFBO, &screenTexture);
+	//		}
+	//	}
+	//	else
+	//	{
+	//		//使用延迟光照 不支持多重采样帧缓冲区
+	//		world->createFrameBufferByDelayRenderLights(width, height, &intermediateFBO, &postionTexture, &normalTexture, &albedoSpecTexture);
+	//	}
+	//}
+
+	//auto _openglStateArray = world->_openglStateArray;
+	//int size = _openglStateArray.size();
+	//auto _renderModelMap = world->_renderModelMap;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -655,7 +873,7 @@ int main(int argc, char* argv[])
 		// ------------------------渲染指令---------------------------------------
 
 		//绑定创建的帧缓冲对象，下面的绘制命令都会填充到帧缓冲里面
-		if (isUseFrameBuffer)
+		if (world->_isUseFrameBuffer)
 		{
 			if (!world->_isDelayRenderLights)
 			{
@@ -696,7 +914,7 @@ int main(int argc, char* argv[])
 		}
 
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < shaderCount; i++)
 		{
 			OpenglState *state = _openglStateArray[i];
 			state->_param1 = mixValue;
@@ -729,7 +947,7 @@ int main(int argc, char* argv[])
 			{
 				int id = state->_ID;
 				int amount = state->_amount;
-				Model *model = renderModelMap[id];
+				Model *model = _renderModelMap[id];
 				if (amount > 1)
 				{
 					glm::mat4 *modelMatrices = state->modelMatrices;
@@ -785,7 +1003,7 @@ int main(int argc, char* argv[])
 	}
 
 	//6 解除绑定VAO和VBO：直接绑定为0也是解绑glBindVertexArray(0）
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < shaderCount; i++)
 	{
 		OpenglState *state = _openglStateArray[i];
 		state->deleteBuffers();

@@ -413,6 +413,9 @@
     <ClInclude Include="Class\OpenglStatePBR_IBL_Irradiance_Specular_Texture.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="GloalParams.h">
+      <Filter>Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\lamp.frag">

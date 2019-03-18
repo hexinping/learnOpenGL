@@ -188,6 +188,12 @@ bool  OpenglStateMultTextureMultSample::isUseFrameBuffer()
 	return true;
 }
 
+bool  OpenglStateMultTextureMultSample::isRenderFrameBuffer()
+{
+	return true;
+}
+
+
 void OpenglStateMultTextureMultSample::enableVertexAttribArray()
 {
 	GLint posLocation = _glUtils->getAttribLocation(_shaderProgram, "aPos");

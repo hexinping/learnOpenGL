@@ -194,6 +194,7 @@
     <ClInclude Include="Class\OpenglStateTriangleMove.h" />
     <ClInclude Include="Class\OpenglWorld.h" />
     <ClInclude Include="Class\stb_image.h" />
+    <ClInclude Include="GloalParams.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="practice\practice_2_1.h" />
     <ClInclude Include="practice\practice_2_2.h" />

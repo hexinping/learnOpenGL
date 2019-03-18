@@ -98,6 +98,11 @@ bool OpenglStateModel3DNormalMap::isUseFrameBuffer()
 	return true;
 }
 
+bool OpenglStateModel3DNormalMap::isRenderFrameBuffer()
+{
+	return true;
+}
+
 
 void OpenglStateModel3DNormalMap::rendeCommand()
 {
