@@ -99,6 +99,11 @@ bool OpenglStateModel3D::isUseFrameBuffer()
 }
 
 
+bool OpenglStateModel3D::isRenderFrameBuffer()
+{
+	return true;
+}
+
 void OpenglStateModel3D::rendeCommand()
 {
 	//glUseProgram调用之前设置保持更新
