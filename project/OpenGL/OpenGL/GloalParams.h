@@ -55,58 +55,6 @@ vector<string> _nameArray = {
 	"OpenglStatePBR_IBL_Irradiance_Specular_Texture",
 };
 
-vector<OpenglState *> _classArray = {
-	new OpenglStateTriangle(),
-	new OpenglStateRect(),
-	new OpenglStateMultAttr(),
-	new OpenglStateTriangleMove(),
-	new OpenglStateTexture(),
-	new OpenglStateMultTexture(),
-	new OpenglStateMultTextureMat4(),
-	new OpenglStateMultTexture3D(),
-	new OpenglStateMultTextureCube(),
-	new OpenglStateMultTextureCamera(),
-	new OpenglStateMultTextureCameraManuel(),
-	new OpenglStateMultTextureLight(),
-	new OpenglStateMultTextureMaterial(),
-	new OpenglStateMultTextureMaterialMap(),
-	new OpenglStateMultTextureMaterialMapPointLight(),
-	new OpenglStateMultTextureMaterialMapDirLight(),
-	new OpenglStateMultTextureMaterialMapSpotLight(),
-	new OpenglStateMultTextureMaterialMapMultLights(),
-	new OpenglStateModel3D(),
-	new OpenglStateMultTextureDepthCube(),
-	new OpenglStateMultTextureBlend(),
-	new OpenglStateMultTextureTransparent(),
-	new OpenglStateReflect(),
-	new OpenglStateInStance(),
-	new OpenglStateInstance2(),
-	new OpenglStateModel3DPlanet(),
-	new OpenglStateModel3DRock(),
-	new OpenglStateMultTextureMultSample(),
-	new OpenglStateMultTextureMaterialMapMultLightsAdvance(),
-	new OpenglStateMultTextureMaterialMapPointLightAdvance(),
-	new OpenglStateNormalMap(),
-	new OpenglStateNormalMap1(),
-	new OpenglStateModel3DNormalMap(),
-	new OpenglStateHDR(),
-	new OpenglStateHDRBloom(),
-	new OpenglStateDelayRenderLights(),
-	new OpenglStateShadowDirLight(),
-	new OpenglStateShadowPointLight(),
-	new OpenglStateLabel(),
-	new OpenglStateMultTextureWave(),
-	new OpenglStateSSAO(),
-	new OpenglStatePBRSimple(),
-	new OpenglStatePBRTexture(),
-	new OpenglStatePBR_IBL_Irradiance_Conversion(),
-	new OpenglStatePBR_IBL_Irradiance(),
-	new OpenglStatePBR_IBL_Irradiance_Specular(),
-	new OpenglStatePBR_IBL_Irradiance_Specular_Texture(),
-	
-};
-
-
 OpenglState * getGLState(int curIndex)
  {
 

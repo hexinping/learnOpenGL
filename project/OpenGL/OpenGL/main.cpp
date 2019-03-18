@@ -498,7 +498,7 @@ void createScene(int curIndex)
 	// 渲染循环
 	glEnable(GL_DEPTH_TEST); // 开启深度测试
 
-	if (world->_isUseFrameBuffer)
+	if (world->_isUseMSAA)
 	{
 		glfwWindowHint(GLFW_SAMPLES, 4); //每个像素点使用4个采样点 ，为了多级采样用
 		glEnable(GL_MULTISAMPLE); //开启多级采样
