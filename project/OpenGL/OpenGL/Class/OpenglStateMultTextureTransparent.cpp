@@ -63,6 +63,8 @@ void OpenglStateMultTextureTransparent::rendeCommand()
 	/*
 	但是更新一个uniform之前你必须先使用程序（调用glUseProgram)，因为它是在当前激活的着色器程序中设置uniform的。
 	*/
+
+	glEnable(GL_BLEND);
 	__super::rendeCommand();
 	
 	activiteTexture(GL_TEXTURE0);
@@ -130,6 +132,8 @@ void OpenglStateMultTextureTransparent::rendeCommand()
 
 
 	}
+
+	glDisable(GL_BLEND);
 }
 
 int OpenglStateMultTextureTransparent::getShaderIndex()

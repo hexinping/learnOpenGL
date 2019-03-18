@@ -127,13 +127,13 @@ void main()
 
 	//vec3 result = (ambient + diffuse + specular + emissionMapColor) * lightColor * objectColor;//使用自发光贴图
 	vec3 result = (ambient + diffuse + specular) * lightColor * objectColor;
-	FragColor = vec4(result , 1.0);
+	//FragColor = vec4(result , 1.0);
 
 	//添加反射效果
-	//vec3 R = reflect(-viewDir, norm);
-	//vec3 reflectColor = texture(skybox, R).rgb;
+	vec3 R = reflect(-viewDir, norm);
+	vec3 reflectColor = texture(skybox, R).rgb;
 
-	//FragColor = vec4(result + reflectColor , 1.0);
+	FragColor = vec4(result + reflectColor , 1.0);
 
 	//折射
 	float ratio = 1.00 / 1.52; //折射率
