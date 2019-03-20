@@ -30,10 +30,11 @@ void main()
 
 	FragPos = vec3(model * vec4(aPos, 1.0f)); //乘以模型矩阵把顶点坐标转到世界空间里
 
+	//法线贴图中的法线向量在切线空间中，法线永远指着正z方向
 	vec3 T = normalize(vec3(model * vec4(aTangent,   0.0)));
     vec3 B = normalize(vec3(model * vec4(aBitangent, 0.0)));
     vec3 N = normalize(vec3(model * vec4(aNormal,    0.0)));
-    TBN = mat3(T, B, N); //TBN为世界空间
+    TBN = mat3(T, B, N); //直接使用TBN矩阵，这个矩阵可以把切线坐标空间的向量转换到世界坐标空间
 
     //TexCoord = vec2(aTexCoord.x, 1.0 - aTexCoord.y);  //水平翻转
 	//TexCoord = vec2(1.0-aTexCoord.x, aTexCoord.y);   //竖直翻转
