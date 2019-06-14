@@ -206,7 +206,8 @@ void main()
 			{
 				//计算光体积 进一步优化
 				float distance = length(pointLights[i].position - FragPos);
-				if(distance < pointLights[i].radius)
+				//暂时关闭光体积的检测，方便查看效果，实践中需要考虑
+				//if(distance < pointLights[i].radius)  
 				{
 					// diffuse
 					vec3 lightDir = normalize(pointLights[i].position - FragPos);
