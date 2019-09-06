@@ -23,7 +23,7 @@ public:
 	bool isDelayRenderLights();
 	void enableVertexAttribArray();
 
-	bool afterModleRender();
+	bool afterGBufferRender();
 
 public:
 

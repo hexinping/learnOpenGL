@@ -129,10 +129,21 @@ bool OpenglStateSSAO::init(string vertFile, string fragFile)
 		glm::vec3 noise(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, 0.0f); // rotate around z-axis (in tangent space)
 		ssaoNoise.push_back(noise);
 	}
-	//unsigned int noiseTexture; 
+	//unsigned int noiseTexture;   程序自己生成随机噪点图数据
 	glGenTextures(1, &noiseTexture);
 	glBindTexture(GL_TEXTURE_2D, noiseTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);
+	/*
+	1 纹理目标(Target）
+	2 纹理指定多级渐远纹理的级别
+	3 告诉OpenGL我们希望把纹理储存为何种格式
+	4 设置最终的纹理的宽度
+	5 设置最终的纹理的高度
+	6 参数应该总是被设为0（历史遗留的问题）。
+	7 源图的格式
+	8 源图的数据类型
+	9 真正的图像数据
+	*/
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]); //最后一个参数为数据地址
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -235,7 +246,7 @@ void OpenglStateSSAO::rendeCommand()
 
 }
 
-bool OpenglStateSSAO::afterModleRender()
+bool OpenglStateSSAO::afterGBufferRender()
 {
 	// Send kernel + rotation 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

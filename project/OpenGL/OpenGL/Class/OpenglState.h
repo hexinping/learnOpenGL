@@ -40,7 +40,7 @@ public:
 	virtual bool  isUseSSAO(); //是否使用环境光遮罩
 	virtual bool  isUseMSAA(); //是否使用多重采样  默认开启
 
-	virtual bool afterModleRender(); //渲染模型之后
+	virtual bool afterGBufferRender(); //渲染模型之后
 
 	virtual bool  isUseHDR();
 	//帧缓冲是否使用多个纹理附件

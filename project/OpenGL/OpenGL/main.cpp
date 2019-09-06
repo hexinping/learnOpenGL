@@ -62,7 +62,7 @@
 
 #include "GloalParams.h"
 
-int showShaderIndex = 0;
+int showShaderIndex = 34;
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
@@ -986,7 +986,9 @@ int main(int argc, char* argv[])
 						state->_ssaoPosTexture = postionTexture;
 						state->_ssaoNormalTexture = normalTexture;
 						state->_ssaoAlbedoSpecTexture = albedoSpecTexture;
-						state->afterModleRender();
+
+						//在渲染出GBuffer数据后的渲染
+						state->afterGBufferRender();
 					}
 				}
 

@@ -206,7 +206,7 @@ bool OpenglState::isUseMSAA()
 	return true;
 }
 
-bool OpenglState::afterModleRender()
+bool OpenglState::afterGBufferRender()
 {
 	return true;
 }
