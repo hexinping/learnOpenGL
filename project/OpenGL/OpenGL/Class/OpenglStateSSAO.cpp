@@ -75,7 +75,7 @@ bool OpenglStateSSAO::init(string vertFile, string fragFile)
 	//计算遮蔽因子的帧缓冲
 	glGenFramebuffers(1, &ssaoFBO); 
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);
-	unsigned int ssaoColorBuffer;
+	//unsigned int ssaoColorBuffer;
 	// SSAO color buffer
 	glGenTextures(1, &ssaoColorBuffer);
 	glBindTexture(GL_TEXTURE_2D, ssaoColorBuffer);
