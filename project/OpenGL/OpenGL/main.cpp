@@ -62,7 +62,7 @@
 
 #include "GloalParams.h"
 
-int showShaderIndex = 34;
+int showShaderIndex = 36;
 
 #define random(a,b) (rand()%(b-a+1)+a)
 
@@ -89,7 +89,7 @@ float pitch = 0.0f;
 
 float fov = 45.0f;
 
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 4.0f);
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 4.4f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -190,7 +190,7 @@ int createWindow(GLFWwindow** pWindow)
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
@@ -456,7 +456,7 @@ unsigned int albedoSpecTexture = 0;		//漫反射贴图信息和高光贴图信�
 
 void createScene(int curIndex)
 {
-	camera = new OpenglCamera();
+	camera = new OpenglCamera(cameraPos,cameraUp, yaw, pitch);
 	world = new OpenglWorld();
 
 
